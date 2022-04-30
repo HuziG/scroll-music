@@ -1,9 +1,18 @@
 <script setup lang="ts">
+import { NConfigProvider, GlobalThemeOverrides } from 'naive-ui'
+
+  const themeOverrides: GlobalThemeOverrides = {
+    common: {
+      primaryColor: '#5138ED',
+      primaryColorHover: "#6C59DE",
+    },
+  }
+
 // https://github.com/vueuse/head
 // you can use this to manipulate the document head in any components,
 // they will be rendered correctly in the html results with vite-ssg
 useHead({
-  title: 'Vitesse',
+  title: '滚动的曲谱',
   meta: [
     { name: 'description', content: 'Opinionated Vite Starter Template' },
   ],
@@ -11,5 +20,7 @@ useHead({
 </script>
 
 <template>
-  <RouterView />
+  <n-config-provider :theme-overrides="themeOverrides">
+    <RouterView />
+  </n-config-provider>
 </template>
