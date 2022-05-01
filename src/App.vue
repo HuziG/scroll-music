@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { NConfigProvider, GlobalThemeOverrides } from 'naive-ui'
+import { NConfigProvider, GlobalThemeOverrides, NNotificationProvider } from 'naive-ui'
 
   const themeOverrides: GlobalThemeOverrides = {
     common: {
@@ -21,6 +21,8 @@ useHead({
 
 <template>
   <n-config-provider :theme-overrides="themeOverrides">
-    <RouterView />
+    <n-notification-provider>
+      <RouterView />
+    </n-notification-provider>
   </n-config-provider>
 </template>
