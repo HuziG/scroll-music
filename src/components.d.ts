@@ -7,10 +7,12 @@ declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     Counter: typeof import('./components/Counter.vue')['default']
     Footer: typeof import('./components/Footer.vue')['default']
-    Header: typeof import('./components/Header/index.vue')['default']
+    ForgetPassword: typeof import('./components/LoginForm/ForgetPassword.vue')['default']
+    Login: typeof import('./components/LoginForm/Login.vue')['default']
     PageFooter: typeof import('./components/PageFooter/index.vue')['default']
     PageHeader: typeof import('./components/PageHeader/index.vue')['default']
     README: typeof import('./components/README.md')['default']
+    Resiger: typeof import('./components/LoginForm/Resiger.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }
