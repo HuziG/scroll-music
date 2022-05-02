@@ -1,21 +1,22 @@
 import BaaS from 'minapp-sdk'
 
 // 邮箱注册
-export const emailLogin = ({
+export const emailRegister = ({
   email, password
 }: {
   email: string,
   password: string
-}) => {
-  BaaS.auth.register({email, password}).then((user: any) => {
-    console.log(user)
-  }).catch((err: any) => {
-    // HError 对象
-    console.log(err)
-  })
-}
+}) => BaaS.auth.register({email, password})
 
 // 确认注册
 export const confirmEmail = () => {
-  return BaaS.auth.getCurrentUser()
+  BaaS.auth.getCurrentUser()
+    .then((user: any) => {
+      return user.requestEmailVerification()
+    }).then((res: any) => {
+      console.log(res)
+    }).catch((err: any) => {
+      // HError
+      console.log(err)
+    })
 }
