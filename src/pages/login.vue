@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { NButton, NForm, NFormItem, NInput, useNotification, NSpin } from 'naive-ui'
+import { NButton, NForm, NFormItem, NInput, useNotification, NSpin, useMessage, c } from 'naive-ui'
 import PageHeader from '~/components/PageHeader/index.vue'
 import PageFooter from '~/components/PageFooter/index.vue'
 import LoginPanel from '~/components/LoginForm/Login.vue'
 import ResigerPanel from '~/components/LoginForm/Resiger.vue'
 import ForgetPasswordPanel from '~/components/LoginForm/ForgetPassword.vue'
-import { emailLogin } from '~/api/user.ts'
+import { emailRegister } from '~/api/user.ts'
 
 let imgIndex = false
 
@@ -16,6 +16,7 @@ const FORM_STATE = {
 }
 const panelState = ref(FORM_STATE.LOGIN) // login \ register \ forget
 const notification = useNotification()
+const message = useMessage()
 const imgList = [
   "https://tse1-mm.cn.bing.net/th/id/R-C.ff17f6bba0eb6277269425c2993ab43b?rik=wia1VgFpHvKelg&riu=http%3a%2f%2fwww.ccguitar.cn%2fpu%2f2017%2f2%2f20%2f92216_74616%2f1.gif&ehk=7cNDVcMhmvR3WfCfrEbKP%2fqLqq495236YQlwgPe7qxU%3d&risl=&pid=ImgRaw&r=0",
   "https://tse1-mm.cn.bing.net/th/id/R-C.eafdb41966a66e53ef04d09fa96bba35?rik=YIvINuvLwG9y7g&riu=http%3a%2f%2fimg.wanjita.com%2fueditor%2fphp%2fupload%2fimage%2f20200824%2f1598282933997765.jpg&ehk=QsHNUtOwrtH4rnzQnQI5uQcTkC3hQ1tL9CwIDWfyoms%3d&risl=&pid=ImgRaw&r=0"
@@ -37,21 +38,22 @@ const handleSubmitForm = async ({ type, form }) => {
       
       break;
     case FORM_STATE.REGISTER:
-        // await emailLogin({ email: form.email, password: form.password })
+        console.log('form', form.email)
+
+        await emailRegister({ email: form.email, password: form.password })
         // await confirmEmail()
         
-        notification['info']({
-          content: '注册成功',
-          meta: '请登录注册邮箱，验证账号并使用'
-        })
-        
+        // notification['info']({
+        //   content: '注册成功',
+        //   meta: '请登录注册邮箱，验证账号并使用'
+        // })
       break;
     case FORM_STATE.FORGET:
       
       break;
     }
   } catch (error) {
-
+    message.error(typeof error === 'object' ? JSON.stringify(error) : error)
   }
 }
 </script>
