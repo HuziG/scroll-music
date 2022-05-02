@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { toRaw } from 'vue'
-import { NButton, NForm, NFormItem, NInput, useMessage } from 'naive-ui'
+import { NButton, NForm, NFormItem, NInput, NSpin, useMessage } from 'naive-ui'
 import { deepClone } from '~/utils/utils.ts'
 
 const validatePasswordStartWith = (rule, value) => {
@@ -11,6 +11,7 @@ const validatePasswordStartWith = (rule, value) => {
   )
 }
 
+defineProps(['formLoading'])
 const emit = defineEmits(['submitForm'])
 const message = useMessage()
 const formRef = ref(null)
@@ -65,7 +66,7 @@ const handleValidateForm = (e) => {
     if (!errors) {
       emit('submitForm', {
         type: 'register',
-        form: deepClone(toRaw(formValue.value))
+        form: deepClone(formValue.value)
       })
     } else {
       message.error('注册信息填写有误，请纠正')
@@ -89,33 +90,35 @@ const handleValidateForm = (e) => {
       注册账号
     </div>
 
-    <n-form
-      ref="formRef"
-      :rules="rules"
-      :label-width="80"
-      :model="formValue"
-      size="large"
-    >
-      <n-form-item label="邮箱" path="email">
-        <n-input v-model:value="formValue.email" placeholder="输入邮箱" />
-      </n-form-item>
-      <n-form-item label="密码" path="password">
-        <n-input 
-          v-model:value="formValue.password" 
-          type="password"
-          show-password-on="mousedown" 
-          placeholder="输入密码" 
-        />
-      </n-form-item>
-      <n-form-item label="再次确认密码" path="rePassword">
-        <n-input 
-          v-model:value="formValue.rePassword" 
-          type="password"
-          show-password-on="mousedown" 
-          placeholder="输入确认密码" 
-        />
-      </n-form-item>
-    </n-form>
+    <n-spin :show="formLoading">
+      <n-form
+        ref="formRef"
+        :rules="rules"
+        :label-width="80"
+        :model="formValue"
+        size="large"
+      >
+        <n-form-item label="邮箱" path="email">
+          <n-input v-model:value="formValue.email" placeholder="输入邮箱" />
+        </n-form-item>
+        <n-form-item label="密码" path="password">
+          <n-input 
+            v-model:value="formValue.password" 
+            type="password"
+            show-password-on="mousedown" 
+            placeholder="输入密码" 
+          />
+        </n-form-item>
+        <n-form-item label="再次确认密码" path="rePassword">
+          <n-input 
+            v-model:value="formValue.rePassword" 
+            type="password"
+            show-password-on="mousedown" 
+            placeholder="输入确认密码" 
+          />
+        </n-form-item>
+      </n-form>
+    </n-spin>
 
     <n-button 
       w-full mt-4 
