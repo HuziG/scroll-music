@@ -6,6 +6,7 @@ import LoginPanel from '~/components/LoginForm/Login.vue'
 import ResigerPanel from '~/components/LoginForm/Resiger.vue'
 import ForgetPasswordPanel from '~/components/LoginForm/ForgetPassword.vue'
 import { emailRegister, confirmEmail, getPasswordByEmail, emailLogin } from '~/api/user.ts'
+
 let imgIndex = false
 const FORM_STATE = {
   LOGIN: 'login',
@@ -20,13 +21,16 @@ const imgList = [
   "https://tse1-mm.cn.bing.net/th/id/R-C.ff17f6bba0eb6277269425c2993ab43b?rik=wia1VgFpHvKelg&riu=http%3a%2f%2fwww.ccguitar.cn%2fpu%2f2017%2f2%2f20%2f92216_74616%2f1.gif&ehk=7cNDVcMhmvR3WfCfrEbKP%2fqLqq495236YQlwgPe7qxU%3d&risl=&pid=ImgRaw&r=0",
   "https://tse1-mm.cn.bing.net/th/id/R-C.eafdb41966a66e53ef04d09fa96bba35?rik=YIvINuvLwG9y7g&riu=http%3a%2f%2fimg.wanjita.com%2fueditor%2fphp%2fupload%2fimage%2f20200824%2f1598282933997765.jpg&ehk=QsHNUtOwrtH4rnzQnQI5uQcTkC3hQ1tL9CwIDWfyoms%3d&risl=&pid=ImgRaw&r=0"
 ]
+
 const interval = setInterval(() => {
   imgList.push(imgList[imgIndex ? 0 : 1])
   imgIndex = !imgIndex
 }, 59000)
+
 const handleChangeState = ({ state }) => {
   panelState.value = state
 }
+
 const handleSubmitForm = async ({ type, form }) => {
   formLoading.value = true
   try {
