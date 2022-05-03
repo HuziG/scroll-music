@@ -6,9 +6,7 @@ import LoginPanel from '~/components/LoginForm/Login.vue'
 import ResigerPanel from '~/components/LoginForm/Resiger.vue'
 import ForgetPasswordPanel from '~/components/LoginForm/ForgetPassword.vue'
 import { emailRegister, confirmEmail, getPasswordByEmail, emailLogin } from '~/api/user.ts'
-
 let imgIndex = false
-
 const FORM_STATE = {
   LOGIN: 'login',
   REGISTER: 'register',
@@ -22,46 +20,42 @@ const imgList = [
   "https://tse1-mm.cn.bing.net/th/id/R-C.ff17f6bba0eb6277269425c2993ab43b?rik=wia1VgFpHvKelg&riu=http%3a%2f%2fwww.ccguitar.cn%2fpu%2f2017%2f2%2f20%2f92216_74616%2f1.gif&ehk=7cNDVcMhmvR3WfCfrEbKP%2fqLqq495236YQlwgPe7qxU%3d&risl=&pid=ImgRaw&r=0",
   "https://tse1-mm.cn.bing.net/th/id/R-C.eafdb41966a66e53ef04d09fa96bba35?rik=YIvINuvLwG9y7g&riu=http%3a%2f%2fimg.wanjita.com%2fueditor%2fphp%2fupload%2fimage%2f20200824%2f1598282933997765.jpg&ehk=QsHNUtOwrtH4rnzQnQI5uQcTkC3hQ1tL9CwIDWfyoms%3d&risl=&pid=ImgRaw&r=0"
 ]
-
 const interval = setInterval(() => {
   imgList.push(imgList[imgIndex ? 0 : 1])
   imgIndex = !imgIndex
 }, 59000)
-
 const handleChangeState = ({ state }) => {
   panelState.value = state
 }
-
 const handleSubmitForm = async ({ type, form }) => {
   formLoading.value = true
-
   try {
     switch (type) {
     case FORM_STATE.LOGIN:
-        const data = await emailLogin({ email: form.email, password: form.password })
-
+        console.log(form)
+        const { _email_verified } = await emailLogin({ email: form.email, password: form.password })
         console.log('success', data)
-
+        if (_email_verified) {
+          message.success('登录成功！')
+        } else {
+          message.error('邮箱未验证，登录失败！')
+        }
         formLoading.value = false
-        message.success('登录成功！')
       break;
     case FORM_STATE.REGISTER:
         await emailRegister({ email: form.email, password: form.password })
-        await confirmEmail()
-
+        localStorage.user_email = form.email
         formLoading.value = false
         panelState.value = FORM_STATE.LOGIN
-        
-        notification['info']({
+        await confirmEmail()
+        notification['success']({
           content: '注册成功',
           meta: '请登录注册邮箱，验证账号并使用'
         })
       break;
     case FORM_STATE.FORGET:
       await getPasswordByEmail({ email: form.email })
-
       formLoading.value = false
-
       notification['info']({
         content: '邮件已发送',
         meta: '请登录邮箱地址，找回密码'
@@ -137,7 +131,6 @@ const handleSubmitForm = async ({ type, form }) => {
       transform: translate3d(0, -50%, 0);
   }
 }
-
 .rowup{
   -webkit-animation: 60s rowup linear infinite normal;
   animation: 60s rowup linear infinite normal;
