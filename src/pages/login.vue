@@ -38,21 +38,31 @@ const handleSubmitForm = async ({ type, form }) => {
   try {
     switch (type) {
     case FORM_STATE.LOGIN:
-        const data = await emailLogin({ email: form.email, password: form.password })
+        console.log(form)
+
+        const { _email_verified } = await emailLogin({ email: form.email, password: form.password })
 
         console.log('success', data)
 
+        if (_email_verified) {
+          message.success('登录成功！')
+        } else {
+          message.error('邮箱未验证，登录失败！')
+        }
+
         formLoading.value = false
-        message.success('登录成功！')
       break;
     case FORM_STATE.REGISTER:
         await emailRegister({ email: form.email, password: form.password })
-        await confirmEmail()
+
+        localStorage.user_email = form.email
 
         formLoading.value = false
         panelState.value = FORM_STATE.LOGIN
-        
-        notification['info']({
+
+        await confirmEmail()
+
+        notification['success']({
           content: '注册成功',
           meta: '请登录注册邮箱，验证账号并使用'
         })

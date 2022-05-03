@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { NButton, NForm, NFormItem, NInput, NSpin } from 'naive-ui'
 import { deepClone } from '~/utils/utils.ts'
 
 defineProps(['formLoading'])
@@ -9,6 +8,10 @@ const formValue = ref({
   email: '',
 })
 const emit = defineEmits(['submitForm'])
+
+onMounted(() => {
+  formValue.value.email = localStorage.user_email
+})
 
 const rules = ref({
   email: [

@@ -1,12 +1,17 @@
 <script setup lang="ts">
-import { NButton, NForm, NFormItem, NInput, NSpin } from 'naive-ui'
 import { deepClone } from '~/utils/utils.ts'
 
 defineProps(['formLoading'])
 
+const emit = defineEmits(['submitForm'])
+
 const formValue = ref({
   email: '',
   password: ''
+})
+
+onMounted(() => {
+  formValue.value.email = localStorage.user_email
 })
 </script>
 
@@ -57,9 +62,9 @@ const formValue = ref({
       type="primary"
       :disabled="formValue.email === '' || formValue.password === ''"
       @click="
-        $emit('submitForm', {
+        emit('submitForm', {
           type: 'login',
-          form: deepClone(formValue.value)
+          form: deepClone(formValue)
         })
       "
     >
