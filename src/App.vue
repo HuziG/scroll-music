@@ -3,15 +3,15 @@ import {
   NConfigProvider, 
   GlobalThemeOverrides, 
   NNotificationProvider,
-  NMessageProvider 
+  NMessageProvider,
 } from 'naive-ui'
 
-  const themeOverrides: GlobalThemeOverrides = {
-    common: {
-      primaryColor: '#5138ED',
-      primaryColorHover: "#6C59DE",
-    },
-  }
+const themeOverrides: GlobalThemeOverrides = {
+  common: {
+    primaryColor: '#5138ED',
+    primaryColorHover: "#6C59DE",
+  },
+}
 
 // https://github.com/vueuse/head
 // you can use this to manipulate the document head in any components,
