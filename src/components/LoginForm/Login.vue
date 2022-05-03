@@ -1,9 +1,25 @@
 <script setup lang="ts">
+<<<<<<< HEAD
 import { NButton, NForm, NFormItem, NInput } from 'naive-ui'
+=======
+<<<<<<< HEAD
+import { deepClone } from '~/utils/utils.ts'
+
+defineProps(['formLoading'])
+=======
+import { NButton, NForm, NFormItem, NInput } from 'naive-ui'
+>>>>>>> parent of 179d1d8... add baas login
+
+const emit = defineEmits(['submitForm'])
+>>>>>>> 3fac7e4c9254739af8215e8ac842916e2fe1c2ad
 
 const formValue = ref({
   email: '',
   password: ''
+})
+
+onMounted(() => {
+  formValue.value.email = localStorage.user_email
 })
 </script>
 
@@ -51,6 +67,18 @@ const formValue = ref({
       w-full mt-4 
       type="primary"
       :disabled="formValue.email === '' || formValue.password === ''"
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+      @click="
+        emit('submitForm', {
+          type: 'login',
+          form: deepClone(formValue)
+        })
+      "
+=======
+>>>>>>> parent of 179d1d8... add baas login
+>>>>>>> 3fac7e4c9254739af8215e8ac842916e2fe1c2ad
     >
       确定
     </n-button>

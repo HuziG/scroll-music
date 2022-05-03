@@ -35,6 +35,7 @@ const handleSubmitForm = async ({ type, form }) => {
   try {
     switch (type) {
     case FORM_STATE.LOGIN:
+<<<<<<< HEAD
       
       break;
     case FORM_STATE.REGISTER:
@@ -48,6 +49,52 @@ const handleSubmitForm = async ({ type, form }) => {
         //   meta: '请登录注册邮箱，验证账号并使用'
         // })
       break;
+=======
+<<<<<<< HEAD
+        console.log(form)
+
+        const { _email_verified } = await emailLogin({ email: form.email, password: form.password })
+
+        console.log('success', data)
+
+        if (_email_verified) {
+          message.success('登录成功！')
+        } else {
+          message.error('邮箱未验证，登录失败！')
+        }
+
+        formLoading.value = false
+      break;
+    case FORM_STATE.REGISTER:
+        await emailRegister({ email: form.email, password: form.password })
+
+        localStorage.user_email = form.email
+
+        formLoading.value = false
+        panelState.value = FORM_STATE.LOGIN
+
+        await confirmEmail()
+
+        notification['success']({
+          content: '注册成功',
+          meta: '请登录注册邮箱，验证账号并使用'
+        })
+=======
+      
+      break;
+    case FORM_STATE.REGISTER:
+        console.log('form', form.email)
+
+        await emailRegister({ email: form.email, password: form.password })
+        // await confirmEmail()
+        
+        // notification['info']({
+        //   content: '注册成功',
+        //   meta: '请登录注册邮箱，验证账号并使用'
+        // })
+>>>>>>> parent of 179d1d8... add baas login
+      break;
+>>>>>>> 3fac7e4c9254739af8215e8ac842916e2fe1c2ad
     case FORM_STATE.FORGET:
       
       break;

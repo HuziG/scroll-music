@@ -1,10 +1,48 @@
 <script setup lang="ts">
+<<<<<<< HEAD
 import { NButton, NForm, NFormItem, NInput } from 'naive-ui'
 
 const formValue = ref({
   email: '',
   password: '',
   rePassword: '',
+=======
+<<<<<<< HEAD
+import { deepClone } from '~/utils/utils.ts'
+=======
+import { NButton, NForm, NFormItem, NInput } from 'naive-ui'
+>>>>>>> parent of 179d1d8... add baas login
+
+const formValue = ref({
+  email: '',
+<<<<<<< HEAD
+})
+const emit = defineEmits(['submitForm'])
+
+onMounted(() => {
+  formValue.value.email = localStorage.user_email
+})
+
+const rules = ref({
+  email: [
+    {
+      required: true,
+      validator (rule, value: string) {
+        if (!value) {
+          return new Error('需要邮箱')
+        } else if (!/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/.test(value)) {
+          return new Error('邮箱地址格式错误')
+        }
+        return true
+      },
+      trigger: ['input', 'blur']
+    }
+  ]
+=======
+  password: '',
+  rePassword: '',
+>>>>>>> parent of 179d1d8... add baas login
+>>>>>>> 3fac7e4c9254739af8215e8ac842916e2fe1c2ad
 })
 
 const disabledSubmit = computed(() => {
