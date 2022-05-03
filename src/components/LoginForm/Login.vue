@@ -1,8 +1,5 @@
 <script setup lang="ts">
-import { NButton, NForm, NFormItem, NInput, NSpin } from 'naive-ui'
-import { deepClone } from '~/utils/utils.ts'
-
-defineProps(['formLoading'])
+import { NButton, NForm, NFormItem, NInput } from 'naive-ui'
 
 const formValue = ref({
   email: '',
@@ -19,26 +16,24 @@ const formValue = ref({
       登录账号
     </div>
 
-    <n-spin :show="formLoading">
-      <n-form
-        ref="formRef"
-        :label-width="80"
-        :model="formValue"
-        size="large"
-      >
-        <n-form-item label="邮箱" path="email">
-          <n-input v-model:value="formValue.email" placeholder="输入邮箱" />
-        </n-form-item>
-        <n-form-item label="密码" path="password">
-          <n-input 
-            v-model:value="formValue.password" 
-            type="password"
-            show-password-on="mousedown" 
-            placeholder="输入密码" 
-          />
-        </n-form-item>
-      </n-form>
-    </n-spin>
+    <n-form
+      ref="formRef"
+      :label-width="80"
+      :model="formValue"
+      size="large"
+    >
+      <n-form-item label="邮箱" path="email">
+        <n-input v-model:value="formValue.email" placeholder="输入邮箱" />
+      </n-form-item>
+      <n-form-item label="密码" path="password">
+        <n-input 
+          v-model:value="formValue.password" 
+          type="password"
+          show-password-on="mousedown" 
+          placeholder="输入密码" 
+        />
+      </n-form-item>
+    </n-form>
 
     <div text-right>
       <n-button 
@@ -56,12 +51,6 @@ const formValue = ref({
       w-full mt-4 
       type="primary"
       :disabled="formValue.email === '' || formValue.password === ''"
-      @click="
-        $emit('submitForm', {
-          type: 'login',
-          form: deepClone(formValue.value)
-        })
-      "
     >
       确定
     </n-button>

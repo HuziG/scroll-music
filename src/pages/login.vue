@@ -5,7 +5,7 @@ import PageFooter from '~/components/PageFooter/index.vue'
 import LoginPanel from '~/components/LoginForm/Login.vue'
 import ResigerPanel from '~/components/LoginForm/Resiger.vue'
 import ForgetPasswordPanel from '~/components/LoginForm/ForgetPassword.vue'
-import { emailRegister, confirmEmail, getPasswordByEmail, emailLogin } from '~/api/user.ts'
+import { emailRegister } from '~/api/user.ts'
 
 let imgIndex = false
 
@@ -14,7 +14,6 @@ const FORM_STATE = {
   REGISTER: 'register',
   FORGET: 'forget',
 }
-const formLoading = ref(false)
 const panelState = ref(FORM_STATE.LOGIN) // login \ register \ forget
 const notification = useNotification()
 const message = useMessage()
@@ -33,45 +32,28 @@ const handleChangeState = ({ state }) => {
 }
 
 const handleSubmitForm = async ({ type, form }) => {
-  formLoading.value = true
-
   try {
     switch (type) {
     case FORM_STATE.LOGIN:
-        const data = await emailLogin({ email: form.email, password: form.password })
-
-        console.log('success', data)
-
-        formLoading.value = false
-        message.success('登录成功！')
+      
       break;
     case FORM_STATE.REGISTER:
-        await emailRegister({ email: form.email, password: form.password })
-        await confirmEmail()
+        console.log('form', form.email)
 
-        formLoading.value = false
-        panelState.value = FORM_STATE.LOGIN
+        await emailRegister({ email: form.email, password: form.password })
+        // await confirmEmail()
         
-        notification['info']({
-          content: '注册成功',
-          meta: '请登录注册邮箱，验证账号并使用'
-        })
+        // notification['info']({
+        //   content: '注册成功',
+        //   meta: '请登录注册邮箱，验证账号并使用'
+        // })
       break;
     case FORM_STATE.FORGET:
-      await getPasswordByEmail({ email: form.email })
-
-      formLoading.value = false
-
-      notification['info']({
-        content: '邮件已发送',
-        meta: '请登录邮箱地址，找回密码'
-      })
       
       break;
     }
   } catch (error) {
     message.error(typeof error === 'object' ? JSON.stringify(error) : error)
-    formLoading.value = false
   }
 }
 </script>
@@ -105,19 +87,16 @@ const handleSubmitForm = async ({ type, form }) => {
 
     <LoginPanel 
       v-if="panelState === FORM_STATE.LOGIN" 
-      :formLoading="formLoading"
       @changeState="handleChangeState" 
       @submitForm="handleSubmitForm" 
     />
     <ResigerPanel 
       v-if="panelState === FORM_STATE.REGISTER" 
-      :formLoading="formLoading"
       @changeState="handleChangeState"  
       @submitForm="handleSubmitForm" 
     />
     <ForgetPasswordPanel 
       v-if="panelState === FORM_STATE.FORGET" 
-      :formLoading="formLoading"
       @changeState="handleChangeState" 
       @submitForm="handleSubmitForm" 
     />
