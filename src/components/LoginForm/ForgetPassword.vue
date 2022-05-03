@@ -1,11 +1,13 @@
 <script setup lang="ts">
+<<<<<<< HEAD
 import { deepClone } from '~/utils/utils.ts'
+=======
+import { NButton, NForm, NFormItem, NInput } from 'naive-ui'
+>>>>>>> parent of 179d1d8... add baas login
 
-defineProps(['formLoading'])
-
-const formRef = ref(null)
 const formValue = ref({
   email: '',
+<<<<<<< HEAD
 })
 const emit = defineEmits(['submitForm'])
 
@@ -28,26 +30,16 @@ const rules = ref({
       trigger: ['input', 'blur']
     }
   ]
+=======
+  password: '',
+  rePassword: '',
+>>>>>>> parent of 179d1d8... add baas login
 })
 
 const disabledSubmit = computed(() => {
   const _form = formValue.value
-  return _form.email === ''
+  return _form.email === '' || fo_formrmValue.code === '' || _form.password === '' || _form.rePassword === ''
 })
-
-const handleValidateForm = (e) => {
-  e.preventDefault()
-  formRef.value?.validate((errors) => {
-    if (!errors) {
-      emit('submitForm', {
-        type: 'forget',
-        form: deepClone(formValue.value)
-      })
-    } else {
-      message.error('注册信息填写有误，请纠正')
-    }
-  })
-}
 </script>
 
 <template>
@@ -65,25 +57,41 @@ const handleValidateForm = (e) => {
       忘记密码
     </div>
 
-    <n-spin :show="formLoading">
-      <n-form
-        ref="formRef"
-        :rules="rules"
-        :label-width="80"
-        :model="formValue"
-        size="large"
-      >
-        <n-form-item label="邮箱" path="email">
-          <n-input v-model:value="formValue.email" placeholder="输入注册邮箱" />
-        </n-form-item>
-      </n-form>
-    </n-spin>
+    <n-form
+      ref="formRef"
+      :label-width="80"
+      :model="formValue"
+      size="large"
+    >
+      <n-form-item label="邮箱" path="email">
+        <n-input v-model:value="formValue.email" placeholder="输入邮箱" />
+      </n-form-item>
+      <n-form-item label="密码" path="password">
+        <n-input 
+          v-model:value="formValue.password" 
+          type="password"
+          show-password-on="mousedown" 
+          placeholder="输入密码" 
+        />
+      </n-form-item>
+      <n-form-item label="再次确认密码" path="rePassword">
+        <n-input 
+          v-model:value="formValue.rePassword" 
+          type="password"
+          show-password-on="mousedown" 
+          placeholder="输入确认密码" 
+        />
+      </n-form-item>
+    </n-form>
 
     <n-button 
       w-full mt-4 
       type="primary"
       :disabled="disabledSubmit"
-      @click="handleValidateForm"
+      @click="$emit('submitForm', {
+        type: 'forget',
+        form: formValue
+      })"
     >
       提交
     </n-button>

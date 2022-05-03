@@ -1,7 +1,11 @@
 <script setup lang="ts">
+<<<<<<< HEAD
 import { deepClone } from '~/utils/utils.ts'
 
 defineProps(['formLoading'])
+=======
+import { NButton, NForm, NFormItem, NInput } from 'naive-ui'
+>>>>>>> parent of 179d1d8... add baas login
 
 const emit = defineEmits(['submitForm'])
 
@@ -24,26 +28,24 @@ onMounted(() => {
       登录账号
     </div>
 
-    <n-spin :show="formLoading">
-      <n-form
-        ref="formRef"
-        :label-width="80"
-        :model="formValue"
-        size="large"
-      >
-        <n-form-item label="邮箱" path="email">
-          <n-input v-model:value="formValue.email" placeholder="输入邮箱" />
-        </n-form-item>
-        <n-form-item label="密码" path="password">
-          <n-input 
-            v-model:value="formValue.password" 
-            type="password"
-            show-password-on="mousedown" 
-            placeholder="输入密码" 
-          />
-        </n-form-item>
-      </n-form>
-    </n-spin>
+    <n-form
+      ref="formRef"
+      :label-width="80"
+      :model="formValue"
+      size="large"
+    >
+      <n-form-item label="邮箱" path="email">
+        <n-input v-model:value="formValue.email" placeholder="输入邮箱" />
+      </n-form-item>
+      <n-form-item label="密码" path="password">
+        <n-input 
+          v-model:value="formValue.password" 
+          type="password"
+          show-password-on="mousedown" 
+          placeholder="输入密码" 
+        />
+      </n-form-item>
+    </n-form>
 
     <div text-right>
       <n-button 
@@ -61,12 +63,15 @@ onMounted(() => {
       w-full mt-4 
       type="primary"
       :disabled="formValue.email === '' || formValue.password === ''"
+<<<<<<< HEAD
       @click="
         emit('submitForm', {
           type: 'login',
           form: deepClone(formValue)
         })
       "
+=======
+>>>>>>> parent of 179d1d8... add baas login
     >
       确定
     </n-button>
