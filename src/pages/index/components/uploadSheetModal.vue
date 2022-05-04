@@ -30,7 +30,11 @@ const createSheetStore = useCreateSheetStore()
 
     <div mt-5>通过曲谱文件上传</div>
     <div mt-2>
-      <n-upload action="https://www.mocky.io/v2/5e4bafc63100007100d8b70f">
+      <n-upload 
+        :show-file-list="false"
+        :max="1"
+        accept="image/*" 
+        action="https://www.mocky.io/v2/5e4bafc63100007100d8b70f">
         <n-upload-dragger>
           <div style="margin-bottom: 12px;" text-center>
             <div i-mdi-cloud-upload text-3xl inline-block/>
