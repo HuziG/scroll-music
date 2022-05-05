@@ -7,12 +7,20 @@ export const install: UserModule = ({ router }) => {
   const whiteRoute = ['/login']
 
   router.beforeEach(async (to: any, from, next) => {
-    console.log('route')
+    console.log('route', to)
 
-    const data = await BaaS.auth.getCurrentUser()
+    let data
+
+    try {
+      data = await BaaS.auth.getCurrentUser()
+    } catch (error) {
+      data = null
+    }
+
+    console.log(data)
 
     if (whiteRoute.includes(to.fullPath)) {
-      if (data._email_verified) {
+      if (data && data._email_verified) {
         next('/')
       } else {
         next()

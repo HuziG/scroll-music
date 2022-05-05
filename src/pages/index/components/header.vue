@@ -1,5 +1,14 @@
 <script setup lang="ts">
+import { userLogout } from '~/api/user'
+import { useRouter } from 'vue-router'
+
 const value = ref('')
+const router = useRouter()
+
+const handleExit = async () => {
+  await userLogout()
+  router.replace('/login')
+}
 </script>
 
 <template>
@@ -21,7 +30,7 @@ const value = ref('')
             </div>
           </template>
           <template #action>
-            <n-button type="error" style="width: 100%;">
+            <n-button type="error" style="width: 100%;" @click="handleExit">
               退出账号
             </n-button>
           </template>
