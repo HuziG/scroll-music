@@ -1,11 +1,23 @@
 import { acceptHMRUpdate, defineStore } from 'pinia'
 
 export const useCreateSheetStore = defineStore({
-  id: 'createSheet',
+  id: 'createSheetMusic',
+  
   state: () => ({
+    showCreateModal: false,
     showUploadModal: false,
+    recordId: '',
+    sheetName: '',
     sheetArray: []
   }),
+
+  actions: {
+    clearStore() {
+      this.recordId = ''
+      this.sheetName = ''
+      this.sheetArray = []
+    }
+  }
 })
   
 if (import.meta.hot) {

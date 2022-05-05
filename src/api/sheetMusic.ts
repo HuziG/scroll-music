@@ -17,6 +17,30 @@ export const addSheet = ({
   return MyRecord.save()
 }
 
+// 修改曲谱
+export const editSheet = ({
+  name, imgs, recordId
+}: { name: string, imgs: string[], recordId: string }) => {
+  let Product = new BaaS.TableObject(TABLE_NAME)
+
+  let product = Product.getWithoutData(recordId)
+
+  product.set({
+    name,
+    imgs
+  })
+  
+  return product.update()
+}
+
+// 删除曲谱
+export const delSheet = ({
+  recordId
+}: { recordId: string }) => {
+  let Product = new BaaS.TableObject(TABLE_NAME)
+  return Product.delete(recordId)
+}
+
 export const getSheets = async () => {
   // 实例化查询对象
   let query = new BaaS.Query()

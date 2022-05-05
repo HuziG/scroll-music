@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useCreateSheetStore } from '~/stores/createSheet'
+import { useCreateSheetStore } from '~/stores/createSheetMusic'
 
 const emit = defineEmits('cancel') 
 
