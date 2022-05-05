@@ -6,9 +6,6 @@ export const useCreateSheetStore = defineStore({
     showUploadModal: false,
     sheetArray: []
   }),
-  actions: {
-
-  }
 })
   
 if (import.meta.hot) {
