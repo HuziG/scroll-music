@@ -3,8 +3,8 @@ import PageHeader from './components/header.vue'
 import SheetMusicItem from './components/sheetMusic.vue'
 import CreateSheetModal from './components/createSheetModal.vue'
 import UploadSheetModal from './components/uploadSheetModal.vue'
-import { useCreateSheetStore } from '~/stores/createSheet'
-import { useSheetMusicStore } from '~/stores/sheetMusic'
+import { useCreateSheetStore } from '~/stores/createSheetMusic'
+import { useSheetMusicStore } from '~/stores/sheetMusicStore'
 import { getSheets } from '~/api/sheetMusic'
 
 const createSheetStore = useCreateSheetStore()
@@ -16,6 +16,12 @@ const loadSheets = ref(false)
 const hideUploadModal = () => {
   createSheetStore.$patch(state => {
     state.showUploadModal = false
+  })
+}
+
+const toggleCreateModal = (value) => {
+  createSheetStore.$patch(state => {
+    state.showCreateModal = value
   })
 }
 
@@ -36,7 +42,7 @@ onMounted(() => {
       <div flex items-center justify-between>
         <span text-xl>我的曲谱</span>
 
-        <n-button strong secondary round type="primary" @click="showCreateModal = true"> 
+        <n-button strong secondary round type="primary" @click="toggleCreateModal(true)"> 
           <template #icon>
             <div i-mdi-plus text-base/>
           </template>
@@ -46,13 +52,23 @@ onMounted(() => {
 
       <n-spin :show="loadSheets">
         <div flex flex-wrap class="-ml-5">
-          <sheet-music-item />
+          <div v-for="(item, index) in sheetMusicStore.sheetMusicData" :key="item.id">
+            <sheet-music-item :value="item" :index="index" />
+          </div>
+        </div>
+
+        <div v-if="sheetMusicStore.sheetMusicData.length === 0" mt-35>
+          <n-empty description="暂无曲谱">
+            <template #icon>
+              <div i-mdi:music-clef-treble text-3xl></div>
+            </template>
+          </n-empty>
         </div>
       </n-spin>
     </div>
 
-    <n-modal v-model:show="showCreateModal" :mask-closable="false">
-      <create-sheet-modal @cancel="showCreateModal = false" />
+    <n-modal v-model:show="createSheetStore.showCreateModal" :mask-closable="false">
+      <create-sheet-modal @cancel="toggleCreateModal(false)" />
     </n-modal>
 
     <n-modal v-model:show="createSheetStore.showUploadModal" :mask-closable="false">

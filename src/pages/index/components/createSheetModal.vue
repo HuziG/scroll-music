@@ -1,20 +1,18 @@
 <script setup lang="ts">
 import { useMessage } from 'naive-ui'
-import { useCreateSheetStore } from '~/stores/createSheet'
-import { addSheet } from '~/api/sheetMusic'
+import { useCreateSheetStore } from '~/stores/createSheetMusic'
+import { useSheetMusicStore } from '~/stores/sheetMusicStore'
+import { addSheet, editSheet } from '~/api/sheetMusic'
 
 const emit = defineEmits('cancel') 
 const message = useMessage()
 const submitLoading = ref(false)
-const sheetName = ref('')
 const createSheetStore = useCreateSheetStore()
-
-const disabledPreview = computed(() => {
-  return createSheetStore.sheetArray.length === 0
-})
+const smt = useSheetMusicStore()
 
 const disabledCreate = computed(() => {
-  return createSheetStore.sheetArray.length === 0 || sheetName.value === ''
+  return createSheetStore.sheetArray.length === 0 || 
+    createSheetStore.sheetName.value === ''
 })
 
 const cancelCreate = () => {
@@ -34,23 +32,49 @@ const handleDel = (index) => {
   })
 }
 
+const handleSubmit = () => {
+  if (createSheetStore.recordId) {
+    handleEditSheet()
+  } else {
+    handleAddSheet()
+  }
+}
+
+const handleEditSheet = async () => {
+  submitLoading.value = true
+
+  console.log(createSheetStore.recordId)
+  
+  const data = await editSheet({
+    name: createSheetStore.sheetName,
+    imgs: createSheetStore.sheetArray,
+    recordId: createSheetStore.recordId
+  })
+
+  submitLoading.value = false
+
+  createSheetStore.clearStore()
+
+  message.success('修改成功')
+  
+  smt.handleInitSheet()
+}
+
 const handleAddSheet = async () => {
   submitLoading.value = true
   
   const data = await addSheet({
-    name: sheetName.value,
+    name: createSheetStore.sheetName.value,
     imgs: createSheetStore.sheetArray
   })
 
   submitLoading.value = false
 
-  createSheetStore.$patch(state => {
-    state.sheetArray = []
-  })
-
-  sheetName.value = ''
+  createSheetStore.clearStore()
 
   message.success('添加成功')
+  
+  smt.handleInitSheet()
 }
 </script>
 
@@ -64,9 +88,6 @@ const handleAddSheet = async () => {
     aria-modal="true"
   >
     <template #header-extra>
-      <n-button :disabled="disabledPreview" strong secondary round type="primary" mr-5>
-        预览
-      </n-button>
       <n-button quaternary circle @click="cancelCreate">
         <template #icon>
           <div i-mdi-close text-base />
@@ -74,7 +95,7 @@ const handleAddSheet = async () => {
       </n-button>
     </template>
 
-    <n-input v-model:value="sheetName" placeholder="请输入曲谱名称" />
+    <n-input v-model:value="createSheetStore.sheetName" placeholder="请输入曲谱名称" />
 
     <div class="-ml-5" mt-3 flex flex-wrap>
       <div 
@@ -112,9 +133,7 @@ const handleAddSheet = async () => {
 
     <template #footer>
       <div text-right>
-        <n-button @click="cancelCreate">取消创建</n-button>
-        <div w-3 inline-block />
-        <n-button :disabled="disabledCreate" :loading="submitLoading" type="primary" @click="handleAddSheet">提交</n-button>
+        <n-button :disabled="disabledCreate" :loading="submitLoading" type="primary" @click="handleSubmit">提交</n-button>
       </div>
     </template>
   </n-card>
