@@ -8,6 +8,7 @@ export const emailRegister = ({
   password: string
 }) => BaaS.auth.register({email, password})
 
+
 // 确认注册
 export const confirmEmail = () => {
   BaaS.auth.getCurrentUser()
@@ -35,3 +36,8 @@ export const getPasswordByEmail = ({
 }: {
   email: string
 }) => BaaS.auth.requestPasswordReset({ email })
+
+// 用户登录
+export const userLogout = () => {
+  return BaaS.auth.logout()
+}

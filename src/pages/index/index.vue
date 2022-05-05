@@ -29,7 +29,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div>
+  <div style="min-width: 600px;">
     <page-header />
 
     <div style="max-width: 1000px;padding: 0 35px;" mx-auto my-5>

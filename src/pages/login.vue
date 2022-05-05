@@ -6,8 +6,10 @@ import LoginPanel from '~/components/LoginForm/Login.vue'
 import ResigerPanel from '~/components/LoginForm/Resiger.vue'
 import ForgetPasswordPanel from '~/components/LoginForm/ForgetPassword.vue'
 import { emailRegister, confirmEmail, getPasswordByEmail, emailLogin } from '~/api/user.ts'
+import { useRouter } from 'vue-router'
 
 let imgIndex = false
+const router = useRouter()
 const FORM_STATE = {
   LOGIN: 'login',
   REGISTER: 'register',
@@ -36,15 +38,17 @@ const handleSubmitForm = async ({ type, form }) => {
   try {
     switch (type) {
     case FORM_STATE.LOGIN:
-        console.log(form)
         const { _email_verified } = await emailLogin({ email: form.email, password: form.password })
-        console.log('success', data)
         if (_email_verified) {
           message.success('登录成功！')
         } else {
           message.error('邮箱未验证，登录失败！')
         }
         formLoading.value = false
+
+        localStorage.user_email = form.email
+
+        router.replace('/')
       break;
     case FORM_STATE.REGISTER:
         await emailRegister({ email: form.email, password: form.password })
