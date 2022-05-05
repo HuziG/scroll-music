@@ -4,6 +4,16 @@ import { useCreateSheetStore } from '~/stores/createSheet'
 const emit = defineEmits('cancel') 
 
 const createSheetStore = useCreateSheetStore()
+
+const uploadUrl = ref('')
+
+const handleUpload = () => {
+  createSheetStore.$patch(state => {
+    state.sheetArray.push(uploadUrl.value)
+
+    emit('cancel')
+  })
+}
 </script>
 
 <template>
@@ -25,7 +35,7 @@ const createSheetStore = useCreateSheetStore()
 
     <div>通过填写曲谱地址上传</div>
     <div mt-2>
-      <n-input v-model:value="url" placeholder="请输入曲谱地址" />
+      <n-input v-model:value="uploadUrl" placeholder="请输入曲谱地址" />
     </div>
 
     <div mt-5>通过曲谱文件上传</div>
@@ -53,7 +63,7 @@ const createSheetStore = useCreateSheetStore()
 
     <template #footer>
       <div text-right>
-        <n-button :disabled="disabledCreate" type="primary">确定</n-button>
+        <n-button :disabled="disabledCreate" type="primary" @click="handleUpload">确定</n-button>
       </div>
     </template>
   </n-card>

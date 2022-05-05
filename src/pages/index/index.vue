@@ -4,24 +4,35 @@ import SheetMusicItem from './components/sheetMusic.vue'
 import CreateSheetModal from './components/createSheetModal.vue'
 import UploadSheetModal from './components/uploadSheetModal.vue'
 import { useCreateSheetStore } from '~/stores/createSheet'
-
-const value = ref('')
-const showCreateModal = ref(true)
+import { useSheetMusicStore } from '~/stores/sheetMusic'
+import { getSheets } from '~/api/sheetMusic'
 
 const createSheetStore = useCreateSheetStore()
+const sheetMusicStore = useSheetMusicStore()
+const value = ref('')
+const showCreateModal = ref(false)
+const loadSheets = ref(false)
 
 const hideUploadModal = () => {
   createSheetStore.$patch(state => {
     state.showUploadModal = false
   })
 }
+
+const handleInit = async () => {
+  sheetMusicStore.handleInitSheet()
+}
+
+onMounted(() => {
+  handleInit()
+})
 </script>
 
 <template>
   <div>
     <page-header />
 
-    <div style="width: 1080px;" mx-auto my-5>
+    <div style="max-width: 1000px;padding: 0 35px;" mx-auto my-5>
       <div flex items-center justify-between>
         <span text-xl>我的曲谱</span>
 
@@ -33,9 +44,11 @@ const hideUploadModal = () => {
         </n-button>
       </div>
 
-      <div flex flex-wrap class="-ml-5">
-        <sheet-music-item />
-      </div>
+      <n-spin :show="loadSheets">
+        <div flex flex-wrap class="-ml-5">
+          <sheet-music-item />
+        </div>
+      </n-spin>
     </div>
 
     <n-modal v-model:show="showCreateModal" :mask-closable="false">
