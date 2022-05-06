@@ -18,18 +18,12 @@ export const addSheet = ({
 }
 
 // 修改曲谱
-export const editSheet = ({
-  name, imgs, recordId, speed
-}: { name: string, imgs: string[], recordId: string, speed?: number }) => {
+export const editSheet = (value: { name?: string, imgs?: string[], recordId: string, speed?: number }) => {
   let Product = new BaaS.TableObject(TABLE_NAME)
 
-  let product = Product.getWithoutData(recordId)
+  let product = Product.getWithoutData(value.recordId)
 
-  product.set({
-    name,
-    imgs,
-    speed
-  })
+  product.set(value)
   
   return product.update()
 }
