@@ -46,7 +46,7 @@ const handleEditSheet = async () => {
   console.log(createSheetStore.recordId)
   
   const data = await editSheet({
-    name: createSheetStore.sheetName,
+    name: createSheetStore.sheetName.value,
     imgs: createSheetStore.sheetArray,
     recordId: createSheetStore.recordId
   })
@@ -64,7 +64,7 @@ const handleAddSheet = async () => {
   submitLoading.value = true
   
   const data = await addSheet({
-    name: createSheetStore.sheetName.value,
+    name: createSheetStore.sheetName,
     imgs: createSheetStore.sheetArray
   })
 

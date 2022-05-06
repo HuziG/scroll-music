@@ -26,3 +26,13 @@ html.dark {
   width: 100%;
   height: 2px;
 }
+
+.hover-active-opacity:hover {
+  transition: all .2s;
+  opacity: .8;
+}
+
+.hover-active-opacity:active {
+  transition: all .2s;
+  opacity: .8;
+}

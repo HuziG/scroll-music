@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useCreateSheetStore } from '~/stores/createSheetMusic'
 import { useSheetMusicStore } from '~/stores/sheetMusicStore'
+import { useSheetDetailStore } from '~/stores/sheetDetail'
 import { useMessage } from 'naive-ui'
 import { delSheet } from '~/api/sheetMusic'
 
@@ -10,9 +11,10 @@ const menuOptions = [
   { label: '编辑', value: 'edit' },
   { label: '删除', value: 'del' },
 ]
-
+const router = useRouter()
 const createSheetStore = useCreateSheetStore()
 const sheetMusicStore = useSheetMusicStore()
+const sheetDetailStore = useSheetDetailStore()
 const selectValue = ref('')
 
 const timeFormat = computed(() => {
@@ -44,11 +46,22 @@ watch(selectValue, async (newValue) => {
       break;
   }
 })
+
+const handleToScroll = () => {
+  sheetDetailStore.dispatchSheet(props.value)
+  router.push('/scrollDetail')
+}
 </script>
 
 <template>
   <div style="background-color: #F5F5F7;" inline-block rounded-2 py-2 px-3 mt-3 ml-5>
-    <img style="width: 221px" :src="props.value.imgs[0]" rounded-1 alt="error">
+    <img 
+      style="width: 221px" 
+      :src="props.value.imgs[0]" 
+      rounded-1 cursor-pointer 
+      alt="error"
+      @click="handleToScroll"
+    >
 
     <div flex items-center justify-between>
       <div>
