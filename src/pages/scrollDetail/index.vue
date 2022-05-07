@@ -12,7 +12,8 @@ const step = ref(sheetDetailStore.speed)
 const scrollMode = ref(0)
 const showSpeedModal = ref(false)
 
-const speedSlider = ref(0)
+const stepSlider = ref(0)
+const speedSlider = ref(30)
 
 let countDownInterval
 let scrollInterval
@@ -53,7 +54,7 @@ const startScroll = () => {
     let topDistance = document.documentElement.scrollTop;
     topDistance += step.value
     document.documentElement.scrollTop = topDistance
-  }, 30)
+  }, speedSlider.value)
 }
 
 const startCountDown = () => {
@@ -93,12 +94,17 @@ const handleConfirm = async () => {
   message.success('设置成功')
 }
 
-watch(speedSlider, (newValue) => {
+watch(stepSlider, (newValue) => {
   const n = (newValue / 20 * 0.1)
   step.value = baseSpeed + n
 })
 
-onUnmounted(() => {
+watch(speedSlider, (newValue) => {
+  clearInterval(scrollInterval)
+  startScroll()
+})
+
+onBeforeUnmount(() => {
   clearInterval(countDownInterval)
   clearInterval(scrollInterval)
   sheetDetailStore.clearData()
@@ -144,7 +150,7 @@ onUnmounted(() => {
     </div>
 
     <div class="w-2/3" mx-auto>
-      <img w-full v-for="url in sheetDetailStore.imgs" :src="url" alt="error" :key="url" />
+      <img w-full v-for="item in sheetDetailStore.imgs" :src="item.url" alt="error" :key="item.url" />
     </div>
 
     <n-modal v-model:show="showSpeedModal">
@@ -164,7 +170,13 @@ onUnmounted(() => {
             </template>
           </n-button>
         </template>
-        <n-slider v-model:value="speedSlider" :step="20" />
+        
+        <div>跨度调节</div>
+        <n-slider v-model:value="stepSlider" :step="20" />
+
+        <div mt-10>速度调节</div>
+        <n-slider v-model:value="speedSlider" :min="30" :step="5" />
+        
         <template #footer>
           <div style="text-align: right">
             <n-button type="primary" @click="handleConfirm">确定</n-button>

@@ -12,7 +12,7 @@ const smt = useSheetMusicDepot()
 
 const disabledCreate = computed(() => {
   return createSheetStore.imgs.length === 0 || 
-    createSheetStore.name.value === ''
+    createSheetStore.name === ''
 })
 
 const cancelCreate = () => {
@@ -99,7 +99,7 @@ const handleAddSheet = async () => {
       <div 
         class="sheet-item"
         relative w-55 h-65 mt-5 ml-5 rounded-2 border-2 border-primary overflow-hidden 
-        v-for="(url, index) in createSheetStore.imgs" :key="index">
+        v-for="(item, index) in createSheetStore.imgs" :key="index">
         <div 
           absolute w-8 h-8 inline-block bg-primary text-white text-center 
           style="line-height: 2rem;border-bottom-right-radius: 0.5rem"
@@ -108,7 +108,7 @@ const handleAddSheet = async () => {
         <n-image
           width="224"
           object-fit="cover"
-          :src="url"
+          :src="item.url"
         />
 
         <div class="close-button" hidden bg-white absolute right-2 bottom-2 cursor-pointer>

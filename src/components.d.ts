@@ -7,8 +7,6 @@ declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     Counter: typeof import('./components/Counter.vue')['default']
     Footer: typeof import('./components/Footer.vue')['default']
-    ForgetPassword: typeof import('./components/LoginForm/ForgetPassword.vue')['default']
-    Login: typeof import('./components/LoginForm/Login.vue')['default']
     NButton: typeof import('naive-ui')['NButton']
     NCard: typeof import('naive-ui')['NCard']
     NEmpty: typeof import('naive-ui')['NEmpty']
@@ -27,7 +25,6 @@ declare module '@vue/runtime-core' {
     PageFooter: typeof import('./components/PageFooter/index.vue')['default']
     PageHeader: typeof import('./components/PageHeader/index.vue')['default']
     README: typeof import('./components/README.md')['default']
-    Resiger: typeof import('./components/LoginForm/Resiger.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }
