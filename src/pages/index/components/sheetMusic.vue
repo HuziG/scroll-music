@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useCreateSheetStore } from '~/stores/createSheetMusic'
-import { useSheetMusicStore } from '~/stores/sheetMusicStore'
+import { useSheetMusicDepot } from '~/stores/sheetMusicDepot'
 import { useSheetDetailStore } from '~/stores/sheetDetail'
 import { useMessage } from 'naive-ui'
 import { delSheet } from '~/api/sheetMusic'
@@ -13,7 +13,7 @@ const menuOptions = [
 ]
 const router = useRouter()
 const createSheetStore = useCreateSheetStore()
-const sheetMusicStore = useSheetMusicStore()
+const usmd = useSheetMusicDepot()
 const sheetDetailStore = useSheetDetailStore()
 const selectValue = ref('')
 
@@ -27,20 +27,20 @@ watch(selectValue, async (newValue) => {
   switch (newValue) {
     case 'edit':
       createSheetStore.$patch(state => {
-        state.recordId = props.value._id
-        state.sheetName = props.value.name
-        state.sheetArray = props.value.imgs
+        state._id = props.value._id
+        state.name = props.value.name
+        state.imgs = props.value.imgs
         state.showCreateModal = true
       })
       break;
     case 'del':
       await delSheet({
-        recordId: props.value._id
+        _id: props.value._id
       })    
 
       message.success('删除成功')
 
-      sheetMusicStore.$patch(state => {
+      usmd.$patch(state => {
         state.sheetMusicData.splice(props.index, 1)
       })
       break;

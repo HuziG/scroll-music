@@ -1,18 +1,18 @@
 <script setup lang="ts">
 import { useMessage } from 'naive-ui'
 import { useCreateSheetStore } from '~/stores/createSheetMusic'
-import { useSheetMusicStore } from '~/stores/sheetMusicStore'
+import { useSheetMusicDepot } from '~/stores/sheetMusicDepot'
 import { addSheet, editSheet } from '~/api/sheetMusic'
 
 const emit = defineEmits('cancel') 
 const message = useMessage()
 const submitLoading = ref(false)
 const createSheetStore = useCreateSheetStore()
-const smt = useSheetMusicStore()
+const smt = useSheetMusicDepot()
 
 const disabledCreate = computed(() => {
-  return createSheetStore.sheetArray.length === 0 || 
-    createSheetStore.sheetName.value === ''
+  return createSheetStore.imgs.length === 0 || 
+    createSheetStore.name.value === ''
 })
 
 const cancelCreate = () => {
@@ -28,7 +28,7 @@ const handleUpload = () => {
 const handleDel = (index) => {
   // 知晓云删除
   createSheetStore.$patch(state => {
-    state.sheetArray.splice(index, 1)
+    state.imgs.splice(index, 1)
   })
 }
 
@@ -43,12 +43,10 @@ const handleSubmit = () => {
 const handleEditSheet = async () => {
   submitLoading.value = true
 
-  console.log(createSheetStore.recordId)
-  
   const data = await editSheet({
-    name: createSheetStore.sheetName.value,
-    imgs: createSheetStore.sheetArray,
-    recordId: createSheetStore.recordId
+    name: createSheetStore.name,
+    imgs: createSheetStore.imgs,
+    _id: createSheetStore._id
   })
 
   submitLoading.value = false
@@ -64,8 +62,8 @@ const handleAddSheet = async () => {
   submitLoading.value = true
   
   const data = await addSheet({
-    name: createSheetStore.sheetName,
-    imgs: createSheetStore.sheetArray
+    name: createSheetStore.name,
+    imgs: createSheetStore.imgs
   })
 
   submitLoading.value = false
@@ -95,13 +93,13 @@ const handleAddSheet = async () => {
       </n-button>
     </template>
 
-    <n-input v-model:value="createSheetStore.sheetName" placeholder="请输入曲谱名称" />
+    <n-input v-model:value="createSheetStore.name" placeholder="请输入曲谱名称" />
 
     <div class="-ml-5" mt-3 flex flex-wrap>
       <div 
         class="sheet-item"
         relative w-55 h-65 mt-5 ml-5 rounded-2 border-2 border-primary overflow-hidden 
-        v-for="(url, index) in createSheetStore.sheetArray" :key="index">
+        v-for="(url, index) in createSheetStore.imgs" :key="index">
         <div 
           absolute w-8 h-8 inline-block bg-primary text-white text-center 
           style="line-height: 2rem;border-bottom-right-radius: 0.5rem"
@@ -124,12 +122,16 @@ const handleAddSheet = async () => {
       <div 
         w-55 h-65 mt-5 ml-5 border-2 border-primary flex justify-center items-center rounded-2 text-primary
         flex-col hover:bg-opacity-5 bg-opacity-0 bg-primary transition cursor-pointer
+        v-if="createSheetStore.imgs.length <= 8"
         @click="handleUpload"
       >
         <div i-mdi-cloud-upload text-2xl text-primary />
         <div mt-2>上传曲谱</div>
       </div>
+
     </div>
+
+    <div text-sm text-red font-bold mt-5>* 曲谱数量最多8个</div>
 
     <template #footer>
       <div text-right>

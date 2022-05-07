@@ -84,7 +84,7 @@ const handleConfirm = async () => {
   showSpeedModal.value = false
 
   const data = await editSheet({
-    recordId: sheetDetailStore._id,
+    _id: sheetDetailStore._id,
     speed: Number(step.value)
   })
 

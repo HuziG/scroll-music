@@ -38,8 +38,6 @@ export const useSheetDetailStore = defineStore({
       this.name = ''
       this.speed = 0
       this.imgs = ['']
-
-      // sessionStorage.sheet_detail = ''
     }
   }
 })

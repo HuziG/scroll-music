@@ -1,7 +1,7 @@
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { getSheets } from '~/api/sheetMusic'
 
-export const useSheetMusicStore = defineStore({
+export const useSheetMusicDepot = defineStore({
   id: 'sheetMusic',
   
   state: () => ({
@@ -20,5 +20,5 @@ export const useSheetMusicStore = defineStore({
 })
   
 if (import.meta.hot) {
-  import.meta.hot.accept(acceptHMRUpdate(useSheetMusicStore, import.meta.hot))
+  import.meta.hot.accept(acceptHMRUpdate(useSheetMusicDepot, import.meta.hot))
 }

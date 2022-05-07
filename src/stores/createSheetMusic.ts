@@ -6,16 +6,16 @@ export const useCreateSheetStore = defineStore({
   state: () => ({
     showCreateModal: false,
     showUploadModal: false,
-    recordId: '',
-    sheetName: '',
-    sheetArray: []
+    _id: '',
+    name: '',
+    imgs: []
   }),
 
   actions: {
     clearStore() {
-      this.recordId = ''
-      this.sheetName = ''
-      this.sheetArray = []
+      this._id = ''
+      this.name = ''
+      this.imgs = []
     }
   }
 })

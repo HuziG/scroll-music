@@ -1,12 +1,15 @@
 <script setup lang="ts">
-import { NButton, NForm, NFormItem, NInput, useNotification, NSpin, useMessage, c } from 'naive-ui'
-import PageHeader from '~/components/PageHeader/index.vue'
-import PageFooter from '~/components/PageFooter/index.vue'
-import LoginPanel from '~/components/LoginForm/Login.vue'
-import ResigerPanel from '~/components/LoginForm/Resiger.vue'
-import ForgetPasswordPanel from '~/components/LoginForm/ForgetPassword.vue'
-import { emailRegister, confirmEmail, getPasswordByEmail, emailLogin } from '~/api/user.ts'
+import { useMessage } from 'naive-ui'
+import { 
+  emailRegister, 
+  confirmEmail, 
+  getPasswordByEmail, 
+  emailLogin 
+} from '~/api/user.ts'
 import { useRouter } from 'vue-router'
+import LoginPanel from './components/login.vue'
+import ResigerPanel from './components/resiger.vue'
+import ForgetPasswordPanel from './components/forgetPassword.vue'
 
 let imgIndex = false
 const router = useRouter()
