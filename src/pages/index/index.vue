@@ -78,7 +78,7 @@ onMounted(() => {
       <create-sheet-modal @cancel="toggleCreateModal(false)" />
     </n-modal>
 
-    <n-modal v-model:show="createSheetStore.showUploadModal" :mask-closable="false">
+    <n-modal v-model:show="createSheetStore.showUploadModal" :mask-closable="true">
       <upload-sheet-modal @cancel="hideUploadModal" />
     </n-modal>
   </div>

@@ -99,8 +99,8 @@ const handleSubmitForm = async ({ type, form }) => {
 
     <div class="rowup">
       <img
-        v-for="url in imgList"
-        :key="url"
+        v-for="item in imgList"
+        :key="item.url"
         :src="url" 
         object-cover
         style="width: 100%;height: 100%;" 

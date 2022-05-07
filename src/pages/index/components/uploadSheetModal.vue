@@ -70,7 +70,7 @@ const handleBeforeUpload = async ({ file }) => {
 
   handleSubmit({
     url: formValue.uploadUrl,
-    fileId: data.id
+    fileId: data.file.id
   })
 
   message.success('上传成功！')
