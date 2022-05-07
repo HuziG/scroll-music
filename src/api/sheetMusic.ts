@@ -18,10 +18,10 @@ export const addSheet = ({
 }
 
 // 修改曲谱
-export const editSheet = (value: { name?: string, imgs?: string[], recordId: string, speed?: number }) => {
+export const editSheet = (value: { name?: string, imgs?: string[], _id: string, speed?: number }) => {
   let Product = new BaaS.TableObject(TABLE_NAME)
 
-  let product = Product.getWithoutData(value.recordId)
+  let product = Product.getWithoutData(value._id)
 
   product.set(value)
   
@@ -30,10 +30,10 @@ export const editSheet = (value: { name?: string, imgs?: string[], recordId: str
 
 // 删除曲谱
 export const delSheet = ({
-  recordId
-}: { recordId: string }) => {
+  _id
+}: { _id: string }) => {
   let Product = new BaaS.TableObject(TABLE_NAME)
-  return Product.delete(recordId)
+  return Product.delete(_id)
 }
 
 export const getSheets = async () => {

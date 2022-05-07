@@ -4,11 +4,11 @@ import SheetMusicItem from './components/sheetMusic.vue'
 import CreateSheetModal from './components/createSheetModal.vue'
 import UploadSheetModal from './components/uploadSheetModal.vue'
 import { useCreateSheetStore } from '~/stores/createSheetMusic'
-import { useSheetMusicStore } from '~/stores/sheetMusicStore'
+import { useSheetMusicDepot } from '~/stores/sheetMusicDepot'
 import { getSheets } from '~/api/sheetMusic'
 
 const createSheetStore = useCreateSheetStore()
-const sheetMusicStore = useSheetMusicStore()
+const usmd = useSheetMusicDepot()
 const value = ref('')
 const showCreateModal = ref(false)
 const loadSheets = ref(false)
@@ -20,13 +20,15 @@ const hideUploadModal = () => {
 }
 
 const toggleCreateModal = (value) => {
+  createSheetStore.clearStore()
+  
   createSheetStore.$patch(state => {
     state.showCreateModal = value
   })
 }
 
 const handleInit = async () => {
-  sheetMusicStore.handleInitSheet()
+  usmd.handleInitSheet()
 }
 
 onMounted(() => {
@@ -42,7 +44,12 @@ onMounted(() => {
       <div flex items-center justify-between>
         <span text-xl>我的曲谱</span>
 
-        <n-button strong secondary round type="primary" @click="toggleCreateModal(true)"> 
+        <n-button 
+          strong secondary round 
+          type="primary" 
+          :disabled="usmd.sheetMusicData.length >= 20"
+          @click="toggleCreateModal(true)"
+        > 
           <template #icon>
             <div i-mdi-plus text-base/>
           </template>
@@ -52,12 +59,12 @@ onMounted(() => {
 
       <n-spin :show="loadSheets">
         <div flex flex-wrap class="-ml-5">
-          <div v-for="(item, index) in sheetMusicStore.sheetMusicData" :key="item.id">
+          <div v-for="(item, index) in usmd.sheetMusicData" :key="item.id">
             <sheet-music-item :value="item" :index="index" />
           </div>
         </div>
 
-        <div v-if="sheetMusicStore.sheetMusicData.length === 0" mt-35>
+        <div v-if="usmd.sheetMusicData.length === 0" mt-35>
           <n-empty description="暂无曲谱">
             <template #icon>
               <div i-mdi:music-clef-treble text-3xl></div>
