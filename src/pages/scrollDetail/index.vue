@@ -77,6 +77,8 @@ const startCountDown = () => {
 }
 
 watch(showSpeedModal, (newValue) => {
+  clearInterval(scrollInterval)
+
   document.documentElement.scrollTop = 0
 
   if (newValue) {
@@ -155,7 +157,7 @@ onBeforeUnmount(() => {
       />
     </div>
 
-    <div style="width: 80%" mx-auto>
+    <div style="width: 70%" mx-auto>
       <img 
         w-full 
         v-for="item in sheetDetailStore.sheetData.imgs" 

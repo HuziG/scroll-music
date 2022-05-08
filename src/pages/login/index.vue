@@ -7,6 +7,7 @@ import {
   emailLogin 
 } from '~/api/user.ts'
 import { useRouter } from 'vue-router'
+import LoginPageFooter from '~/components/LoginFooter/index.vue'
 import LoginPanel from './components/login.vue'
 import ResigerPanel from './components/resiger.vue'
 import ForgetPasswordPanel from './components/forgetPassword.vue'
@@ -127,7 +128,7 @@ const handleSubmitForm = async ({ type, form }) => {
       @submitForm="handleSubmitForm" 
     />
 
-    <PageFooter absolute z-20 bottom-5/>
+    <LoginPageFooter absolute z-20 bottom-5/>
   </div>
 </template>
 

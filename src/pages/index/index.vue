@@ -3,6 +3,7 @@ import PageHeader from '~/components/PageHeader/index.vue'
 import SheetMusicItem from './components/sheetMusic.vue'
 import CreateSheetModal from './components/createSheetModal.vue'
 import UploadSheetModal from './components/uploadSheetModal.vue'
+import PageFooter from '~/components/PageFooter/index.vue'
 import { useCreateSheetStore } from '~/stores/createSheetMusic'
 import { useSheetMusicDepot } from '~/stores/sheetMusicDepot'
 import { getSheets } from '~/api/sheetMusic'
@@ -81,6 +82,10 @@ onMounted(() => {
     <n-modal v-model:show="createSheetStore.showUploadModal" :mask-closable="true">
       <upload-sheet-modal @cancel="hideUploadModal" />
     </n-modal>
+
+    <div style="height: 60px;" />
+
+    <PageFooter w-full absolute z-20 bottom-0 />
   </div>
 </template>
 

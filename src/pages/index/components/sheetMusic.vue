@@ -13,8 +13,8 @@ const menuOptions = [
 ]
 const router = useRouter()
 const createSheetStore = useCreateSheetStore()
-const usmd = useSheetMusicDepot()
 const sheetDetailStore = useSheetDetailStore()
+const usmd = useSheetMusicDepot()
 const selectValue = ref('')
 
 const timeFormat = computed(() => {
@@ -34,9 +34,7 @@ watch(selectValue, async (newValue) => {
       })
       break;
     case 'del':
-      await delSheet({
-        _id: props.value._id
-      })    
+      await usmd.delSheetData(props.value)
 
       message.success('删除成功')
 

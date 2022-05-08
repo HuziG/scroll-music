@@ -3,6 +3,7 @@ import { useMessage } from 'naive-ui'
 import { useCreateSheetStore } from '~/stores/createSheetMusic'
 import { useSheetMusicDepot } from '~/stores/sheetMusicDepot'
 import { addSheet, editSheet } from '~/api/sheetMusic'
+import { delFiles } from '~/api/base'
 
 const emit = defineEmits('cancel') 
 const message = useMessage()
@@ -28,6 +29,10 @@ const handleUpload = () => {
 const handleDel = (index) => {
   // 知晓云删除
   createSheetStore.$patch(state => {
+    const fileId = state.imgs[index].fileId
+    
+    if (fileId) delFiles([fileId])
+    
     state.imgs.splice(index, 1)
   })
 }

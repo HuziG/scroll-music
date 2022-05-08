@@ -7,7 +7,7 @@ export const uploadFile = (file: any) => {
   return File.upload(fileParams)
 }
 
-export const delFile = (fileIDs: string[]) => {
+export const delFiles = (fileIDs: string[]) => {
   let MyFile = new BaaS.File()
   return MyFile.delete(fileIDs)
 }
