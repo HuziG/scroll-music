@@ -13,7 +13,6 @@ const routes = setupLayouts(generatedRoutes)
 
 installBaas()
 
-// https://github.com/antfu/vite-ssg
 export const createApp = ViteSSG(
   App,
   { routes, base: import.meta.env.BASE_URL },
