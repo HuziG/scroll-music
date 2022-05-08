@@ -4,3 +4,10 @@ export interface baasFile {
   path: string
   created_at: number
 }
+
+export interface sheetDetailStore {
+  sheetData: {
+    step?: number
+    speed?: number
+  }
+}

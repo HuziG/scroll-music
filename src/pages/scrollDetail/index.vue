@@ -27,9 +27,9 @@ const initSessionSheet = () => {
 
   if (data) {
     sheetDetailStore.dispatchSheet(JSON.parse(data))
-    step.value = sheetDetailStore.step
-    stepSlider.value = sheetDetailStore.step * 100
-    speedSlider.value = sheetDetailStore.speed
+    step.value = sheetDetailStore.sheetData.step
+    stepSlider.value = sheetDetailStore.sheetData.step * 100
+    speedSlider.value = sheetDetailStore.sheetData.speed
   }
 }
 
@@ -90,12 +90,12 @@ const handleConfirm = async () => {
   showSpeedModal.value = false
 
   const data = await editSheet({
-    _id: sheetDetailStore._id,
+    _id: sheetDetailStore.sheetData._id,
     step: Number(step.value),
     speed: Number(speedSlider.value),
   })
 
-  sheetDetailStore.dispatchSpeed(step.value)
+  sheetDetailStore.dispatchSpeed(step.value, speedSlider.value)
 
   message.success('设置成功')
 }
@@ -158,7 +158,7 @@ onBeforeUnmount(() => {
     <div style="width: 80%" mx-auto>
       <img 
         w-full 
-        v-for="item in sheetDetailStore.imgs" 
+        v-for="item in sheetDetailStore.sheetData.imgs" 
         :src="item.url" 
         alt="error" 
         :key="item.url" 
