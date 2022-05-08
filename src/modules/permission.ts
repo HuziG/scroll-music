@@ -1,11 +1,32 @@
 import { type UserModule } from '~/types'
 
+// @ts-ignore
+import BaaS from 'minapp-sdk'
+
 export const install: UserModule = ({ router }) => {
-  router.beforeEach((to: any, from: any, next: any) => {
+  const whiteRoute = ['/login']
 
-    console.log('to', to)
-    console.log('from', from)
+  router.beforeEach(async (to: any, from, next) => {
+    let data
 
-    next()
+    try {
+      data = await BaaS.auth.getCurrentUser()
+    } catch (error) {
+      data = null
+    }
+
+    if (whiteRoute.includes(to.fullPath)) {
+      if (data && data._email_verified) {
+        next('/')
+      } else {
+        next()
+      }
+    } else {
+      if (data && data._email_verified) {
+        next()
+      } else {
+        next('/login')
+      }
+    }
   })
 }

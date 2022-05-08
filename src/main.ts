@@ -10,6 +10,11 @@ import 'vfonts/Lato.css'
 
 installBaas()
 
-const app = createApp(App)
-
-app.use(router)
+export const createApp = ViteSSG(
+  App,
+  { routes, base: import.meta.env.BASE_URL },
+  (ctx) => {
+    // install all modules under `modules/`
+    Object.values(import.meta.globEager('./modules/*.ts')).forEach(i => i.install?.(ctx))
+  },
+)

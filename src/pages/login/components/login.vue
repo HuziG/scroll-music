@@ -1,4 +1,5 @@
 <script setup lang="ts">
+<<<<<<< HEAD:src/components/LoginForm/Login.vue
 <<<<<<< HEAD
 import { NButton, NForm, NFormItem, NInput } from 'naive-ui'
 =======
@@ -13,6 +14,12 @@ import { NButton, NForm, NFormItem, NInput } from 'naive-ui'
 const emit = defineEmits(['submitForm'])
 >>>>>>> 3fac7e4c9254739af8215e8ac842916e2fe1c2ad
 
+=======
+import { deepClone } from '~/utils/utils.ts'
+
+defineProps(['formLoading'])
+const emit = defineEmits(['submitForm'])
+>>>>>>> newmain:src/pages/login/components/login.vue
 const formValue = ref({
   email: '',
   password: ''

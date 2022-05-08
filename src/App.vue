@@ -3,7 +3,7 @@ import {
   NConfigProvider, 
   GlobalThemeOverrides, 
   NNotificationProvider,
-  NMessageProvider 
+  NMessageProvider,
 } from 'naive-ui'
 
 const themeOverrides: GlobalThemeOverrides = {

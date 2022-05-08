@@ -1,14 +1,18 @@
 <script setup lang="ts">
-import { NButton, NForm, NFormItem, NInput, useNotification, NSpin, useMessage, c } from 'naive-ui'
-import PageHeader from '~/components/PageHeader/index.vue'
-import PageFooter from '~/components/PageFooter/index.vue'
-import LoginPanel from '~/components/LoginForm/Login.vue'
-import ResigerPanel from '~/components/LoginForm/Resiger.vue'
-import ForgetPasswordPanel from '~/components/LoginForm/ForgetPassword.vue'
-import { emailRegister } from '~/api/user.ts'
+import { useMessage } from 'naive-ui'
+import { 
+  emailRegister, 
+  confirmEmail, 
+  getPasswordByEmail, 
+  emailLogin 
+} from '~/api/user.ts'
+import { useRouter } from 'vue-router'
+import LoginPanel from './components/login.vue'
+import ResigerPanel from './components/resiger.vue'
+import ForgetPasswordPanel from './components/forgetPassword.vue'
 
 let imgIndex = false
-
+const router = useRouter()
 const FORM_STATE = {
   LOGIN: 'login',
   REGISTER: 'register',
@@ -32,6 +36,7 @@ const handleChangeState = ({ state }) => {
 }
 
 const handleSubmitForm = async ({ type, form }) => {
+<<<<<<< HEAD:src/pages/login.vue
   try {
     switch (type) {
     case FORM_STATE.LOGIN:
@@ -54,9 +59,23 @@ const handleSubmitForm = async ({ type, form }) => {
         console.log(form)
 
         const { _email_verified } = await emailLogin({ email: form.email, password: form.password })
+=======
+  formLoading.value = true
+  try {
+    switch (type) {
+    case FORM_STATE.LOGIN:
+        const { _email_verified } = await emailLogin({ email: form.email, password: form.password })
+        if (_email_verified) {
+          message.success('登录成功！')
+        } else {
+          message.error('邮箱未验证，登录失败！')
+        }
+        formLoading.value = false
+>>>>>>> newmain:src/pages/login/index.vue
 
-        console.log('success', data)
+        localStorage.user_email = form.email
 
+<<<<<<< HEAD:src/pages/login.vue
         if (_email_verified) {
           message.success('登录成功！')
         } else {
@@ -75,6 +94,16 @@ const handleSubmitForm = async ({ type, form }) => {
 
         await confirmEmail()
 
+=======
+        router.replace('/')
+      break;
+    case FORM_STATE.REGISTER:
+        await emailRegister({ email: form.email, password: form.password })
+        localStorage.user_email = form.email
+        formLoading.value = false
+        panelState.value = FORM_STATE.LOGIN
+        await confirmEmail()
+>>>>>>> newmain:src/pages/login/index.vue
         notification['success']({
           content: '注册成功',
           meta: '请登录注册邮箱，验证账号并使用'
@@ -82,6 +111,7 @@ const handleSubmitForm = async ({ type, form }) => {
 =======
       
       break;
+<<<<<<< HEAD:src/pages/login.vue
     case FORM_STATE.REGISTER:
         console.log('form', form.email)
 
@@ -96,6 +126,15 @@ const handleSubmitForm = async ({ type, form }) => {
       break;
 >>>>>>> 3fac7e4c9254739af8215e8ac842916e2fe1c2ad
     case FORM_STATE.FORGET:
+=======
+    case FORM_STATE.FORGET:
+      await getPasswordByEmail({ email: form.email })
+      formLoading.value = false
+      notification['info']({
+        content: '邮件已发送',
+        meta: '请登录邮箱地址，找回密码'
+      })
+>>>>>>> newmain:src/pages/login/index.vue
       
       break;
     }
@@ -123,8 +162,8 @@ const handleSubmitForm = async ({ type, form }) => {
 
     <div class="rowup">
       <img
-        v-for="url in imgList"
-        :key="url"
+        v-for="item in imgList"
+        :key="item.url"
         :src="url" 
         object-cover
         style="width: 100%;height: 100%;" 
@@ -163,7 +202,6 @@ const handleSubmitForm = async ({ type, form }) => {
       transform: translate3d(0, -50%, 0);
   }
 }
-
 .rowup{
   -webkit-animation: 60s rowup linear infinite normal;
   animation: 60s rowup linear infinite normal;

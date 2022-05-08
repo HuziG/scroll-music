@@ -10,6 +10,12 @@ import Unocss from 'unocss/vite'
 import {
   NaiveUiResolver,
 } from 'unplugin-vue-components/resolvers'
+<<<<<<< HEAD
+=======
+
+
+const markdownWrapperClasses = 'prose prose-sm m-auto text-left'
+>>>>>>> newmain
 
 export default defineConfig({
   resolve: {
