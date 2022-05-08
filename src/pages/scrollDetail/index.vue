@@ -8,12 +8,12 @@ const sheetDetailStore = useSheetDetailStore()
 const router = useRouter()
 const countDown = ref(0)
 const baseSpeed = 0.5
-const step = ref(sheetDetailStore.speed)
 const scrollMode = ref(0)
 const showSpeedModal = ref(false)
 
-const stepSlider = ref(0)
-const speedSlider = ref(30)
+const step = ref(null)
+const stepSlider = ref(null)
+const speedSlider = ref(null)
 
 let countDownInterval
 let scrollInterval
@@ -24,9 +24,12 @@ onMounted(() => {
 
 const initSessionSheet = () => {
   const data = sessionStorage.sheet_detail
+
   if (data) {
     sheetDetailStore.dispatchSheet(JSON.parse(data))
-    step.value = sheetDetailStore.speed
+    step.value = sheetDetailStore.step
+    stepSlider.value = sheetDetailStore.step * 100
+    speedSlider.value = sheetDetailStore.speed
   }
 }
 
@@ -74,6 +77,8 @@ const startCountDown = () => {
 }
 
 watch(showSpeedModal, (newValue) => {
+  document.documentElement.scrollTop = 0
+
   if (newValue) {
     startScroll()
   } else {
@@ -86,7 +91,8 @@ const handleConfirm = async () => {
 
   const data = await editSheet({
     _id: sheetDetailStore._id,
-    speed: Number(step.value)
+    step: Number(step.value),
+    speed: Number(speedSlider.value),
   })
 
   sheetDetailStore.dispatchSpeed(step.value)
@@ -96,13 +102,13 @@ const handleConfirm = async () => {
 
 watch(stepSlider, (newValue) => {
   const n = (newValue / 20 * 0.1)
-  step.value = baseSpeed + n
+  step.value = (0.5 + Number(toRaw(n.toFixed(1))))
 })
 
-watch(speedSlider, (newValue) => {
+const handleSpeedChange = () => {
   clearInterval(scrollInterval)
   startScroll()
-})
+}
 
 onBeforeUnmount(() => {
   clearInterval(countDownInterval)
@@ -149,8 +155,14 @@ onBeforeUnmount(() => {
       />
     </div>
 
-    <div class="w-2/3" mx-auto>
-      <img w-full v-for="item in sheetDetailStore.imgs" :src="item.url" alt="error" :key="item.url" />
+    <div style="width: 80%" mx-auto>
+      <img 
+        w-full 
+        v-for="item in sheetDetailStore.imgs" 
+        :src="item.url" 
+        alt="error" 
+        :key="item.url" 
+      />
     </div>
 
     <n-modal v-model:show="showSpeedModal">
@@ -172,10 +184,12 @@ onBeforeUnmount(() => {
         </template>
         
         <div>跨度调节</div>
+        <div text-xs text-vice my-1>一次滚动的距离</div>
         <n-slider v-model:value="stepSlider" :step="20" />
 
         <div mt-10>速度调节</div>
-        <n-slider v-model:value="speedSlider" :min="30" :step="5" />
+        <div text-xs text-vice my-1>每多少 ms 滚动一次</div>
+        <n-slider v-model:value="speedSlider" :min="30" :step="5" @update:value="handleSpeedChange" />
         
         <template #footer>
           <div style="text-align: right">

@@ -56,7 +56,7 @@ const handleToScroll = () => {
 <template>
   <div style="background-color: #F5F5F7;" inline-block rounded-2 py-2 px-3 mt-3 ml-5>
     <img 
-      style="width: 221px" 
+      style="width: 221px;height: 312px;" 
       :src="props.value.imgs[0].url" 
       rounded-1 cursor-pointer 
       alt="error"

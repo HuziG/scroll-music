@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import PageHeader from './components/header.vue'
+import PageHeader from '~/components/PageHeader/index.vue'
 import SheetMusicItem from './components/sheetMusic.vue'
 import CreateSheetModal from './components/createSheetModal.vue'
 import UploadSheetModal from './components/uploadSheetModal.vue'
