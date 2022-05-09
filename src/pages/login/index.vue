@@ -6,6 +6,7 @@ import {
   getPasswordByEmail, 
   emailLogin 
 } from '~/api/user.ts'
+import { useNotification } from 'naive-ui'
 import { useRouter } from 'vue-router'
 import LoginPageFooter from '~/components/LoginFooter/index.vue'
 import LoginPanel from './components/login.vue'
@@ -52,7 +53,9 @@ const handleSubmitForm = async ({ type, form }) => {
 
         localStorage.user_email = form.email
 
-        router.replace('/')
+        setTimeout(() => {
+          router.replace('/')
+        }, 500)
       break;
     case FORM_STATE.REGISTER:
         await emailRegister({ email: form.email, password: form.password })
@@ -84,7 +87,9 @@ const handleSubmitForm = async ({ type, form }) => {
 
 <template>
   <div text-very-cool bg-brand-primary overflow-hidden h-screen>
-    <page-header absolute z-20>
+    <div absolute z-20 px-10 my-5 text-white text-3xl>
+      滚动的曲谱
+
       <div text-sm mt-5 font-normal>
         * 产品功能全部免费 
         <br /><br />
@@ -94,14 +99,14 @@ const handleSubmitForm = async ({ type, form }) => {
         <br /><br />
         * 个人账号所持曲谱数量不限量
       </div>
-    </page-header>
+    </div>
 
     <div w-full h-full bg-black bg-opacity-80 absolute top-0 left-0 z-10 />
 
     <div class="rowup">
       <img
-        v-for="item in imgList"
-        :key="item.url"
+        v-for="url in imgList"
+        :key="url"
         :src="url" 
         object-cover
         style="width: 100%;height: 100%;" 

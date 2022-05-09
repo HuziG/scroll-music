@@ -8,7 +8,7 @@ const formRef = ref(null)
 const formValue = ref({
   email: '',
 })
-const emit = defineEmits(['submitForm'])
+const emit = defineEmits(['submitForm', 'changeState'])
 
 const rules = ref({
   email: [
@@ -45,6 +45,10 @@ const handleValidateForm = (e) => {
     }
   })
 }
+
+onMounted(() => {
+  formValue.value.email = localStorage.user_email
+})
 </script>
 
 <template>
@@ -55,7 +59,7 @@ const handleValidateForm = (e) => {
     <div my-5 text-main font-bold text-2xl flex items-center>
       <div 
         i-mdi-arrow-left-bold-circle inline-block text-primary mr-3 cursor-pointer 
-        @click="$emit('changeState', {
+        @click="emit('changeState', {
           state: 'login'
         })"  
       />

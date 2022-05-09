@@ -52,7 +52,11 @@ const handleToScroll = () => {
 </script>
 
 <template>
-  <div style="background-color: #F5F5F7;" inline-block rounded-2 py-2 px-3 mt-3 ml-5>
+  <div 
+    class="hvr-grow-shadow" 
+    style="background-color: #F5F5F7;" 
+    inline-block rounded-2 py-2 px-3 mt-3 ml-5
+  >
     <img 
       style="width: 221px;height: 312px;" 
       :src="props.value.imgs[0].url" 
@@ -79,5 +83,20 @@ const handleToScroll = () => {
 </template>
 
 <style scoped>
-
+.hvr-grow-shadow {
+  display: inline-block;
+  vertical-align: middle;
+  -webkit-transform: perspective(1px) translateZ(0);
+  transform: perspective(1px) translateZ(0);
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+  -webkit-transition-duration: 0.3s;
+  transition-duration: 0.3s;
+  -webkit-transition-property: box-shadow, transform;
+  transition-property: box-shadow, transform;
+}
+.hvr-grow-shadow:hover, .hvr-grow-shadow:focus, .hvr-grow-shadow:active {
+  box-shadow: 0 10px 10px -10px rgba(0, 0, 0, 0.5);
+  -webkit-transform: scale(1.05);
+  transform: scale(1.05);
+}
 </style>
