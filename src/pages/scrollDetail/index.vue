@@ -121,40 +121,76 @@ onBeforeUnmount(() => {
 
 <template>
   <div style="background-color: #F0F2F5">
-    <div fixed top-5 left-8>
-      <div 
-        i-mdi:arrow-left-circle text-5xl text-primary cursor-pointer 
-        class="hover-active-opacity" 
+    <div fixed top-5 left-5>
+      <n-button 
+        strong circle type="primary" size="medium"
         @click="router.replace('/')"
-      />
+      > 
+        <template #icon>
+          <div 
+            i-mdi:arrow-left-circle text-base
+          />
+        </template>
+      </n-button>
     </div>
 
-    <div fixed top-5 right-8>
-      <div 
-        v-if="scrollMode === 0"
-        i-ic:sharp-not-started text-5xl text-primary cursor-pointer 
-        class="hover-active-opacity" 
-        @click="handleStart"
-      />
-      <div
-        v-if="scrollMode === 1" 
-        i-ic:round-stop-circle text-5xl text-primary cursor-pointer 
-        class="hover-active-opacity" 
-        @click="handleStop"
-      />
-      <div
-        i-ic:baseline-restart-alt text-5xl text-primary cursor-pointer mt-10
-        class="hover-active-opacity" 
-        @click="handleRestart"
-      />
+    <div fixed top-5 right-5>
+      <n-tooltip :show-arrow="false" placement="left">
+        <template #trigger>
+          <n-button 
+            strong circle type="primary" size="medium"
+            @click="scrollMode === 0 ? handleStart() : handleStop()"
+          > 
+            <template #icon>
+              <div 
+                v-if="scrollMode === 0" 
+                i-ic:sharp-not-started text-base
+              />
+              <div 
+                v-else 
+                i-ic:round-stop-circle text-base
+              />
+            </template>
+          </n-button>
+        </template>
+        {{scrollMode === 0 ? '开始' : '暂停'}}
+      </n-tooltip>
+
+      <br><br>
+
+      <n-tooltip :show-arrow="false" placement="left">
+        <template #trigger>
+          <n-button 
+            strong circle type="primary" size="medium"
+            @click="handleRestart"
+          > 
+            <template #icon>
+              <div 
+                i-ic:baseline-restart-alt text-base
+              />
+            </template>
+          </n-button>
+        </template>
+        重置
+      </n-tooltip>
     </div>
 
-    <div fixed bottom-8 right-8>
-      <div 
-        i-mdi:tune-vertical text-5xl text-primary cursor-pointer
-        class="hover-active-opacity" 
-        @click="showSpeedModal = true"
-      />
+    <div fixed bottom-5 right-5>
+      <n-tooltip :show-arrow="false" placement="left">
+        <template #trigger>
+          <n-button 
+            strong circle type="primary" size="medium"
+            @click="showSpeedModal = true"
+          > 
+            <template #icon>
+              <div 
+                i-mdi:tune-vertical text-base
+              />
+            </template>
+          </n-button>
+        </template>
+        速度调节
+      </n-tooltip>
     </div>
 
     <div style="width: 70%" mx-auto>
@@ -175,7 +211,7 @@ onBeforeUnmount(() => {
         :closable="false"
         role="dialog"
         aria-modal="true"
-        style="width: 500px; position: fixed; right: 100px; bottom: 100px"
+        style="width: 500px; position: fixed; right: 50px; bottom: 50px"
       >
         <template #header-extra>
           <n-button quaternary circle @click="showSpeedModal = false">
