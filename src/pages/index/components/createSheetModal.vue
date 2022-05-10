@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import ImageClip from './imageClip.vue'
 import { useMessage } from 'naive-ui'
 import { useCreateSheetStore } from '~/stores/createSheetMusic'
 import { useSheetMusicDepot } from '~/stores/sheetMusicDepot'
@@ -8,6 +9,8 @@ import { delFiles } from '~/api/base'
 const emit = defineEmits('cancel') 
 const message = useMessage()
 const submitLoading = ref(false)
+const showClipModal = ref(false)
+const clipImage = ref(null)
 const createSheetStore = useCreateSheetStore()
 const smt = useSheetMusicDepot()
 
@@ -79,6 +82,14 @@ const handleAddSheet = async () => {
   
   smt.handleInitSheet()
 }
+
+const handleShowClip = (url, index) => {
+  showClipModal.value = true
+  clipImage.value = {
+    url, 
+    index
+  }
+}
 </script>
 
 <template>
@@ -116,10 +127,17 @@ const handleAddSheet = async () => {
           :src="item.url"
         />
 
-        <div class="close-button" hidden bg-white absolute right-2 bottom-2 cursor-pointer>
+        <div class="close-button" bg-white absolute left-2 bottom-2 cursor-pointer>
+          <div 
+            i-mdi:image-edit bg-green-600 text-2xl transition hover:text-3xl
+            @click="handleShowClip(item.url, index)"  
+          />
+        </div>
+
+        <div class="close-button" bg-white absolute right-2 bottom-2 cursor-pointer>
           <div 
             i-mdi-close-circle text-red-600 text-2xl transition hover:text-3xl
-            @click="handleDel(index)"  
+            @click="handleDel(item)"  
           />
         </div>
       </div>
@@ -136,7 +154,17 @@ const handleAddSheet = async () => {
 
     </div>
 
-    <div text-sm text-red font-bold mt-5>* 曲谱数量最多8个</div>
+    <div text-sm text-red font-bold mt-5>* 图片数量最多8个</div>
+
+    <n-modal 
+      v-model:show="showClipModal" 
+      :mask-closable="true"
+    >
+      <image-clip 
+        :value="clipImage" 
+        @cancel="showClipModal = false" 
+      />
+    </n-modal>
 
     <template #footer>
       <div text-right>

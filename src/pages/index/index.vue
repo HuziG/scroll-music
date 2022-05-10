@@ -75,7 +75,10 @@ onMounted(() => {
       </n-spin>
     </div>
 
-    <n-modal v-model:show="createSheetStore.showCreateModal" :mask-closable="false">
+    <n-modal 
+      v-model:show="createSheetStore.showCreateModal" 
+      :mask-closable="false"
+    >
       <create-sheet-modal @cancel="toggleCreateModal(false)" />
     </n-modal>
 

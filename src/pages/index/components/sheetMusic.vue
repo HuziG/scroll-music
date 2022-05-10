@@ -24,6 +24,7 @@ const timeFormat = computed(() => {
 })
 
 watch(selectValue, async (newValue) => {
+  selectValue.value = ''
   switch (newValue) {
     case 'edit':
       createSheetStore.$patch(state => {

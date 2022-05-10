@@ -41,6 +41,14 @@ const handleStart = () => {
   })
 }
 
+const handleReturnTop = () => {
+  window.scrollTo({
+    left: 0,
+    top: 0,
+    behavior: 'smooth'
+  })
+}
+
 const handleRestart = () => {
   scrollMode.value = 0
   clearInterval(scrollInterval)
@@ -172,6 +180,24 @@ onBeforeUnmount(() => {
           </n-button>
         </template>
         重置
+      </n-tooltip>
+
+      <br><br>
+
+      <n-tooltip :show-arrow="false" placement="left">
+        <template #trigger>
+          <n-button 
+            strong circle type="primary" size="medium"
+            @click="handleReturnTop"
+          > 
+            <template #icon>
+              <div 
+                i-mdi:arrow-up text-base
+              />
+            </template>
+          </n-button>
+        </template>
+        回到顶部
       </n-tooltip>
     </div>
 
