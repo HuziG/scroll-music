@@ -17,7 +17,7 @@ const formValue = ref({
   email: '',
 <<<<<<< HEAD
 })
-const emit = defineEmits(['submitForm'])
+const emit = defineEmits(['submitForm', 'changeState'])
 
 onMounted(() => {
   formValue.value.email = localStorage.user_email
@@ -49,6 +49,27 @@ const disabledSubmit = computed(() => {
   const _form = formValue.value
   return _form.email === '' || fo_formrmValue.code === '' || _form.password === '' || _form.rePassword === ''
 })
+<<<<<<< HEAD
+=======
+
+const handleValidateForm = (e) => {
+  e.preventDefault()
+  formRef.value?.validate((errors) => {
+    if (!errors) {
+      emit('submitForm', {
+        type: 'forget',
+        form: deepClone(formValue.value)
+      })
+    } else {
+      message.error('注册信息填写有误，请纠正')
+    }
+  })
+}
+
+onMounted(() => {
+  formValue.value.email = localStorage.user_email
+})
+>>>>>>> newmain
 </script>
 
 <template>
@@ -59,7 +80,7 @@ const disabledSubmit = computed(() => {
     <div my-5 text-main font-bold text-2xl flex items-center>
       <div 
         i-mdi-arrow-left-bold-circle inline-block text-primary mr-3 cursor-pointer 
-        @click="$emit('changeState', {
+        @click="emit('changeState', {
           state: 'login'
         })"  
       />

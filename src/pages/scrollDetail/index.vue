@@ -8,12 +8,12 @@ const sheetDetailStore = useSheetDetailStore()
 const router = useRouter()
 const countDown = ref(0)
 const baseSpeed = 0.5
-const step = ref(sheetDetailStore.speed)
 const scrollMode = ref(0)
 const showSpeedModal = ref(false)
 
-const stepSlider = ref(0)
-const speedSlider = ref(30)
+const step = ref(null)
+const stepSlider = ref(null)
+const speedSlider = ref(null)
 
 let countDownInterval
 let scrollInterval
@@ -24,9 +24,12 @@ onMounted(() => {
 
 const initSessionSheet = () => {
   const data = sessionStorage.sheet_detail
+
   if (data) {
     sheetDetailStore.dispatchSheet(JSON.parse(data))
-    step.value = sheetDetailStore.speed
+    step.value = sheetDetailStore.sheetData.step
+    stepSlider.value = sheetDetailStore.sheetData.step * 100
+    speedSlider.value = sheetDetailStore.sheetData.speed
   }
 }
 
@@ -35,6 +38,14 @@ const handleStart = () => {
 
   startCountDown().then(() => {
     startScroll()
+  })
+}
+
+const handleReturnTop = () => {
+  window.scrollTo({
+    left: 0,
+    top: 0,
+    behavior: 'smooth'
   })
 }
 
@@ -74,6 +85,10 @@ const startCountDown = () => {
 }
 
 watch(showSpeedModal, (newValue) => {
+  clearInterval(scrollInterval)
+
+  document.documentElement.scrollTop = 0
+
   if (newValue) {
     startScroll()
   } else {
@@ -85,24 +100,25 @@ const handleConfirm = async () => {
   showSpeedModal.value = false
 
   const data = await editSheet({
-    _id: sheetDetailStore._id,
-    speed: Number(step.value)
+    _id: sheetDetailStore.sheetData._id,
+    step: Number(step.value),
+    speed: Number(speedSlider.value),
   })
 
-  sheetDetailStore.dispatchSpeed(step.value)
+  sheetDetailStore.dispatchSpeed(step.value, speedSlider.value)
 
   message.success('设置成功')
 }
 
 watch(stepSlider, (newValue) => {
   const n = (newValue / 20 * 0.1)
-  step.value = baseSpeed + n
+  step.value = (0.5 + Number(toRaw(n.toFixed(1))))
 })
 
-watch(speedSlider, (newValue) => {
+const handleSpeedChange = () => {
   clearInterval(scrollInterval)
   startScroll()
-})
+}
 
 onBeforeUnmount(() => {
   clearInterval(countDownInterval)
@@ -113,44 +129,104 @@ onBeforeUnmount(() => {
 
 <template>
   <div style="background-color: #F0F2F5">
-    <div fixed top-5 left-8>
-      <div 
-        i-mdi:arrow-left-circle text-5xl text-primary cursor-pointer 
-        class="hover-active-opacity" 
+    <div fixed top-5 left-5>
+      <n-button 
+        strong circle type="primary" size="medium"
         @click="router.replace('/')"
-      />
+      > 
+        <template #icon>
+          <div 
+            i-mdi:arrow-left-circle text-base
+          />
+        </template>
+      </n-button>
     </div>
 
-    <div fixed top-5 right-8>
-      <div 
-        v-if="scrollMode === 0"
-        i-ic:sharp-not-started text-5xl text-primary cursor-pointer 
-        class="hover-active-opacity" 
-        @click="handleStart"
-      />
-      <div
-        v-if="scrollMode === 1" 
-        i-ic:round-stop-circle text-5xl text-primary cursor-pointer 
-        class="hover-active-opacity" 
-        @click="handleStop"
-      />
-      <div
-        i-ic:baseline-restart-alt text-5xl text-primary cursor-pointer mt-10
-        class="hover-active-opacity" 
-        @click="handleRestart"
-      />
+    <div fixed top-5 right-5>
+      <n-tooltip :show-arrow="false" placement="left">
+        <template #trigger>
+          <n-button 
+            strong circle type="primary" size="medium"
+            @click="scrollMode === 0 ? handleStart() : handleStop()"
+          > 
+            <template #icon>
+              <div 
+                v-if="scrollMode === 0" 
+                i-ic:sharp-not-started text-base
+              />
+              <div 
+                v-else 
+                i-ic:round-stop-circle text-base
+              />
+            </template>
+          </n-button>
+        </template>
+        {{scrollMode === 0 ? '开始' : '暂停'}}
+      </n-tooltip>
+
+      <br><br>
+
+      <n-tooltip :show-arrow="false" placement="left">
+        <template #trigger>
+          <n-button 
+            strong circle type="primary" size="medium"
+            @click="handleRestart"
+          > 
+            <template #icon>
+              <div 
+                i-ic:baseline-restart-alt text-base
+              />
+            </template>
+          </n-button>
+        </template>
+        重置
+      </n-tooltip>
+
+      <br><br>
+
+      <n-tooltip :show-arrow="false" placement="left">
+        <template #trigger>
+          <n-button 
+            strong circle type="primary" size="medium"
+            @click="handleReturnTop"
+          > 
+            <template #icon>
+              <div 
+                i-mdi:arrow-up text-base
+              />
+            </template>
+          </n-button>
+        </template>
+        回到顶部
+      </n-tooltip>
     </div>
 
-    <div fixed bottom-8 right-8>
-      <div 
-        i-mdi:tune-vertical text-5xl text-primary cursor-pointer
-        class="hover-active-opacity" 
-        @click="showSpeedModal = true"
-      />
+    <div fixed bottom-5 right-5>
+      <n-tooltip :show-arrow="false" placement="left">
+        <template #trigger>
+          <n-button 
+            strong circle type="primary" size="medium"
+            @click="showSpeedModal = true"
+          > 
+            <template #icon>
+              <div 
+                i-mdi:tune-vertical text-base
+              />
+            </template>
+          </n-button>
+        </template>
+        速度调节
+      </n-tooltip>
     </div>
 
-    <div class="w-2/3" mx-auto>
-      <img w-full v-for="item in sheetDetailStore.imgs" :src="item.url" alt="error" :key="item.url" />
+    <div style="width: 70%" mx-auto>
+      <img 
+        w-full 
+        v-for="item in sheetDetailStore.sheetData.imgs" 
+        :src="item.url" 
+        alt="error" 
+        :key="item.url" 
+      />
     </div>
 
     <n-modal v-model:show="showSpeedModal">
@@ -161,7 +237,7 @@ onBeforeUnmount(() => {
         :closable="false"
         role="dialog"
         aria-modal="true"
-        style="width: 500px; position: fixed; right: 100px; bottom: 100px"
+        style="width: 500px; position: fixed; right: 50px; bottom: 50px"
       >
         <template #header-extra>
           <n-button quaternary circle @click="showSpeedModal = false">
@@ -172,10 +248,12 @@ onBeforeUnmount(() => {
         </template>
         
         <div>跨度调节</div>
+        <div text-xs text-vice my-1>一次滚动的距离</div>
         <n-slider v-model:value="stepSlider" :step="20" />
 
         <div mt-10>速度调节</div>
-        <n-slider v-model:value="speedSlider" :min="30" :step="5" />
+        <div text-xs text-vice my-1>每多少 ms 滚动一次</div>
+        <n-slider v-model:value="speedSlider" :min="30" :step="5" @update:value="handleSpeedChange" />
         
         <template #footer>
           <div style="text-align: right">

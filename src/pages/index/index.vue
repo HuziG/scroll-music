@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import PageHeader from './components/header.vue'
+import PageHeader from '~/components/PageHeader/index.vue'
 import SheetMusicItem from './components/sheetMusic.vue'
 import CreateSheetModal from './components/createSheetModal.vue'
 import UploadSheetModal from './components/uploadSheetModal.vue'
+import PageFooter from '~/components/PageFooter/index.vue'
 import { useCreateSheetStore } from '~/stores/createSheetMusic'
 import { useSheetMusicDepot } from '~/stores/sheetMusicDepot'
 import { getSheets } from '~/api/sheetMusic'
@@ -74,13 +75,20 @@ onMounted(() => {
       </n-spin>
     </div>
 
-    <n-modal v-model:show="createSheetStore.showCreateModal" :mask-closable="false">
+    <n-modal 
+      v-model:show="createSheetStore.showCreateModal" 
+      :mask-closable="false"
+    >
       <create-sheet-modal @cancel="toggleCreateModal(false)" />
     </n-modal>
 
     <n-modal v-model:show="createSheetStore.showUploadModal" :mask-closable="true">
       <upload-sheet-modal @cancel="hideUploadModal" />
     </n-modal>
+
+    <div style="height: 60px;" />
+
+    <PageFooter w-full absolute z-20 bottom-0 />
   </div>
 </template>
 

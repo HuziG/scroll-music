@@ -18,7 +18,9 @@ export const addSheet = ({
 }
 
 // 修改曲谱
-export const editSheet = (value: { name?: string, imgs?: string[], _id: string, speed?: number }) => {
+export const editSheet = (value: 
+  {  _id: string, name?: string, imgs?: string[], speed?: number, step?: number }) => 
+{
   let Product = new BaaS.TableObject(TABLE_NAME)
 
   let product = Product.getWithoutData(value._id)
