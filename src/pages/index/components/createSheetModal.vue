@@ -90,6 +90,10 @@ const handleShowClip = (url, index) => {
     index
   }
 }
+
+const handleClipConfirm = (e) => {
+  console.log(e)
+}
 </script>
 
 <template>
@@ -163,6 +167,7 @@ const handleShowClip = (url, index) => {
       <image-clip 
         :value="clipImage" 
         @cancel="showClipModal = false" 
+        @confirm="handleClipConfirm"
       />
     </n-modal>
 
