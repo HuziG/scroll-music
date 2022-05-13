@@ -11,6 +11,7 @@ const message = useMessage()
 const submitLoading = ref(false)
 const showClipModal = ref(false)
 const clipImage = ref(null)
+
 const createSheetStore = useCreateSheetStore()
 const smt = useSheetMusicDepot()
 
@@ -32,8 +33,8 @@ const handleUpload = () => {
 const handleDel = (index) => {
   // 知晓云删除
   createSheetStore.$patch(state => {
-    const fileId = state.imgs[index].fileId
-    
+    const fileId = state.imgs[index].fileId || null
+
     if (fileId) delFiles([fileId])
     
     state.imgs.splice(index, 1)
@@ -131,18 +132,20 @@ const handleClipConfirm = (e) => {
           :src="item.url"
         />
 
-        <div class="close-button" bg-white absolute left-2 bottom-2 cursor-pointer>
-          <div 
-            i-mdi:image-edit bg-green-600 text-2xl transition hover:text-3xl
-            @click="handleShowClip(item.url, index)"  
-          />
+        <div bg-white absolute left-2 bottom-2>
+          <n-button strong secondary circle type="success" @click="handleShowClip(item.url, index)">
+            <template #icon>
+              <div i-mdi:image-edit text-base></div>
+            </template>
+          </n-button>
         </div>
 
-        <div class="close-button" bg-white absolute right-2 bottom-2 cursor-pointer>
-          <div 
-            i-mdi-close-circle text-red-600 text-2xl transition hover:text-3xl
-            @click="handleDel(item)"  
-          />
+        <div bg-white absolute right-2 bottom-2>
+          <n-button strong secondary circle type="error" @click="handleDel(index)">
+            <template #icon>
+              <div i-mdi-close-circle text-base></div>
+            </template>
+          </n-button>
         </div>
       </div>
 
@@ -180,7 +183,4 @@ const handleClipConfirm = (e) => {
 </template>
 
 <style scoped>
-.sheet-item:hover .close-button{
-  display: inline-block;
-}
 </style>

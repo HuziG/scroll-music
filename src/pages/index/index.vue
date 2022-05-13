@@ -59,7 +59,7 @@ onMounted(() => {
       </div>
 
       <n-spin :show="loadSheets">
-        <div flex flex-wrap class="-ml-5">
+        <div flex flex-wrap class="-ml-5 -mt-3">
           <div v-for="(item, index) in usmd.sheetMusicData" :key="item.id">
             <sheet-music-item :value="item" :index="index" />
           </div>
@@ -88,7 +88,7 @@ onMounted(() => {
 
     <div style="height: 60px;" />
 
-    <PageFooter w-full absolute z-20 bottom-0 />
+    <PageFooter w-full fixed z-20 bottom-0 />
   </div>
 </template>
 

@@ -12,6 +12,16 @@ export const useCreateSheetStore = defineStore({
   }),
 
   actions: {
+    setSheetData({
+      _id, name, imgs
+    }: {
+      _id: string, name: string, imgs: []
+    }) {
+      this._id = _id
+      this.name = name
+      this.imgs = imgs
+    },
+
     clearStore() {
       this._id = ''
       this.name = ''
