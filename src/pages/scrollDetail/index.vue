@@ -53,7 +53,7 @@ const handleReturnTop = () => {
 const handleRestart = () => {
   scrollMode.value = 0
   clearInterval(scrollInterval)
-  document.documentElement.scrollTop = 0
+  handleReturnTop()
 }
 
 const handleStop = () => {
@@ -220,7 +220,7 @@ onBeforeUnmount(() => {
       </n-tooltip>
     </div>
 
-    <div style="width: 70%" bg-primary mx-auto>
+    <div style="width: 70%" bg-primary mx-auto border border-primary>
       <clip-image 
         v-for="(item, index) in sheetDetailStore.sheetData.imgs"
         :key="index"
@@ -266,7 +266,7 @@ onBeforeUnmount(() => {
     <div 
       v-if="countDown > 0"
       style="left: 50%;top: 50%;transform: translateY(-50%) translateX(-50%)"
-      z-20 w-50 h-50 flex items-center rounded-full justify-center text-7xl absolute bg-primary text-white
+      z-20 w-80 h-80 flex items-center rounded-full justify-center text-8xl absolute bg-primary bg-opacity-90 text-white
     >
       {{countDown}}
     </div>

@@ -16,7 +16,9 @@ useResizeObserver(el, (entries) => {
   clipTop.value = props.value.clipTop / 100 * height
   clipBottom.value = props.value.clipBottom / 100 * height
 
-  prevClipBottom.value = props.prevValue.clipBottom / 100 * height
+  if (prevValue) {
+    prevClipBottom.value = props.prevValue.clipBottom / 100 * height
+  }
 
   showHeight.value = Math.ceil(height - clipTop.value - clipBottom.value + 50)
 })
