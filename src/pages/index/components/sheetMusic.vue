@@ -4,6 +4,7 @@ import { useSheetMusicDepot } from '~/stores/sheetMusicDepot'
 import { useSheetDetailStore } from '~/stores/sheetDetail'
 import { useMessage } from 'naive-ui'
 import { delSheet } from '~/api/sheetMusic'
+import { deepClone } from '~/utils/utils'
 
 const props = defineProps(['value', 'index'])
 const message = useMessage()
@@ -28,9 +29,7 @@ watch(selectValue, async (newValue) => {
   switch (newValue) {
     case 'edit':
       createSheetStore.$patch(state => {
-        state._id = props.value._id
-        state.name = props.value.name
-        state.imgs = props.value.imgs
+        state.sheetData = deepClone(props.value)
         state.showCreateModal = true
       })
       break;

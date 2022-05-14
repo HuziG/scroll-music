@@ -1,4 +1,5 @@
 import { acceptHMRUpdate, defineStore } from 'pinia'
+import { deepClone } from '~/utils/utils'
 
 export const useCreateSheetStore = defineStore({
   id: 'createSheetMusic',
@@ -6,26 +7,24 @@ export const useCreateSheetStore = defineStore({
   state: () => ({
     showCreateModal: false,
     showUploadModal: false,
-    _id: '',
-    name: '',
-    imgs: []
+    sheetData: {
+      _id: '',
+      imgs: [],
+      name: ''
+    },
   }),
 
   actions: {
-    setSheetData({
-      _id, name, imgs
-    }: {
-      _id: string, name: string, imgs: []
-    }) {
-      this._id = _id
-      this.name = name
-      this.imgs = imgs
+    setSheetData(value: any) {
+      this.sheetData = deepClone({ ...this.sheetData, ...value })
     },
-
+    
     clearStore() {
-      this._id = ''
-      this.name = ''
-      this.imgs = []
+      this.sheetData = {
+        _id: '',
+        imgs: [],
+        name: ''
+      }
     }
   }
 })

@@ -10,14 +10,15 @@ const emit = defineEmits('cancel')
 const message = useMessage()
 const submitLoading = ref(false)
 const showClipModal = ref(false)
+const clipImgIndex = ref(null)
 const clipImage = ref(null)
 
 const createSheetStore = useCreateSheetStore()
 const smt = useSheetMusicDepot()
 
 const disabledCreate = computed(() => {
-  return createSheetStore.imgs.length === 0 || 
-    createSheetStore.name === ''
+  return createSheetStore.sheetData.imgs.length === 0 || 
+    createSheetStore.sheetData.name === ''
 })
 
 const cancelCreate = () => {
@@ -31,18 +32,17 @@ const handleUpload = () => {
 }
 
 const handleDel = (index) => {
-  // 知晓云删除
   createSheetStore.$patch(state => {
-    const fileId = state.imgs[index].fileId || null
+    const fileId = state.sheetData.imgs[index].fileId || null
 
     if (fileId) delFiles([fileId])
     
-    state.imgs.splice(index, 1)
+    state.sheetData.imgs.splice(index, 1)
   })
 }
 
 const handleSubmit = () => {
-  if (createSheetStore.recordId) {
+  if (createSheetStore.sheetData._id) {
     handleEditSheet()
   } else {
     handleAddSheet()
@@ -53,9 +53,9 @@ const handleEditSheet = async () => {
   submitLoading.value = true
 
   const data = await editSheet({
-    name: createSheetStore.name,
-    imgs: createSheetStore.imgs,
-    _id: createSheetStore._id
+    name: createSheetStore.sheetData.name,
+    imgs: toRaw(createSheetStore.sheetData.imgs),
+    _id: createSheetStore.sheetData._id
   })
 
   submitLoading.value = false
@@ -71,8 +71,8 @@ const handleAddSheet = async () => {
   submitLoading.value = true
   
   const data = await addSheet({
-    name: createSheetStore.name,
-    imgs: createSheetStore.imgs
+    name: createSheetStore.sheetData.name,
+    imgs: createSheetStore.sheetData.imgs
   })
 
   submitLoading.value = false
@@ -86,14 +86,17 @@ const handleAddSheet = async () => {
 
 const handleShowClip = (url, index) => {
   showClipModal.value = true
-  clipImage.value = {
-    url, 
-    index
-  }
+  clipImage.value = { url, index }
+  clipImgIndex.value = index
 }
 
 const handleClipConfirm = (e) => {
-  console.log(e)
+  createSheetStore.$patch(state => {
+    const imgData = state.sheetData.imgs[clipImgIndex.value]
+    state.sheetData.imgs[clipImgIndex.value] = { ...imgData, ...e }
+  })
+
+  showClipModal.value = false
 }
 </script>
 
@@ -114,13 +117,13 @@ const handleClipConfirm = (e) => {
       </n-button>
     </template>
 
-    <n-input v-model:value="createSheetStore.name" placeholder="请输入曲谱名称" />
+    <n-input v-model:value="createSheetStore.sheetData.name" placeholder="请输入曲谱名称" />
 
     <div class="-ml-5" mt-3 flex flex-wrap>
       <div 
         class="sheet-item"
         relative w-55 h-65 mt-5 ml-5 rounded-2 border-2 border-primary overflow-hidden 
-        v-for="(item, index) in createSheetStore.imgs" :key="index">
+        v-for="(item, index) in createSheetStore.sheetData.imgs" :key="index">
         <div 
           absolute w-8 h-8 inline-block bg-primary text-white text-center 
           style="line-height: 2rem;border-bottom-right-radius: 0.5rem"
@@ -152,7 +155,7 @@ const handleClipConfirm = (e) => {
       <div 
         w-55 h-65 mt-5 ml-5 border-2 border-primary flex justify-center items-center rounded-2 text-primary
         flex-col hover:bg-opacity-5 bg-opacity-0 bg-primary transition cursor-pointer
-        v-if="createSheetStore.imgs.length <= 8"
+        v-if="createSheetStore.sheetData.imgs && createSheetStore.sheetData.imgs.length <= 8"
         @click="handleUpload"
       >
         <div i-mdi-cloud-upload text-2xl text-primary />
@@ -176,7 +179,14 @@ const handleClipConfirm = (e) => {
 
     <template #footer>
       <div text-right>
-        <n-button :disabled="disabledCreate" :loading="submitLoading" type="primary" @click="handleSubmit">提交</n-button>
+        <n-button 
+          :disabled="disabledCreate" 
+          :loading="submitLoading" 
+          type="primary" 
+          @click="handleSubmit"
+        >
+          保存
+        </n-button>
       </div>
     </template>
   </n-card>

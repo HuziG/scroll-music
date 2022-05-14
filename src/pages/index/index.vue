@@ -7,11 +7,11 @@ import PageFooter from '~/components/PageFooter/index.vue'
 import { useCreateSheetStore } from '~/stores/createSheetMusic'
 import { useSheetMusicDepot } from '~/stores/sheetMusicDepot'
 import { getSheets } from '~/api/sheetMusic'
+import { deepClone } from '~/utils/utils'
 
 const createSheetStore = useCreateSheetStore()
 const usmd = useSheetMusicDepot()
 const value = ref('')
-const showCreateModal = ref(false)
 const loadSheets = ref(false)
 
 const hideUploadModal = () => {
@@ -22,7 +22,7 @@ const hideUploadModal = () => {
 
 const toggleCreateModal = (value) => {
   createSheetStore.clearStore()
-  
+
   createSheetStore.$patch(state => {
     state.showCreateModal = value
   })
@@ -79,7 +79,9 @@ onMounted(() => {
       v-model:show="createSheetStore.showCreateModal" 
       :mask-closable="false"
     >
-      <create-sheet-modal @cancel="toggleCreateModal(false)" />
+      <create-sheet-modal 
+        @cancel="toggleCreateModal(false)" 
+      />
     </n-modal>
 
     <n-modal v-model:show="createSheetStore.showUploadModal" :mask-closable="true">
