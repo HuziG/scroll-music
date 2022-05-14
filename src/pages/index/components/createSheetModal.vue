@@ -5,7 +5,9 @@ import { useCreateSheetStore } from '~/stores/createSheetMusic'
 import { useSheetMusicDepot } from '~/stores/sheetMusicDepot'
 import { addSheet, editSheet } from '~/api/sheetMusic'
 import { delFiles } from '~/api/base'
+import { useDialog } from 'naive-ui'
 
+const dialog = useDialog()
 const emit = defineEmits('cancel') 
 const message = useMessage()
 const submitLoading = ref(false)
@@ -32,12 +34,20 @@ const handleUpload = () => {
 }
 
 const handleDel = (index) => {
-  createSheetStore.$patch(state => {
-    const fileId = state.sheetData.imgs[index].fileId || null
+  dialog.warning({
+    title: '警告',
+    content: '确定删除吗？',
+    positiveText: '确定',
+    negativeText: '取消',
+    onPositiveClick: () => {
+      createSheetStore.$patch(state => {
+        const fileId = state.sheetData.imgs[index].fileId || null
 
-    if (fileId) delFiles([fileId])
-    
-    state.sheetData.imgs.splice(index, 1)
+        if (fileId) delFiles([fileId])
+        
+        state.sheetData.imgs.splice(index, 1)
+      })
+    }
   })
 }
 
@@ -84,9 +94,9 @@ const handleAddSheet = async () => {
   smt.handleInitSheet()
 }
 
-const handleShowClip = (url, index) => {
+const handleShowClip = (data, index) => {
   showClipModal.value = true
-  clipImage.value = { url, index }
+  clipImage.value = { ...data, index }
   clipImgIndex.value = index
 }
 
@@ -136,7 +146,7 @@ const handleClipConfirm = (e) => {
         />
 
         <div bg-white absolute left-2 bottom-2>
-          <n-button strong secondary circle type="success" @click="handleShowClip(item.url, index)">
+          <n-button strong secondary circle type="success" @click="handleShowClip(item, index)">
             <template #icon>
               <div i-mdi:image-edit text-base></div>
             </template>

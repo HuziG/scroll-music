@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import ClipImage from './components/clipImage.vue'
 import { useSheetDetailStore } from '~/stores/sheetDetail'
 import { editSheet } from '~/api/sheetMusic'
 import { useMessage } from 'naive-ui'
@@ -219,13 +220,12 @@ onBeforeUnmount(() => {
       </n-tooltip>
     </div>
 
-    <div style="width: 70%" mx-auto>
-      <img 
-        w-full 
-        v-for="item in sheetDetailStore.sheetData.imgs" 
-        :src="item.url" 
-        alt="error" 
-        :key="item.url" 
+    <div style="width: 70%" bg-primary mx-auto>
+      <clip-image 
+        v-for="(item, index) in sheetDetailStore.sheetData.imgs"
+        :key="index"
+        :value="item"
+        :prevValue="sheetDetailStore.sheetData.imgs[index - 1]"  
       />
     </div>
 

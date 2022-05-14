@@ -24,7 +24,13 @@ const handleSubmit = () => {
 }
 
 onMounted(() => {
-  console.log(clipContainer)
+  const _top = props.value.clipTop / 100 * containerHeight.value
+  const _bottom = props.value.clipBottom / 100 * containerHeight.value
+
+  topDistance.value = _top
+  bottomDistance.value = _bottom
+  baseTopDistance.value = _top
+  baseBottomDistance.value = _bottom
 })
 
 const handleMouseDown = ({ event, type }) => {
