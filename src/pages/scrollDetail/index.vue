@@ -1,3 +1,9 @@
+<script lang="ts">
+export default {
+  name: 'ScrollDetail'
+}
+</script>
+
 <script setup lang="ts">
 import ClipImage from './components/clipImage.vue'
 import { useSheetDetailStore } from '~/stores/sheetDetail'
@@ -11,6 +17,7 @@ const countDown = ref(0)
 const baseSpeed = 0.5
 const scrollMode = ref(0)
 const showSpeedModal = ref(false)
+const darkMode = ref(false)
 
 const step = ref(null)
 const stepSlider = ref(null)
@@ -21,7 +28,12 @@ let scrollInterval
 
 onMounted(() => {
   initSessionSheet()
+  initNightDark()
 })
+
+const initNightDark = () => {
+  darkMode.value = localStorage.sheet_detail_mode === 'dark'
+}
 
 const initSessionSheet = () => {
   const data = sessionStorage.sheet_detail
@@ -121,6 +133,11 @@ const handleSpeedChange = () => {
   startScroll()
 }
 
+const toggleDarkMode = () => {
+  darkMode.value = !darkMode.value
+  localStorage.sheet_detail_mode = (darkMode.value ? 'dark' : 'light')
+}
+
 onBeforeUnmount(() => {
   clearInterval(countDownInterval)
   clearInterval(scrollInterval)
@@ -129,7 +146,9 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div style="background-color: #F0F2F5">
+  <div :style="{
+    backgroundColor: darkMode ? '#333333' : '#F0F2F5'
+  }">
     <div fixed top-5 left-5>
       <n-button 
         strong circle type="primary" size="medium"
@@ -202,11 +221,32 @@ onBeforeUnmount(() => {
       </n-tooltip>
     </div>
 
-    <div fixed bottom-5 right-5>
+    <div fixed bottom-5 right-5 flex flex-col>
       <n-tooltip :show-arrow="false" placement="left">
         <template #trigger>
           <n-button 
             strong circle type="primary" size="medium"
+            @click="toggleDarkMode"
+          > 
+            <template #icon>
+              <div 
+                v-show="darkMode"
+                i-mdi:weather-sunny text-base
+              />
+              <div 
+                v-show="!darkMode"
+                i-mdi:weather-night text-base
+              />
+            </template>
+          </n-button>
+        </template>
+        {{darkMode ? '白天模式' : '夜间模式'}}
+      </n-tooltip>
+
+      <n-tooltip :show-arrow="false" placement="left">
+        <template #trigger>
+          <n-button 
+            strong circle mt-5 type="primary" size="medium"
             @click="showSpeedModal = true"
           > 
             <template #icon>
@@ -220,7 +260,12 @@ onBeforeUnmount(() => {
       </n-tooltip>
     </div>
 
-    <div style="width: 70%" bg-primary mx-auto border border-primary>
+    <div 
+      :style="{
+        width: '70%',
+        filter: darkMode ? 'invert(75%)' : 'none'
+      }" 
+      bg-primary mx-auto border border-primary>
       <clip-image 
         v-for="(item, index) in sheetDetailStore.sheetData.imgs"
         :key="index"

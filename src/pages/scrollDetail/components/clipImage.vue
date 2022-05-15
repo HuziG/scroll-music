@@ -1,3 +1,9 @@
+<script>
+export default {
+  name: 'ClipImage'
+}
+</script>
+
 <script setup>
 import { useResizeObserver } from '@vueuse/core'
 
@@ -16,7 +22,7 @@ useResizeObserver(el, (entries) => {
   clipTop.value = props.value.clipTop / 100 * height
   clipBottom.value = props.value.clipBottom / 100 * height
 
-  if (prevValue) {
+  if (props.prevValue) {
     prevClipBottom.value = props.prevValue.clipBottom / 100 * height
   }
 
