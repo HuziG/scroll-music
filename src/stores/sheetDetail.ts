@@ -1,15 +1,19 @@
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { sheetDetailStore }  from '~/interface/base'
 
+
 export const useSheetDetailStore = defineStore({
   id: 'sheetDetail',
   
   state: (): sheetDetailStore => ({
-    sheetData: {}
+    sheetData: {},
+    sheetNote: {
+      content: ''
+    }
   }),
 
   actions: {
-    dispatchSheet(value: {
+    async dispatchSheet(value: {
       name: string, _id: string, imgs: string[], speed: number, step: number
     }) {
       this.sheetData = value
@@ -22,8 +26,18 @@ export const useSheetDetailStore = defineStore({
       sessionStorage.sheet_detail = JSON.stringify(this.sheetData)
     },
 
+    setSheetNote(value: string) {
+      this.sheetNote = {
+        ...this.sheetNote,
+        content: value,
+      }
+    },
+
     clearData() {
       this.sheetData = {}
+      this.sheetNote = {
+        content: ''
+      }
     }
   }
 })

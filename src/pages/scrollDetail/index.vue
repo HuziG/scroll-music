@@ -1,163 +1,207 @@
 <script lang="ts">
 export default {
-  name: 'ScrollDetail'
-}
+  components: { richEdit },
+  name: "ScrollDetail",
+};
 </script>
 
 <script setup lang="ts">
-import ClipImage from './components/clipImage.vue'
-import { useSheetDetailStore } from '~/stores/sheetDetail'
-import { editSheet } from '~/api/sheetMusic'
-import { useMessage } from 'naive-ui'
+import ClipImage from "./components/clipImage.vue";
+import { useSheetDetailStore } from "~/stores/sheetDetail";
+import { editSheet, addSheetNote, getSheetsNote, editSheetNote } from "~/api/sheetMusic";
+import { useMessage } from "naive-ui";
+import richEdit from "./components/richEdit.vue";
 
-const message = useMessage()
-const sheetDetailStore = useSheetDetailStore()
-const router = useRouter()
-const countDown = ref(0)
-const baseSpeed = 0.5
-const scrollMode = ref(0)
-const showSpeedModal = ref(false)
-const darkMode = ref(false)
+const message = useMessage();
+const sheetDetailStore = useSheetDetailStore();
+const router = useRouter();
+const countDown = ref(0);
+const baseSpeed = 0.5;
+const scrollMode = ref(0);
 
-const step = ref(null)
-const stepSlider = ref(null)
-const speedSlider = ref(null)
+const showSpeedModal = ref(false);
+const showNoteModal = ref(false);
+const noteSaveLoading = ref(false);
 
-let countDownInterval
-let scrollInterval
+const darkMode = ref(false);
+
+const step = ref(null);
+const stepSlider = ref(null);
+const speedSlider = ref(null);
+
+let countDownInterval;
+let scrollInterval;
 
 onMounted(() => {
-  initSessionSheet()
-  initNightDark()
-})
+  initSessionSheet();
+  initNightDark();
+  initSheetNote();
+});
 
-const initNightDark = () => {
-  darkMode.value = localStorage.sheet_detail_mode === 'dark'
-}
-
-const initSessionSheet = () => {
-  const data = sessionStorage.sheet_detail
-
-  if (data) {
-    sheetDetailStore.dispatchSheet(JSON.parse(data))
-    step.value = sheetDetailStore.sheetData.step
-    stepSlider.value = sheetDetailStore.sheetData.step * 100
-    speedSlider.value = sheetDetailStore.sheetData.speed
-  }
-}
-
-const handleStart = () => {
-  scrollMode.value = 1
-
-  startCountDown().then(() => {
-    startScroll()
+const initSheetNote = async () => {
+  const { objects } = await getSheetsNote(sheetDetailStore.sheetData._id)
+  sheetDetailStore.$patch(state => {
+    if (objects.length > 0) {
+      state.sheetNote = objects[0]
+    }
   })
 }
 
+const initNightDark = () => {
+  darkMode.value = localStorage.sheet_detail_mode === "dark";
+};
+
+const initSessionSheet = () => {
+  const data = sessionStorage.sheet_detail;
+
+  if (data) {
+    sheetDetailStore.dispatchSheet(JSON.parse(data));
+    step.value = sheetDetailStore.sheetData.step;
+    stepSlider.value = sheetDetailStore.sheetData.step * 100;
+    speedSlider.value = sheetDetailStore.sheetData.speed;
+  }
+};
+
+const handleStart = () => {
+  scrollMode.value = 1;
+
+  startCountDown().then(() => {
+    startScroll();
+  });
+};
+
 const handleReturnTop = () => {
+  document.documentElement.scrollTop = 0;
   window.scrollTo({
     left: 0,
     top: 0,
-    behavior: 'smooth'
-  })
-}
+    behavior: "smooth",
+  });
+};
 
 const handleRestart = () => {
-  scrollMode.value = 0
-  clearInterval(scrollInterval)
-  handleReturnTop()
-}
+  scrollMode.value = 0;
+  clearInterval(scrollInterval);
+  handleReturnTop();
+};
 
 const handleStop = () => {
-  scrollMode.value = 0
-  clearInterval(scrollInterval)
-}
+  scrollMode.value = 0;
+  clearInterval(scrollInterval);
+};
 
 const startScroll = () => {
   scrollInterval = setInterval(() => {
     let topDistance = document.documentElement.scrollTop;
-    topDistance += step.value
-    document.documentElement.scrollTop = topDistance
-  }, speedSlider.value)
-}
+    topDistance += step.value;
+    document.documentElement.scrollTop = topDistance;
+  }, speedSlider.value);
+};
 
 const startCountDown = () => {
   return new Promise((resolve) => {
-    clearInterval(countDownInterval)
+    clearInterval(countDownInterval);
 
-    countDown.value = 5
+    countDown.value = 5;
 
     countDownInterval = setInterval(() => {
-      countDown.value -= 1
+      countDown.value -= 1;
       if (countDown.value === 0) {
-        resolve(true)
-        clearInterval(countDownInterval)
+        resolve(true);
+        clearInterval(countDownInterval);
       }
-    }, 1000)
-  })
-}
+    }, 1000);
+  });
+};
 
 watch(showSpeedModal, (newValue) => {
-  clearInterval(scrollInterval)
+  clearInterval(scrollInterval);
 
-  document.documentElement.scrollTop = 0
+  document.documentElement.scrollTop = 0;
 
   if (newValue) {
-    startScroll()
+    startScroll();
   } else {
-    handleRestart()
+    handleRestart();
   }
-})
+});
 
 const handleConfirm = async () => {
-  showSpeedModal.value = false
+  showSpeedModal.value = false;
 
   const data = await editSheet({
     _id: sheetDetailStore.sheetData._id,
     step: Number(step.value),
     speed: Number(speedSlider.value),
-  })
+  });
 
-  sheetDetailStore.dispatchSpeed(step.value, speedSlider.value)
+  sheetDetailStore.dispatchSpeed(step.value, speedSlider.value);
 
-  message.success('设置成功')
-}
+  message.success("设置成功");
+};
 
 watch(stepSlider, (newValue) => {
-  const n = (newValue / 20 * 0.1)
-  step.value = (0.5 + Number(toRaw(n.toFixed(1))))
-})
+  const n = (newValue / 20) * 0.1;
+  step.value = 0.5 + Number(toRaw(n.toFixed(1)));
+});
 
 const handleSpeedChange = () => {
-  clearInterval(scrollInterval)
-  startScroll()
-}
+  clearInterval(scrollInterval);
+  startScroll();
+};
 
 const toggleDarkMode = () => {
-  darkMode.value = !darkMode.value
-  localStorage.sheet_detail_mode = (darkMode.value ? 'dark' : 'light')
-}
+  darkMode.value = !darkMode.value;
+  localStorage.sheet_detail_mode = darkMode.value ? "dark" : "light";
+};
+
+const handleConfirmNote = async ({ content }) => {
+  noteSaveLoading.value = true;
+
+  if (sheetDetailStore.sheetNote._id) {
+    await editSheetNote({
+      _id: sheetDetailStore.sheetNote._id,
+      content,
+    });
+  } else {
+    await addSheetNote({
+      sheet_id: sheetDetailStore.sheetData._id,
+      content,
+    });
+  }
+
+  noteSaveLoading.value = false;
+
+  sheetDetailStore.setSheetNote(content);
+
+  message.success("保存笔记成功");
+
+  showNoteModal.value = false;
+};
 
 onBeforeUnmount(() => {
-  clearInterval(countDownInterval)
-  clearInterval(scrollInterval)
-  sheetDetailStore.clearData()
-})
+  clearInterval(countDownInterval);
+  clearInterval(scrollInterval);
+  sheetDetailStore.clearData();
+});
 </script>
 
 <template>
-  <div :style="{
-    backgroundColor: darkMode ? '#333333' : '#F0F2F5'
-  }">
+  <div
+    :style="{
+      backgroundColor: darkMode ? '#333333' : '#F0F2F5',
+    }"
+  >
     <div fixed top-5 left-5>
-      <n-button 
-        strong circle type="primary" size="medium"
+      <n-button
+        strong
+        circle
+        type="primary"
+        size="medium"
         @click="router.replace('/')"
-      > 
+      >
         <template #icon>
-          <div 
-            i-mdi:arrow-left-circle text-base
-          />
+          <div i-mdi:arrow-left-circle text-base />
         </template>
       </n-button>
     </div>
@@ -165,55 +209,54 @@ onBeforeUnmount(() => {
     <div fixed top-5 right-5>
       <n-tooltip :show-arrow="false" placement="left">
         <template #trigger>
-          <n-button 
-            strong circle type="primary" size="medium"
+          <n-button
+            strong
+            circle
+            type="primary"
+            size="medium"
             @click="scrollMode === 0 ? handleStart() : handleStop()"
-          > 
+          >
             <template #icon>
-              <div 
-                v-if="scrollMode === 0" 
-                i-ic:sharp-not-started text-base
-              />
-              <div 
-                v-else 
-                i-ic:round-stop-circle text-base
-              />
+              <div v-if="scrollMode === 0" i-ic:sharp-not-started text-base />
+              <div v-else i-ic:round-stop-circle text-base />
             </template>
           </n-button>
         </template>
-        {{scrollMode === 0 ? '开始' : '暂停'}}
+        {{ scrollMode === 0 ? "开始" : "暂停" }}
       </n-tooltip>
 
-      <br><br>
+      <br /><br />
 
       <n-tooltip :show-arrow="false" placement="left">
         <template #trigger>
-          <n-button 
-            strong circle type="primary" size="medium"
+          <n-button
+            strong
+            circle
+            type="primary"
+            size="medium"
             @click="handleRestart"
-          > 
+          >
             <template #icon>
-              <div 
-                i-ic:baseline-restart-alt text-base
-              />
+              <div i-ic:baseline-restart-alt text-base />
             </template>
           </n-button>
         </template>
         重置
       </n-tooltip>
 
-      <br><br>
+      <br /><br />
 
       <n-tooltip :show-arrow="false" placement="left">
         <template #trigger>
-          <n-button 
-            strong circle type="primary" size="medium"
+          <n-button
+            strong
+            circle
+            type="primary"
+            size="medium"
             @click="handleReturnTop"
-          > 
+          >
             <template #icon>
-              <div 
-                i-mdi:arrow-up text-base
-              />
+              <div i-mdi:arrow-up text-base />
             </template>
           </n-button>
         </template>
@@ -224,35 +267,34 @@ onBeforeUnmount(() => {
     <div fixed bottom-5 right-5 flex flex-col>
       <n-tooltip :show-arrow="false" placement="left">
         <template #trigger>
-          <n-button 
-            strong circle type="primary" size="medium"
+          <n-button
+            strong
+            circle
+            type="primary"
+            size="medium"
             @click="toggleDarkMode"
-          > 
+          >
             <template #icon>
-              <div 
-                v-show="darkMode"
-                i-mdi:weather-sunny text-base
-              />
-              <div 
-                v-show="!darkMode"
-                i-mdi:weather-night text-base
-              />
+              <div v-show="darkMode" i-mdi:weather-sunny text-base />
+              <div v-show="!darkMode" i-mdi:weather-night text-base />
             </template>
           </n-button>
         </template>
-        {{darkMode ? '白天模式' : '夜间模式'}}
+        {{ darkMode ? "白天模式" : "夜间模式" }}
       </n-tooltip>
 
       <n-tooltip :show-arrow="false" placement="left">
         <template #trigger>
-          <n-button 
-            strong circle mt-5 type="primary" size="medium"
+          <n-button
+            strong
+            circle
+            mt-5
+            type="primary"
+            size="medium"
             @click="showSpeedModal = true"
-          > 
+          >
             <template #icon>
-              <div 
-                i-mdi:tune-vertical text-base
-              />
+              <div i-mdi:tune-vertical text-base />
             </template>
           </n-button>
         </template>
@@ -260,17 +302,40 @@ onBeforeUnmount(() => {
       </n-tooltip>
     </div>
 
-    <div 
+    <div fixed bottom-5 left-5 flex flex-col>
+      <n-tooltip :show-arrow="false" placement="left">
+        <template #trigger>
+          <n-button
+            strong
+            circle
+            type="primary"
+            size="medium"
+            @click="showNoteModal = true"
+          >
+            <template #icon>
+              <div i-mdi:notebook-multiple text-base />
+            </template>
+          </n-button>
+        </template>
+        笔记
+      </n-tooltip>
+    </div>
+
+    <div
       :style="{
         width: '70%',
-        filter: darkMode ? 'invert(75%)' : 'none'
-      }" 
-      bg-primary mx-auto border border-primary>
-      <clip-image 
+        filter: darkMode ? 'invert(75%)' : 'none',
+      }"
+      bg-primary
+      mx-auto
+      border
+      border-primary
+    >
+      <clip-image
         v-for="(item, index) in sheetDetailStore.sheetData.imgs"
         :key="index"
         :value="item"
-        :prevValue="sheetDetailStore.sheetData.imgs[index - 1]"  
+        :prevValue="sheetDetailStore.sheetData.imgs[index - 1]"
       />
     </div>
 
@@ -291,33 +356,57 @@ onBeforeUnmount(() => {
             </template>
           </n-button>
         </template>
-        
+
         <div>跨度调节</div>
         <div text-xs text-vice my-1>一次滚动的距离</div>
         <n-slider v-model:value="stepSlider" :step="20" />
 
         <div mt-10>速度调节</div>
         <div text-xs text-vice my-1>每多少 ms 滚动一次</div>
-        <n-slider v-model:value="speedSlider" :min="30" :step="5" @update:value="handleSpeedChange" />
-        
+        <n-slider
+          v-model:value="speedSlider"
+          :min="30"
+          :step="5"
+          @update:value="handleSpeedChange"
+        />
+
         <template #footer>
           <div style="text-align: right">
-            <n-button type="primary" @click="handleConfirm">确定</n-button>
+            <n-button type="primary" @click="handleConfirm">保存</n-button>
           </div>
         </template>
       </n-card>
     </n-modal>
 
-    <div 
+    <n-modal v-model:show="showNoteModal">
+      <rich-edit
+        :html-content="sheetDetailStore.sheetNote.content"
+        :note-save-loading="noteSaveLoading"
+        @cancel="showNoteModal = false"
+        @confirm="handleConfirmNote"
+      />
+    </n-modal>
+
+    <div
       v-if="countDown > 0"
-      style="left: 50%;top: 50%;transform: translateY(-50%) translateX(-50%)"
-      z-20 w-80 h-80 flex items-center rounded-full justify-center text-8xl absolute bg-primary bg-opacity-90 text-white
+      style="left: 50%; top: 50%; transform: translateY(-50%) translateX(-50%)"
+      z-20
+      w-80
+      h-80
+      flex
+      items-center
+      rounded-full
+      justify-center
+      text-8xl
+      absolute
+      bg-primary
+      bg-opacity-90
+      text-white
     >
-      {{countDown}}
+      {{ countDown }}
     </div>
   </div>
 </template>
 
 <style scoped>
-
 </style>
