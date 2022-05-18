@@ -179,6 +179,16 @@ const handleConfirmNote = async ({ content }) => {
   showNoteModal.value = false;
 };
 
+
+const windowHeight = document.documentElement.clientHeight
+const handleUpPage = () => {
+  document.documentElement.scrollTop = document.documentElement.scrollTop - windowHeight;
+}
+
+const handleDownPage = () => {
+  document.documentElement.scrollTop = document.documentElement.scrollTop + windowHeight;
+}
+
 onBeforeUnmount(() => {
   clearInterval(countDownInterval);
   clearInterval(scrollInterval);
@@ -262,6 +272,43 @@ onBeforeUnmount(() => {
         </template>
         回到顶部
       </n-tooltip>
+
+      <br /><br />
+
+      <n-button-group vertical>
+        <n-tooltip :show-arrow="false" placement="left">
+          <template #trigger>
+            <n-button
+              strong
+              circle
+              type="primary"
+              size="medium"
+              @click="handleUpPage"
+            >
+              <template #icon>
+                <div i-ic:baseline-keyboard-double-arrow-up text-base />
+              </template>
+            </n-button>
+          </template>
+          向上翻页
+        </n-tooltip>
+       <n-tooltip :show-arrow="false" placement="left">
+          <template #trigger>
+            <n-button
+              strong
+              circle
+              type="primary"
+              size="medium"
+              @click="handleDownPage"
+            >
+              <template #icon>
+                <div i-ic:baseline-keyboard-double-arrow-down text-base />
+              </template>
+            </n-button>
+          </template>
+          向下翻页
+        </n-tooltip>
+      </n-button-group>
     </div>
 
     <div fixed bottom-5 right-5 flex flex-col>
