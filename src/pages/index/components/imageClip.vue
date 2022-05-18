@@ -1,8 +1,9 @@
 <script setup lang="ts">
 const props = defineProps(['value'])
-const emit = defineEmits(['cancel'])
+const emit = defineEmits(['cancel', 'confirm'])
 
 const moveLineType = ref('')
+const containerHeight = ref(450)
 
 const topStartY = ref(0)
 const bottomStartY = ref(0)
@@ -16,11 +17,20 @@ const bottomDistance = ref(0)
 const clipContainer = ref(null)
 
 const handleSubmit = () => {
-
+  emit('confirm', {
+    clipTop: Math.ceil(topDistance.value / containerHeight.value * 100),
+    clipBottom: Math.ceil(bottomDistance.value / containerHeight.value * 100),
+  })
 }
 
 onMounted(() => {
-  console.log(clipContainer)
+  const _top = props.value.clipTop / 100 * containerHeight.value
+  const _bottom = props.value.clipBottom / 100 * containerHeight.value
+
+  topDistance.value = _top
+  bottomDistance.value = _bottom
+  baseTopDistance.value = _top
+  baseBottomDistance.value = _bottom
 })
 
 const handleMouseDown = ({ event, type }) => {
@@ -37,14 +47,29 @@ const handleMouseDown = ({ event, type }) => {
 }
 
 const handleMouseMove = (event) => {
+  if (topDistance.value + bottomDistance.value >= 315) {
+    if (moveLineType.value === 'top') {
+      bottomDistance.value -= 30
+      baseBottomDistance.value -= 30
+    }
+
+    if (moveLineType.value === 'bottom') {
+      topDistance.value -= 30
+      baseTopDistance.value -= 30
+    }
+
+    return false
+  }
+
   if (moveLineType.value === 'top') {
-    topDistance.value = event.y - topStartY.value + baseTopDistance.value
+    const moveDistance = event.y - topStartY.value + baseTopDistance.value
+    if (moveDistance > 0) topDistance.value = moveDistance
   }
 
   if (moveLineType.value === 'bottom') {
-    const moveDistance = event.y - bottomStartY.value
-    console.log(event.y - bottomStartY.value)
-    bottomDistance.value = moveDistance < 0 ? (Math.abs(moveDistance) + baseBottomDistance.value) : (baseBottomDistance.value - Math.abs(moveDistance))
+    let moveDistance = event.y - bottomStartY.value
+    moveDistance = moveDistance < 0 ? (Math.abs(moveDistance) + baseBottomDistance.value) : (baseBottomDistance.value - Math.abs(moveDistance))
+    if (moveDistance > 0) bottomDistance.value = moveDistance
   }
 }
 
@@ -80,12 +105,12 @@ const handleBottomMouseUp = (e) => {
 
     <div 
       ref="clipContainer"
-      relative mx-auto select-none style="width: 300px;height: 450px;"
+      relative mx-auto select-none :style="`width: 300px;height: ${containerHeight}px;`"
       @mousemove="handleMouseMove"
     >
       <div absolute bg-red bg-opacity-20 top-0 left-0 w-full :style="`height: ${topDistance}px`" />
       <div 
-        absolute w-full border-b-4 border-red-500 bg-opacity-20 cursor-move :style="`cursor: ns-resize;top: ${topDistance}px`"
+        absolute transition w-full border-b-4 border-red-500 bg-opacity-20 cursor-move :style="`cursor: ns-resize;top: ${topDistance}px`"
         @mousedown="(event) => handleMouseDown({ event, type:'top' })"
         @mouseup="handleTopMouseUp"
       ></div>
@@ -94,7 +119,7 @@ const handleBottomMouseUp = (e) => {
 
       <div absolute bg-red bg-opacity-20 bottom-0 left-0 w-full :style="`height: ${bottomDistance}px;`" />
       <div 
-        absolute w-full border-t-4 border-red-500 bg-opacity-20 :style="`cursor: ns-resize;bottom: ${bottomDistance}px`"
+        absolute transition w-full border-t-4 border-red-500 bg-opacity-20 :style="`cursor: ns-resize;bottom: ${bottomDistance}px`"
         @mousedown="(event) => handleMouseDown({ event, type:'bottom' })"
         @mouseup="handleBottomMouseUp"
       ></div>

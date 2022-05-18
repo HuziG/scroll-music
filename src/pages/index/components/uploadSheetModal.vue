@@ -38,11 +38,9 @@ const rules = ref({
   ]
 })
 
-const handleSubmit = (data: {
-  url: string, fileId: string
-}) => {
+const handleSubmit = (data: any) => {
   createSheetStore.$patch(state => {
-    state.imgs.push(data)
+    state.sheetData.imgs.push(data)
     emit('cancel')
   })
 }
@@ -70,7 +68,9 @@ const handleBeforeUpload = async ({ file }) => {
 
   handleSubmit({
     url: formValue.uploadUrl,
-    fileId: data.file.id
+    fileId: data.file.id,
+    clipTop: '',
+    clipBottom: ''
   })
 
   message.success('上传成功！')
@@ -148,7 +148,9 @@ const handleBeforeUpload = async ({ file }) => {
           type="primary" 
           @click="handleSubmit({
             url: formValue.uploadUrl,
-            fileId: ''
+            fileId: '',
+            clipTop: '',
+            clipBottom: ''
           })"
         >确定</n-button>
       </div>

@@ -4,6 +4,7 @@ import {
   GlobalThemeOverrides, 
   NNotificationProvider,
   NMessageProvider,
+  NDialogProvider
 } from 'naive-ui'
 
 const themeOverrides: GlobalThemeOverrides = {
@@ -28,7 +29,13 @@ useHead({
   <n-config-provider :theme-overrides="themeOverrides">
     <n-notification-provider>
       <n-message-provider>
+<<<<<<< HEAD
         <router-view></router-view>
+=======
+        <n-dialog-provider>
+          <RouterView />
+        </n-dialog-provider>
+>>>>>>> newmain
       </n-message-provider>
     </n-notification-provider>
   </n-config-provider>

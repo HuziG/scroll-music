@@ -32,6 +32,10 @@ export const useSheetMusicDepot = defineStore({
       return await delSheet({
         _id: value._id
       })
+    },
+
+    editSheetMusicData(index: number, data: any) {
+      this.sheetMusicData[index] = data
     }
   }
 })

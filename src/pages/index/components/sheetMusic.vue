@@ -4,6 +4,7 @@ import { useSheetMusicDepot } from '~/stores/sheetMusicDepot'
 import { useSheetDetailStore } from '~/stores/sheetDetail'
 import { useMessage } from 'naive-ui'
 import { delSheet } from '~/api/sheetMusic'
+import { deepClone } from '~/utils/utils'
 
 const props = defineProps(['value', 'index'])
 const message = useMessage()
@@ -28,9 +29,7 @@ watch(selectValue, async (newValue) => {
   switch (newValue) {
     case 'edit':
       createSheetStore.$patch(state => {
-        state._id = props.value._id
-        state.name = props.value.name
-        state.imgs = props.value.imgs
+        state.sheetData = deepClone(props.value)
         state.showCreateModal = true
       })
       break;
@@ -56,7 +55,7 @@ const handleToScroll = () => {
   <div 
     class="hvr-grow-shadow" 
     style="background-color: #F5F5F7;" 
-    inline-block rounded-2 py-2 px-3 mt-3 ml-5
+    inline-block rounded-2 py-2 px-3 mt-6 ml-5
   >
     <img 
       style="width: 221px;height: 312px;" 
