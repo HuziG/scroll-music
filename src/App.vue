@@ -1,16 +1,16 @@
 <script setup lang="ts">
-import { 
-  NConfigProvider, 
-  GlobalThemeOverrides, 
-  NNotificationProvider,
+import type { GlobalThemeOverrides } from 'naive-ui'
+import {
+  NConfigProvider,
+  NDialogProvider,
   NMessageProvider,
-  NDialogProvider
+  NNotificationProvider,
 } from 'naive-ui'
 
 const themeOverrides: GlobalThemeOverrides = {
   common: {
     primaryColor: '#5138ED',
-    primaryColorHover: "#6C59DE",
+    primaryColorHover: '#6C59DE',
   },
 }
 
