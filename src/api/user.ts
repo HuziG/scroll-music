@@ -2,12 +2,11 @@ import BaaS from 'minapp-sdk'
 
 // 邮箱注册
 export const emailRegister = ({
-  email, password
+  email, password,
 }: {
-  email: string,
+  email: string
   password: string
-}) => BaaS.auth.register({email, password})
-
+}) => BaaS.auth.register({ email, password })
 
 // 确认注册
 export const confirmEmail = () => {
@@ -15,24 +14,24 @@ export const confirmEmail = () => {
     .then((user: any) => {
       return user.requestEmailVerification()
     }).then((res: any) => {
-      console.log(res)
+      console.warn(res)
     }).catch((err: any) => {
       // HError
-      console.log(err)
+      console.warn(err)
     })
 }
 
 // 邮箱登录
 export const emailLogin = ({
-  email, password
+  email, password,
 }: {
-  email: string,
+  email: string
   password: string
-}) => BaaS.auth.login({email, password})
+}) => BaaS.auth.login({ email, password })
 
 // 邮箱找回密码
 export const getPasswordByEmail = ({
-  email
+  email,
 }: {
   email: string
 }) => BaaS.auth.requestPasswordReset({ email })

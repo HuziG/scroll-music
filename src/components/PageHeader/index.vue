@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { userLogout } from '~/api/user'
 import { useRouter } from 'vue-router'
+import { userLogout } from '~/api/user'
 
 const value = ref('')
 const router = useRouter()
 
-const handleExit = async () => {
+const handleExit = async() => {
   await userLogout()
   router.replace('/login')
 }
@@ -19,14 +19,18 @@ const handleExit = async () => {
       <div>
         <n-popselect v-model:value="value" :options="[]" trigger="click">
           <n-button strong secondary circle type="primary">
-          <template #icon>
-            <div i-mdi-account flex items-center justify-center text-base />
-          </template>
-        </n-button>
+            <template #icon>
+              <div i-mdi-account flex items-center justify-center text-base />
+            </template>
+          </n-button>
           <template #empty>
             <div>
-              <div text-base><span w-20 text-right inline-block>邮箱：</span> 1067408814@qq.com</div>
-              <div text-base mt-2><span w-20 inline-block>注册时间：</span>2022-05-04</div>
+              <div text-base>
+                <span w-20 text-right inline-block>邮箱：</span> 1067408814@qq.com
+              </div>
+              <div text-base mt-2>
+                <span w-20 inline-block>注册时间：</span>2022-05-04
+              </div>
             </div>
           </template>
           <template #action>

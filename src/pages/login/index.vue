@@ -1,17 +1,16 @@
 <script setup lang="ts">
-import { useMessage } from 'naive-ui'
-import { 
-  emailRegister, 
-  confirmEmail, 
-  getPasswordByEmail, 
-  emailLogin 
-} from '~/api/user.ts'
-import { useNotification } from 'naive-ui'
+import { useMessage, useNotification } from 'naive-ui'
 import { useRouter } from 'vue-router'
-import LoginPageFooter from '~/components/LoginFooter/index.vue'
 import LoginPanel from './components/login.vue'
 import ResigerPanel from './components/resiger.vue'
 import ForgetPasswordPanel from './components/forgetPassword.vue'
+import {
+  confirmEmail,
+  emailLogin,
+  emailRegister,
+  getPasswordByEmail,
+} from '~/api/user.ts'
+import LoginPageFooter from '~/components/LoginFooter/index.vue'
 
 let imgIndex = false
 const router = useRouter()
@@ -25,8 +24,8 @@ const panelState = ref(FORM_STATE.LOGIN) // login \ register \ forget
 const notification = useNotification()
 const message = useMessage()
 const imgList = [
-  "https://tse1-mm.cn.bing.net/th/id/R-C.ff17f6bba0eb6277269425c2993ab43b?rik=wia1VgFpHvKelg&riu=http%3a%2f%2fwww.ccguitar.cn%2fpu%2f2017%2f2%2f20%2f92216_74616%2f1.gif&ehk=7cNDVcMhmvR3WfCfrEbKP%2fqLqq495236YQlwgPe7qxU%3d&risl=&pid=ImgRaw&r=0",
-  "https://tse1-mm.cn.bing.net/th/id/R-C.eafdb41966a66e53ef04d09fa96bba35?rik=YIvINuvLwG9y7g&riu=http%3a%2f%2fimg.wanjita.com%2fueditor%2fphp%2fupload%2fimage%2f20200824%2f1598282933997765.jpg&ehk=QsHNUtOwrtH4rnzQnQI5uQcTkC3hQ1tL9CwIDWfyoms%3d&risl=&pid=ImgRaw&r=0"
+  'https://tse1-mm.cn.bing.net/th/id/R-C.ff17f6bba0eb6277269425c2993ab43b?rik=wia1VgFpHvKelg&riu=http%3a%2f%2fwww.ccguitar.cn%2fpu%2f2017%2f2%2f20%2f92216_74616%2f1.gif&ehk=7cNDVcMhmvR3WfCfrEbKP%2fqLqq495236YQlwgPe7qxU%3d&risl=&pid=ImgRaw&r=0',
+  'https://tse1-mm.cn.bing.net/th/id/R-C.eafdb41966a66e53ef04d09fa96bba35?rik=YIvINuvLwG9y7g&riu=http%3a%2f%2fimg.wanjita.com%2fueditor%2fphp%2fupload%2fimage%2f20200824%2f1598282933997765.jpg&ehk=QsHNUtOwrtH4rnzQnQI5uQcTkC3hQ1tL9CwIDWfyoms%3d&risl=&pid=ImgRaw&r=0',
 ]
 
 const interval = setInterval(() => {
@@ -38,47 +37,49 @@ const handleChangeState = ({ state }) => {
   panelState.value = state
 }
 
-const handleSubmitForm = async ({ type, form }) => {
+const handleSubmitForm = async({ type, form }) => {
   formLoading.value = true
   try {
     switch (type) {
-    case FORM_STATE.LOGIN:
-        const { _email_verified } = await emailLogin({ email: form.email, password: form.password })
-        if (_email_verified) {
-          message.success('登录成功！')
-        } else {
-          message.error('邮箱未验证，登录失败！')
-        }
-        formLoading.value = false
+      case FORM_STATE.LOGIN:
+        emailLogin({ email: form.email, password: form.password }).then(({ _email_verified }) => {
+          if (_email_verified)
+            message.success('登录成功！')
+          else
+            message.error('邮箱未验证，登录失败！')
 
-        localStorage.user_email = form.email
+          formLoading.value = false
 
-        setTimeout(() => {
-          router.replace('/')
-        }, 500)
-      break;
-    case FORM_STATE.REGISTER:
+          localStorage.user_email = form.email
+
+          setTimeout(() => {
+            router.replace('/')
+          }, 500)
+        })
+        break
+      case FORM_STATE.REGISTER:
         await emailRegister({ email: form.email, password: form.password })
         localStorage.user_email = form.email
         formLoading.value = false
         panelState.value = FORM_STATE.LOGIN
         await confirmEmail()
-        notification['success']({
+        notification.success({
           content: '注册成功',
-          meta: '请登录注册邮箱，验证账号并使用'
+          meta: '请登录注册邮箱，验证账号并使用',
         })
-      break;
-    case FORM_STATE.FORGET:
-      await getPasswordByEmail({ email: form.email })
-      formLoading.value = false
-      notification['info']({
-        content: '邮件已发送',
-        meta: '请登录邮箱地址，找回密码'
-      })
-      
-      break;
+        break
+      case FORM_STATE.FORGET:
+        await getPasswordByEmail({ email: form.email })
+        formLoading.value = false
+        notification.info({
+          content: '邮件已发送',
+          meta: '请登录邮箱地址，找回密码',
+        })
+
+        break
     }
-  } catch (error) {
+  }
+  catch (error) {
     message.error(typeof error === 'object' ? JSON.stringify(error) : error)
     formLoading.value = false
   }
@@ -91,12 +92,12 @@ const handleSubmitForm = async ({ type, form }) => {
       滚动的曲谱
 
       <div text-sm mt-5 font-normal>
-        * 产品功能全部免费 
-        <br /><br />
+        * 产品功能全部免费
+        <br><br>
         * 支持上传曲谱，自定义滚动速度
-        <br /><br />
+        <br><br>
         * 多样的速度调节，满足需求
-        <br /><br />
+        <br><br>
         * 个人账号所持曲谱数量不限量
       </div>
     </div>
@@ -107,33 +108,33 @@ const handleSubmitForm = async ({ type, form }) => {
       <img
         v-for="url in imgList"
         :key="url"
-        :src="url" 
+        :src="url"
         object-cover
-        style="width: 100%;height: 100%;" 
+        style="width: 100%;height: 100%;"
         alt="error"
-      />
+      >
     </div>
 
-    <LoginPanel 
-      v-if="panelState === FORM_STATE.LOGIN" 
-      :formLoading="formLoading"
-      @changeState="handleChangeState" 
-      @submitForm="handleSubmitForm" 
+    <LoginPanel
+      v-if="panelState === FORM_STATE.LOGIN"
+      :form-loading="formLoading"
+      @change-state="handleChangeState"
+      @submit-form="handleSubmitForm"
     />
-    <ResigerPanel 
-      v-if="panelState === FORM_STATE.REGISTER" 
-      :formLoading="formLoading"
-      @changeState="handleChangeState"  
-      @submitForm="handleSubmitForm" 
+    <ResigerPanel
+      v-if="panelState === FORM_STATE.REGISTER"
+      :form-loading="formLoading"
+      @change-state="handleChangeState"
+      @submit-form="handleSubmitForm"
     />
-    <ForgetPasswordPanel 
-      v-if="panelState === FORM_STATE.FORGET" 
-      :formLoading="formLoading"
-      @changeState="handleChangeState" 
-      @submitForm="handleSubmitForm" 
+    <ForgetPasswordPanel
+      v-if="panelState === FORM_STATE.FORGET"
+      :form-loading="formLoading"
+      @change-state="handleChangeState"
+      @submit-form="handleSubmitForm"
     />
 
-    <LoginPageFooter absolute z-20 bottom-5/>
+    <LoginPageFooter absolute z-20 bottom-5 />
   </div>
 </template>
 

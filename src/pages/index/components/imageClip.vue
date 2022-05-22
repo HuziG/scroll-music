@@ -34,14 +34,11 @@ onMounted(() => {
 })
 
 const handleMouseDown = ({ event, type }) => {
-  if (type === 'top') {
+  if (type === 'top')
     topStartY.value = event.y
-  
-  }
 
-  if (type === 'bottom') {
+  if (type === 'bottom')
     bottomStartY.value = event.y
-  }
 
   moveLineType.value = type
 }
@@ -63,13 +60,15 @@ const handleMouseMove = (event) => {
 
   if (moveLineType.value === 'top') {
     const moveDistance = event.y - topStartY.value + baseTopDistance.value
-    if (moveDistance > 0) topDistance.value = moveDistance
+    if (moveDistance > 0)
+      topDistance.value = moveDistance
   }
 
   if (moveLineType.value === 'bottom') {
     let moveDistance = event.y - bottomStartY.value
     moveDistance = moveDistance < 0 ? (Math.abs(moveDistance) + baseBottomDistance.value) : (baseBottomDistance.value - Math.abs(moveDistance))
-    if (moveDistance > 0) bottomDistance.value = moveDistance
+    if (moveDistance > 0)
+      bottomDistance.value = moveDistance
   }
 }
 
@@ -103,31 +102,33 @@ const handleBottomMouseUp = (e) => {
       </n-button>
     </template>
 
-    <div 
+    <div
       ref="clipContainer"
       relative mx-auto select-none :style="`width: 300px;height: ${containerHeight}px;`"
       @mousemove="handleMouseMove"
     >
       <div absolute bg-red bg-opacity-20 top-0 left-0 w-full :style="`height: ${topDistance}px`" />
-      <div 
+      <div
         absolute transition w-full border-b-4 border-red-500 bg-opacity-20 cursor-move :style="`cursor: ns-resize;top: ${topDistance}px`"
         @mousedown="(event) => handleMouseDown({ event, type:'top' })"
         @mouseup="handleTopMouseUp"
-      ></div>
- 
+      />
+
       <img :src="props.value.url" border-2 box-border border-primary pointer-events-none select-none w-full h-full alt="error">
 
       <div absolute bg-red bg-opacity-20 bottom-0 left-0 w-full :style="`height: ${bottomDistance}px;`" />
-      <div 
+      <div
         absolute transition w-full border-t-4 border-red-500 bg-opacity-20 :style="`cursor: ns-resize;bottom: ${bottomDistance}px`"
         @mousedown="(event) => handleMouseDown({ event, type:'bottom' })"
         @mouseup="handleBottomMouseUp"
-      ></div>
+      />
     </div>
 
     <template #footer>
       <div text-right>
-        <n-button type="primary" @click="handleSubmit">保存</n-button>
+        <n-button type="primary" @click="handleSubmit">
+          保存
+        </n-button>
       </div>
     </template>
   </n-card>

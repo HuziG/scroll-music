@@ -74,7 +74,7 @@ export default {
           :default-config="editorConfig"
           :mode="mode"
           style="height: 300px; overflow-y: hidden"
-          @onCreated="handleCreated"
+          @on-created="handleCreated"
         />
       </div>
     </div>

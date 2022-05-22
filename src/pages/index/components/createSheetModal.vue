@@ -1,14 +1,13 @@
 <script setup lang="ts">
+import { useDialog, useMessage } from 'naive-ui'
 import ImageClip from './imageClip.vue'
-import { useMessage } from 'naive-ui'
 import { useCreateSheetStore } from '~/stores/createSheetMusic'
 import { useSheetMusicDepot } from '~/stores/sheetMusicDepot'
 import { addSheet, editSheet } from '~/api/sheetMusic'
 import { delFiles } from '~/api/base'
-import { useDialog } from 'naive-ui'
 
 const dialog = useDialog()
-const emit = defineEmits('cancel') 
+const emit = defineEmits('cancel')
 const message = useMessage()
 const submitLoading = ref(false)
 const showClipModal = ref(false)
@@ -19,8 +18,8 @@ const createSheetStore = useCreateSheetStore()
 const smt = useSheetMusicDepot()
 
 const disabledCreate = computed(() => {
-  return createSheetStore.sheetData.imgs.length === 0 || 
-    createSheetStore.sheetData.name === ''
+  return createSheetStore.sheetData.imgs.length === 0
+    || createSheetStore.sheetData.name === ''
 })
 
 const cancelCreate = () => {
@@ -28,7 +27,7 @@ const cancelCreate = () => {
 }
 
 const handleUpload = () => {
-  createSheetStore.$patch(state => {
+  createSheetStore.$patch((state) => {
     state.showUploadModal = true
   })
 }
@@ -40,32 +39,25 @@ const handleDel = (index) => {
     positiveText: '确定',
     negativeText: '取消',
     onPositiveClick: () => {
-      createSheetStore.$patch(state => {
+      createSheetStore.$patch((state) => {
         const fileId = state.sheetData.imgs[index].fileId || null
 
-        if (fileId) delFiles([fileId])
-        
+        if (fileId)
+          delFiles([fileId])
+
         state.sheetData.imgs.splice(index, 1)
       })
-    }
+    },
   })
 }
 
-const handleSubmit = () => {
-  if (createSheetStore.sheetData._id) {
-    handleEditSheet()
-  } else {
-    handleAddSheet()
-  }
-}
-
-const handleEditSheet = async () => {
+const handleEditSheet = async() => {
   submitLoading.value = true
 
   const data = await editSheet({
     name: createSheetStore.sheetData.name,
     imgs: toRaw(createSheetStore.sheetData.imgs),
-    _id: createSheetStore.sheetData._id
+    _id: createSheetStore.sheetData._id,
   })
 
   submitLoading.value = false
@@ -73,16 +65,16 @@ const handleEditSheet = async () => {
   createSheetStore.clearStore()
 
   message.success('修改成功')
-  
+
   smt.handleInitSheet()
 }
 
-const handleAddSheet = async () => {
+const handleAddSheet = async() => {
   submitLoading.value = true
-  
+
   const data = await addSheet({
     name: createSheetStore.sheetData.name,
-    imgs: createSheetStore.sheetData.imgs
+    imgs: createSheetStore.sheetData.imgs,
   })
 
   submitLoading.value = false
@@ -90,8 +82,15 @@ const handleAddSheet = async () => {
   createSheetStore.clearStore()
 
   message.success('添加成功')
-  
+
   smt.handleInitSheet()
+}
+
+const handleSubmit = () => {
+  if (createSheetStore.sheetData._id)
+    handleEditSheet()
+  else
+    handleAddSheet()
 }
 
 const handleShowClip = (data, index) => {
@@ -101,7 +100,7 @@ const handleShowClip = (data, index) => {
 }
 
 const handleClipConfirm = (e) => {
-  createSheetStore.$patch(state => {
+  createSheetStore.$patch((state) => {
     const imgData = state.sheetData.imgs[clipImgIndex.value]
     state.sheetData.imgs[clipImgIndex.value] = { ...imgData, ...e }
   })
@@ -130,14 +129,17 @@ const handleClipConfirm = (e) => {
     <n-input v-model:value="createSheetStore.sheetData.name" placeholder="请输入曲谱名称" />
 
     <div class="-ml-5" mt-3 flex flex-wrap>
-      <div 
-        class="sheet-item"
-        relative w-55 h-65 mt-5 ml-5 rounded-2 border-2 border-primary overflow-hidden 
-        v-for="(item, index) in createSheetStore.sheetData.imgs" :key="index">
-        <div 
-          absolute w-8 h-8 inline-block bg-primary text-white text-center 
+      <div
+        v-for="(item, index) in createSheetStore.sheetData.imgs"
+        :key="index" class="sheet-item" relative w-55 h-65 mt-5 ml-5 rounded-2 border-2
+        border-primary overflow-hidden
+      >
+        <div
+          absolute w-8 h-8 inline-block bg-primary text-white text-center
           style="line-height: 2rem;border-bottom-right-radius: 0.5rem"
-        >#{{index + 1}}</div>
+        >
+          #{{ index + 1 }}
+        </div>
 
         <n-image
           width="224"
@@ -148,7 +150,7 @@ const handleClipConfirm = (e) => {
         <div bg-white absolute left-2 bottom-2>
           <n-button strong secondary circle type="success" @click="handleShowClip(item, index)">
             <template #icon>
-              <div i-mdi:image-edit text-base></div>
+              <div i-mdi:image-edit text-base />
             </template>
           </n-button>
         </div>
@@ -156,43 +158,46 @@ const handleClipConfirm = (e) => {
         <div bg-white absolute right-2 bottom-2>
           <n-button strong secondary circle type="error" @click="handleDel(index)">
             <template #icon>
-              <div i-mdi-close-circle text-base></div>
+              <div i-mdi-close-circle text-base />
             </template>
           </n-button>
         </div>
       </div>
 
-      <div 
-        w-55 h-65 mt-5 ml-5 border-2 border-primary flex justify-center items-center rounded-2 text-primary
-        flex-col hover:bg-opacity-5 bg-opacity-0 bg-primary transition cursor-pointer
-        v-if="createSheetStore.sheetData.imgs && createSheetStore.sheetData.imgs.length <= 8"
+      <div
+        v-if="createSheetStore.sheetData.imgs && createSheetStore.sheetData.imgs.length <= 8" w-55 h-65 mt-5 ml-5 border-2 border-primary flex justify-center items-center rounded-2
+        text-primary flex-col hover:bg-opacity-5 bg-opacity-0 bg-primary transition
+        cursor-pointer
         @click="handleUpload"
       >
         <div i-mdi-cloud-upload text-2xl text-primary />
-        <div mt-2>上传曲谱</div>
+        <div mt-2>
+          上传曲谱
+        </div>
       </div>
-
     </div>
 
-    <div text-sm text-red font-bold mt-5>* 图片数量最多8个</div>
+    <div text-sm text-red font-bold mt-5>
+      * 图片数量最多8个
+    </div>
 
-    <n-modal 
-      v-model:show="showClipModal" 
+    <n-modal
+      v-model:show="showClipModal"
       :mask-closable="true"
     >
-      <image-clip 
-        :value="clipImage" 
-        @cancel="showClipModal = false" 
+      <image-clip
+        :value="clipImage"
+        @cancel="showClipModal = false"
         @confirm="handleClipConfirm"
       />
     </n-modal>
 
     <template #footer>
       <div text-right>
-        <n-button 
-          :disabled="disabledCreate" 
-          :loading="submitLoading" 
-          type="primary" 
+        <n-button
+          :disabled="disabledCreate"
+          :loading="submitLoading"
+          type="primary"
           @click="handleSubmit"
         >
           保存

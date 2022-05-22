@@ -1,5 +1,5 @@
 import { acceptHMRUpdate, defineStore } from 'pinia'
-import { getSheets, delSheet } from '~/api/sheetMusic'
+import { delSheet, getSheets } from '~/api/sheetMusic'
 import { delFiles } from '~/api/base'
 
 export const useSheetMusicDepot = defineStore({
@@ -7,7 +7,7 @@ export const useSheetMusicDepot = defineStore({
 
   state: () => ({
     sheetMusicData: [],
-    pager: {}
+    pager: {},
   }),
 
   actions: {
@@ -19,27 +19,26 @@ export const useSheetMusicDepot = defineStore({
     },
 
     async delSheetData(value: any) {
-      let delFilesArray: string[] = []
+      const delFilesArray: string[] = []
 
       value.imgs.forEach((item: any) => {
-        if (item.fileId) delFilesArray.push(item.fileId)
+        if (item.fileId)
+          delFilesArray.push(item.fileId)
       })
 
-      if (delFilesArray.length > 0) {
+      if (delFilesArray.length > 0)
         delFiles(delFilesArray)
-      }
 
       return await delSheet({
-        _id: value._id
+        _id: value._id,
       })
     },
 
     editSheetMusicData(index: number, data: any) {
       this.sheetMusicData[index] = data
-    }
-  }
+    },
+  },
 })
 
-if (import.meta.hot) {
+if (import.meta.hot)
   import.meta.hot.accept(acceptHMRUpdate(useSheetMusicDepot, import.meta.hot))
-}

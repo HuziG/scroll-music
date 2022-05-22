@@ -1,28 +1,31 @@
 import { acceptHMRUpdate, defineStore } from 'pinia'
-import { sheetDetailStore }  from '~/interface/base'
-
+import type { sheetDetailStore } from '~/interface/base'
 
 export const useSheetDetailStore = defineStore({
   id: 'sheetDetail',
-  
+
   state: (): sheetDetailStore => ({
     sheetData: {},
     sheetNote: {
-      content: ''
-    }
+      content: '',
+    },
   }),
 
   actions: {
     async dispatchSheet(value: {
-      name: string, _id: string, imgs: string[], speed: number, step: number
+      name: string
+      _id: string
+      imgs: string[]
+      speed: number
+      step: number
     }) {
       this.sheetData = value
       sessionStorage.sheet_detail = JSON.stringify(this.sheetData)
     },
 
     dispatchSpeed(step: number, speed: number) {
-      this.sheetData['step'] = step
-      this.sheetData['speed'] = speed
+      this.sheetData.step = step
+      this.sheetData.speed = speed
       sessionStorage.sheet_detail = JSON.stringify(this.sheetData)
     },
 
@@ -36,12 +39,11 @@ export const useSheetDetailStore = defineStore({
     clearData() {
       this.sheetData = {}
       this.sheetNote = {
-        content: ''
+        content: '',
       }
-    }
-  }
+    },
+  },
 })
-  
-if (import.meta.hot) {
+
+if (import.meta.hot)
   import.meta.hot.accept(acceptHMRUpdate(useSheetDetailStore, import.meta.hot))
-}

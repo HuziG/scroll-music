@@ -9,6 +9,6 @@ export interface sheetDetailStore {
   sheetData: {
     step?: number
     speed?: number
-  },
+  }
   sheetNote: any
 }

@@ -1,9 +1,3 @@
-<script>
-export default {
-  name: 'ClipImage'
-}
-</script>
-
 <script setup>
 import { useResizeObserver } from '@vueuse/core'
 
@@ -22,22 +16,21 @@ useResizeObserver(el, (entries) => {
   clipTop.value = props.value.clipTop / 100 * height
   clipBottom.value = props.value.clipBottom / 100 * height
 
-  if (props.prevValue) {
+  if (props.prevValue)
     prevClipBottom.value = props.prevValue.clipBottom / 100 * height
-  }
 
   showHeight.value = Math.ceil(height - clipTop.value - clipBottom.value + 50)
 })
 </script>
 
 <template>
-  <img 
+  <img
     ref="el"
     w-full
-    :src="props.value.url" 
-    :style="`clip-path: inset(${clipTop}px 0 ${clipBottom}px 0);margin-top: -${clipTop + prevClipBottom}px`" 
-    alt="error" 
-  />
+    :src="props.value.url"
+    :style="`clip-path: inset(${clipTop}px 0 ${clipBottom}px 0);margin-top: -${clipTop + prevClipBottom}px`"
+    alt="error"
+  >
 </template>
 
 <style lang="scss" scoped>

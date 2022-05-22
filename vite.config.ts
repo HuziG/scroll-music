@@ -17,7 +17,6 @@ import {
   NaiveUiResolver,
 } from 'unplugin-vue-components/resolvers'
 
-
 const markdownWrapperClasses = 'prose prose-sm m-auto text-left'
 
 export default defineConfig({
@@ -62,8 +61,8 @@ export default defineConfig({
       include: [/\.vue$/, /\.vue\?vue/, /\.md$/],
       dts: 'src/components.d.ts',
       resolvers: [
-        NaiveUiResolver()
-      ]
+        NaiveUiResolver(),
+      ],
     }),
 
     // https://github.com/antfu/unocss

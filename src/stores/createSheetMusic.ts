@@ -3,14 +3,14 @@ import { deepClone } from '~/utils/utils'
 
 export const useCreateSheetStore = defineStore({
   id: 'createSheetMusic',
-  
+
   state: () => ({
     showCreateModal: false,
     showUploadModal: false,
     sheetData: {
       _id: '',
       imgs: [],
-      name: ''
+      name: '',
     },
   }),
 
@@ -18,17 +18,16 @@ export const useCreateSheetStore = defineStore({
     setSheetData(value: any) {
       this.sheetData = deepClone({ ...this.sheetData, ...value })
     },
-    
+
     clearStore() {
       this.sheetData = {
         _id: '',
         imgs: [],
-        name: ''
+        name: '',
       }
-    }
-  }
+    },
+  },
 })
-  
-if (import.meta.hot) {
+
+if (import.meta.hot)
   import.meta.hot.accept(acceptHMRUpdate(useCreateSheetStore, import.meta.hot))
-}
