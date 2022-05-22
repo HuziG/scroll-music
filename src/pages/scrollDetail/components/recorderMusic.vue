@@ -90,6 +90,14 @@ const handleToggleRecorder = (state) => {
 
   globalState.value = globalState.value === 0 ? 1 : 0
 }
+
+onBeforeUnmount(() => {
+  if (rec.value)
+    rec.value.stop()
+
+  if (gumStream.value)
+    gumStream.value.getAudioTracks()[0].stop()
+})
 </script>
 
 <template>

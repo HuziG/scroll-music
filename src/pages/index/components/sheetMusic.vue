@@ -1,8 +1,8 @@
 <script setup lang="ts">
+import { useMessage } from 'naive-ui'
 import { useCreateSheetStore } from '~/stores/createSheetMusic'
 import { useSheetMusicDepot } from '~/stores/sheetMusicDepot'
 import { useSheetDetailStore } from '~/stores/sheetDetail'
-import { useMessage } from 'naive-ui'
 import { delSheet } from '~/api/sheetMusic'
 import { deepClone } from '~/utils/utils'
 
@@ -24,24 +24,24 @@ const timeFormat = computed(() => {
   return `${date.getMonth() + 1}月${date.getDate()}日`
 })
 
-watch(selectValue, async (newValue) => {
+watch(selectValue, async(newValue) => {
   selectValue.value = ''
   switch (newValue) {
     case 'edit':
-      createSheetStore.$patch(state => {
+      createSheetStore.$patch((state) => {
         state.sheetData = deepClone(props.value)
         state.showCreateModal = true
       })
-      break;
+      break
     case 'del':
       await usmd.delSheetData(props.value)
 
       message.success('删除成功')
 
-      usmd.$patch(state => {
+      usmd.$patch((state) => {
         state.sheetMusicData.splice(props.index, 1)
       })
-      break;
+      break
   }
 })
 
@@ -52,29 +52,33 @@ const handleToScroll = () => {
 </script>
 
 <template>
-  <div 
-    class="hvr-grow-shadow" 
-    style="background-color: #F5F5F7;" 
+  <div
+    class="hvr-grow-shadow"
+    style="background-color: #F5F5F7;"
     inline-block rounded-2 py-2 px-3 mt-6 ml-5
   >
-    <img 
-      style="width: 221px;height: 312px;" 
-      :src="props.value.imgs[0].url" 
-      rounded-1 cursor-pointer 
+    <img
+      style="width: 221px;height: 312px;"
+      :src="props.value.imgs[0].url"
+      rounded-1 cursor-pointer
       alt="error"
       @click="handleToScroll"
     >
 
     <div flex items-center justify-between>
       <div>
-        <div text-base>{{ props.value.name }}</div>
-        <div text-xs text-vice>创建时间：{{ timeFormat }}</div>
+        <div text-base>
+          {{ props.value.name }}
+        </div>
+        <div text-xs text-vice>
+          创建时间：{{ timeFormat }}
+        </div>
       </div>
 
       <n-popselect v-model:value="selectValue" :options="menuOptions" trigger="click">
         <n-button strong secondary circle>
           <template #icon>
-            <div i-mdi-pencil-outline text-base/>
+            <div i-mdi-pencil-outline text-base />
           </template>
         </n-button>
       </n-popselect>
