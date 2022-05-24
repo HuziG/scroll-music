@@ -2,6 +2,7 @@
 import { useMessage } from 'naive-ui'
 import ClipImage from './components/clipImage.vue'
 import richEdit from './components/richEdit.vue'
+import SheetWidthModal from './components/sheetWidthModal.vue'
 import RecorderMusic from './components/recorderMusic.vue'
 import { useSheetDetailStore } from '~/stores/sheetDetail'
 import { addSheetNote, editSheet, editSheetNote, getSheetsNote } from '~/api/sheetMusic'
@@ -12,7 +13,9 @@ const router = useRouter()
 const countDown = ref(0)
 const baseSpeed = 0.5
 const scrollMode = ref(0)
+const sheetImgWidth = ref(70)
 
+const showSheetWidthModal = ref(false)
 const showSpeedModal = ref(false)
 const showNoteModal = ref(false)
 const noteSaveLoading = ref(false)
@@ -81,7 +84,7 @@ const startCountDown = () => {
   return new Promise((resolve) => {
     clearInterval(countDownInterval)
 
-    countDown.value = 5
+    countDown.value = 3
 
     countDownInterval = setInterval(() => {
       countDown.value -= 1
@@ -176,6 +179,23 @@ const handleStart = () => {
   })
 }
 
+const stopScroll = () => {
+  if (scrollMode.value === 1)
+    handleStop()
+}
+
+const updateWidth = (width) => {
+  sheetImgWidth.value = width
+}
+
+const saveWidth = () => {
+
+}
+
+const cancelWidthSet = () => {
+  showSheetWidthModal.value = false
+}
+
 onMounted(() => {
   initSessionSheet()
   initNightDark()
@@ -209,7 +229,7 @@ onBeforeUnmount(() => {
       </n-button>
     </div>
 
-    <div fixed top-5 right-5>
+    <div fixed top-5 right-5 z-30>
       <n-tooltip :show-arrow="false" placement="left">
         <template #trigger>
           <n-button
@@ -226,10 +246,7 @@ onBeforeUnmount(() => {
           </n-button>
         </template>
         {{ scrollMode === 0 ? "开始" : "暂停" }}
-      </n-tooltip>
-
-      <br><br>
-
+      </n-tooltip> <br><br>
       <n-tooltip :show-arrow="false" placement="left">
         <template #trigger>
           <n-button
@@ -245,10 +262,7 @@ onBeforeUnmount(() => {
           </n-button>
         </template>
         重置
-      </n-tooltip>
-
-      <br><br>
-
+      </n-tooltip> <br><br>
       <n-tooltip :show-arrow="false" placement="left">
         <template #trigger>
           <n-button
@@ -304,25 +318,24 @@ onBeforeUnmount(() => {
       </n-button-group>
     </div>
 
-    <div fixed bottom-5 right-5 flex flex-col>
+    <div fixed bottom-5 right-5 flex flex-col z-30>
       <n-tooltip :show-arrow="false" placement="left">
         <template #trigger>
           <n-button
             strong
             circle
+            mt-5
             type="primary"
             size="medium"
-            @click="toggleDarkMode"
+            @click="showSheetWidthModal = true"
           >
             <template #icon>
-              <div v-show="darkMode" i-mdi:weather-sunny text-base />
-              <div v-show="!darkMode" i-mdi:weather-night text-base />
+              <div i-mdi:file-xml text-base />
             </template>
           </n-button>
         </template>
-        {{ darkMode ? "白天模式" : "夜间模式" }}
+        曲谱宽度
       </n-tooltip>
-
       <n-tooltip :show-arrow="false" placement="left">
         <template #trigger>
           <n-button
@@ -342,9 +355,25 @@ onBeforeUnmount(() => {
       </n-tooltip>
     </div>
 
-    <div fixed bottom-5 left-5 flex flex-col>
-      <recorder-music />
-      <br>
+    <div fixed bottom-5 left-5 flex flex-col z-30>
+      <n-tooltip :show-arrow="false" placement="left">
+        <template #trigger>
+          <n-button
+            strong
+            circle
+            type="primary"
+            size="medium"
+            @click="toggleDarkMode"
+          >
+            <template #icon>
+              <div v-show="darkMode" i-mdi:weather-sunny text-base />
+              <div v-show="!darkMode" i-mdi:weather-night text-base />
+            </template>
+          </n-button>
+        </template>
+        {{ darkMode ? "白天模式" : "夜间模式" }}
+      </n-tooltip> <br>
+      <recorder-music @stop-scroll="stopScroll" /> <br>
       <n-tooltip :show-arrow="false" placement="left">
         <template #trigger>
           <n-button
@@ -365,7 +394,7 @@ onBeforeUnmount(() => {
 
     <div
       :style="{
-        width: '70%',
+        width: sheetImgWidth + '%',
         filter: darkMode ? 'invert(75%)' : 'none',
       }"
       bg-primary
@@ -437,21 +466,19 @@ onBeforeUnmount(() => {
       />
     </n-modal>
 
+    <sheet-width-modal
+      v-if="showSheetWidthModal"
+      :width="sheetImgWidth"
+      @widthUpdate="updateWidth"
+      @saveWidth="saveWidth"
+      @cancel="cancelWidthSet"
+    />
+
     <div
       v-if="countDown > 0"
       style="left: 50%; top: 50%; transform: translateY(-50%) translateX(-50%)"
-      z-20
-      w-80
-      h-80
-      flex
-      items-center
-      rounded-full
-      justify-center
-      text-8xl
-      absolute
-      bg-primary
-      bg-opacity-90
-      text-white
+      z-20 w-80 h-80 flex items-center rounded-full justify-center text-8xl fixed
+      bg-primary bg-opacity-90 text-white
     >
       {{ countDown }}
     </div>

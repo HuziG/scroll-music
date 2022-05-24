@@ -1,4 +1,5 @@
 <script setup>
+const emit = defineEmits(['stopScroll', 'continueScroll'])
 const AudioContext = window.AudioContext || window.webkitAudioContext
 const globalState = ref(0)
 const audioContext = ref(null)
@@ -91,6 +92,11 @@ const handleToggleRecorder = (state) => {
   globalState.value = globalState.value === 0 ? 1 : 0
 }
 
+watch(showModal, (newValue) => {
+  if (newValue)
+    emit('stopScroll')
+})
+
 onBeforeUnmount(() => {
   if (rec.value)
     rec.value.stop()
@@ -113,8 +119,8 @@ onBeforeUnmount(() => {
             @click="handleToggleRecorder(globalState)"
           >
             <template #icon>
-              <div v-show="globalState === 0" i-mdi:microphone text-base />
-              <div v-show="globalState === 1" i-mdi:radiobox-marked text-base />
+              <div v-if="globalState === 0" i-mdi:microphone text-base />
+              <div v-else i-mdi:radiobox-marked text-base />
             </template>
           </n-button>
         </div>
