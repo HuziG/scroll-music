@@ -29,6 +29,14 @@ export const useSheetDetailStore = defineStore({
       sessionStorage.sheet_detail = JSON.stringify(this.sheetData)
     },
 
+    dispatchChangeValue(value: any) {
+      this.sheetData = {
+        ...this.sheetData,
+        ...value,
+      }
+      sessionStorage.sheet_detail = JSON.stringify(this.sheetData)
+    },
+
     setSheetNote(value: string) {
       this.sheetNote = {
         ...this.sheetNote,

@@ -6,9 +6,6 @@ export interface baasFile {
 }
 
 export interface sheetDetailStore {
-  sheetData: {
-    step?: number
-    speed?: number
-  }
+  sheetData: any
   sheetNote: any
 }

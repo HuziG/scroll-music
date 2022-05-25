@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useMessage } from 'naive-ui'
 import ClipImage from './components/clipImage.vue'
-import richEdit from './components/richEdit.vue'
+import richEditModel from './components/richEditModel.vue'
 import SheetWidthModal from './components/sheetWidthModal.vue'
 import RecorderMusic from './components/recorderMusic.vue'
 import { useSheetDetailStore } from '~/stores/sheetDetail'
@@ -13,6 +13,7 @@ const router = useRouter()
 const countDown = ref(0)
 const baseSpeed = 0.5
 const scrollMode = ref(0)
+
 const sheetImgWidth = ref(70)
 
 const showSheetWidthModal = ref(false)
@@ -49,6 +50,7 @@ const initSessionSheet = () => {
     step.value = sheetDetailStore.sheetData.step
     stepSlider.value = sheetDetailStore.sheetData.step * 100
     speedSlider.value = sheetDetailStore.sheetData.speed
+    sheetImgWidth.value = sheetDetailStore.sheetData.width
   }
 }
 
@@ -188,12 +190,30 @@ const updateWidth = (width) => {
   sheetImgWidth.value = width
 }
 
-const saveWidth = () => {
+const saveWidth = async() => {
+  const data = await editSheet({
+    _id: sheetDetailStore.sheetData._id,
+    width: sheetImgWidth.value,
+  })
 
+  sheetDetailStore.dispatchChangeValue({
+    width: sheetImgWidth.value,
+  })
+  showSheetWidthModal.value = false
+
+  message.success('保存成功')
 }
+
+const beforeSheetImgWidth = ref(null)
 
 const cancelWidthSet = () => {
   showSheetWidthModal.value = false
+  sheetImgWidth.value = beforeSheetImgWidth.value
+}
+
+const handleShowSheetWidthModal = () => {
+  beforeSheetImgWidth.value = sheetImgWidth.value
+  showSheetWidthModal.value = true
 }
 
 onMounted(() => {
@@ -327,7 +347,7 @@ onBeforeUnmount(() => {
             mt-5
             type="primary"
             size="medium"
-            @click="showSheetWidthModal = true"
+            @click="handleShowSheetWidthModal"
           >
             <template #icon>
               <div i-mdi:file-xml text-base />
@@ -410,55 +430,54 @@ onBeforeUnmount(() => {
       />
     </div>
 
-    <n-modal v-model:show="showSpeedModal">
-      <n-card
-        title="速度调节"
-        bordered
-        size="huge"
-        :closable="false"
-        role="dialog"
-        aria-modal="true"
-        style="width: 500px; position: fixed; right: 50px; bottom: 50px"
-      >
-        <template #header-extra>
-          <n-button quaternary circle @click="showSpeedModal = false">
-            <template #icon>
-              <div i-mdi-close text-base />
-            </template>
+    <n-card
+      v-if="showSpeedModal"
+      title="速度调节"
+      bordered
+      size="huge"
+      :closable="false"
+      role="dialog"
+      aria-modal="true"
+      style="width: 500px; position: fixed; right: 70px; bottom: 50px"
+    >
+      <template #header-extra>
+        <n-button quaternary circle @click="showSpeedModal = false">
+          <template #icon>
+            <div i-mdi-close text-base />
+          </template>
+        </n-button>
+      </template>
+
+      <div>跨度调节</div>
+      <div text-xs text-vice my-1>
+        一次滚动的距离
+      </div>
+      <n-slider v-model:value="stepSlider" :step="20" />
+
+      <div mt-10>
+        速度调节
+      </div>
+      <div text-xs text-vice my-1>
+        每多少 ms 滚动一次
+      </div>
+      <n-slider
+        v-model:value="speedSlider"
+        :min="30"
+        :step="5"
+        @update:value="handleSpeedChange"
+      />
+
+      <template #footer>
+        <div style="text-align: right">
+          <n-button type="primary" @click="handleConfirm">
+            保存
           </n-button>
-        </template>
-
-        <div>跨度调节</div>
-        <div text-xs text-vice my-1>
-          一次滚动的距离
         </div>
-        <n-slider v-model:value="stepSlider" :step="20" />
-
-        <div mt-10>
-          速度调节
-        </div>
-        <div text-xs text-vice my-1>
-          每多少 ms 滚动一次
-        </div>
-        <n-slider
-          v-model:value="speedSlider"
-          :min="30"
-          :step="5"
-          @update:value="handleSpeedChange"
-        />
-
-        <template #footer>
-          <div style="text-align: right">
-            <n-button type="primary" @click="handleConfirm">
-              保存
-            </n-button>
-          </div>
-        </template>
-      </n-card>
-    </n-modal>
+      </template>
+    </n-card>
 
     <n-modal v-model:show="showNoteModal">
-      <rich-edit
+      <rich-edit-model
         :html-content="sheetDetailStore.sheetNote.content"
         :note-save-loading="noteSaveLoading"
         @cancel="showNoteModal = false"
