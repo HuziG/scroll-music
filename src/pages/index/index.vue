@@ -41,12 +41,14 @@ onMounted(() => {
   <div style="min-width: 600px;">
     <page-header />
 
+    <img fixed top-0 left-0 w-full h-screen object-cover style="z-index: -1;" src="https://infinitypro-img.infinitynewtab.com/wallpaper/anime/265.jpg?imageView2/2/w/3072/format/webp/interlace/1" alt="">
+
     <div style="max-width: 1000px;padding: 0 35px;" mx-auto my-5>
       <div flex items-center justify-between>
         <span text-xl>我的曲谱</span>
 
         <n-button
-          strong secondary round
+          strong round
           type="primary"
           :disabled="usmd.sheetMusicData.length >= 20"
           @click="toggleCreateModal(true)"
@@ -90,7 +92,7 @@ onMounted(() => {
 
     <div style="height: 60px;" />
 
-    <PageFooter w-full fixed z-20 bottom-0 />
+    <!-- <PageFooter w-full fixed z-20 bottom-0 /> -->
   </div>
 </template>
 
