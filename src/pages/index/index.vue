@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import PageHeader from '~/components/PageHeader/index.vue'
 import SheetMusicItem from './components/sheetMusic.vue'
 import CreateSheetModal from './components/createSheetModal.vue'
 import UploadSheetModal from './components/uploadSheetModal.vue'
+import PageHeader from '~/components/PageHeader/index.vue'
 import PageFooter from '~/components/PageFooter/index.vue'
 import { useCreateSheetStore } from '~/stores/createSheetMusic'
 import { useSheetMusicDepot } from '~/stores/sheetMusicDepot'
@@ -15,7 +15,7 @@ const value = ref('')
 const loadSheets = ref(false)
 
 const hideUploadModal = () => {
-  createSheetStore.$patch(state => {
+  createSheetStore.$patch((state) => {
     state.showUploadModal = false
   })
 }
@@ -23,12 +23,12 @@ const hideUploadModal = () => {
 const toggleCreateModal = (value) => {
   createSheetStore.clearStore()
 
-  createSheetStore.$patch(state => {
+  createSheetStore.$patch((state) => {
     state.showCreateModal = value
   })
 }
 
-const handleInit = async () => {
+const handleInit = async() => {
   usmd.handleInitSheet()
 }
 
@@ -45,14 +45,14 @@ onMounted(() => {
       <div flex items-center justify-between>
         <span text-xl>我的曲谱</span>
 
-        <n-button 
-          strong secondary round 
-          type="primary" 
+        <n-button
+          strong secondary round
+          type="primary"
           :disabled="usmd.sheetMusicData.length >= 20"
           @click="toggleCreateModal(true)"
-        > 
+        >
           <template #icon>
-            <div i-mdi-plus text-base/>
+            <div i-mdi-plus text-base />
           </template>
           创建曲谱
         </n-button>
@@ -68,19 +68,19 @@ onMounted(() => {
         <div v-if="usmd.sheetMusicData.length === 0" mt-35>
           <n-empty description="暂无曲谱">
             <template #icon>
-              <div i-mdi:music-clef-treble text-3xl></div>
+              <div i-mdi:music-clef-treble text-3xl />
             </template>
           </n-empty>
         </div>
       </n-spin>
     </div>
 
-    <n-modal 
-      v-model:show="createSheetStore.showCreateModal" 
+    <n-modal
+      v-model:show="createSheetStore.showCreateModal"
       :mask-closable="false"
     >
-      <create-sheet-modal 
-        @cancel="toggleCreateModal(false)" 
+      <create-sheet-modal
+        @cancel="toggleCreateModal(false)"
       />
     </n-modal>
 

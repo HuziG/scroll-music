@@ -27,14 +27,15 @@ const rules = ref({
   email: [
     {
       required: true,
-      validator (rule, value: string) {
-        if (!value) {
+      validator(rule, value: string) {
+        if (!value)
           return new Error('需要邮箱')
-        } else if (!/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/.test(value)) {
+        else if (!/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/.test(value))
           return new Error('邮箱地址格式错误')
-        }
+
         return true
       },
+<<<<<<< HEAD
       trigger: ['input', 'blur']
     }
   ]
@@ -43,6 +44,11 @@ const rules = ref({
   rePassword: '',
 >>>>>>> parent of 179d1d8... add baas login
 >>>>>>> 3fac7e4c9254739af8215e8ac842916e2fe1c2ad
+=======
+      trigger: ['input', 'blur'],
+    },
+  ],
+>>>>>>> newmain
 })
 
 const disabledSubmit = computed(() => {
@@ -58,9 +64,10 @@ const handleValidateForm = (e) => {
     if (!errors) {
       emit('submitForm', {
         type: 'forget',
-        form: deepClone(formValue.value)
+        form: deepClone(formValue.value),
       })
-    } else {
+    }
+    else {
       message.error('注册信息填写有误，请纠正')
     }
   })
@@ -73,16 +80,16 @@ onMounted(() => {
 </script>
 
 <template>
-  <div 
+  <div
     bg-white rounded-5 px-5 w-xl h-xl absolute right-10 z-20 overflow-hidden
     style="top: 15%;tranfrom: translateY(-50%)"
   >
     <div my-5 text-main font-bold text-2xl flex items-center>
-      <div 
-        i-mdi-arrow-left-bold-circle inline-block text-primary mr-3 cursor-pointer 
+      <div
+        i-mdi-arrow-left-bold-circle inline-block text-primary mr-3 cursor-pointer
         @click="emit('changeState', {
           state: 'login'
-        })"  
+        })"
       />
       忘记密码
     </div>
@@ -114,8 +121,8 @@ onMounted(() => {
       </n-form-item>
     </n-form>
 
-    <n-button 
-      w-full mt-4 
+    <n-button
+      w-full mt-4
       type="primary"
       :disabled="disabledSubmit"
       @click="$emit('submitForm', {
@@ -126,6 +133,8 @@ onMounted(() => {
       提交
     </n-button>
 
-    <div text-vice absolute bottom-0 py-3>@ 2022 滚动的曲谱</div>
+    <div text-vice absolute bottom-0 py-3>
+      @ 2022 滚动的曲谱
+    </div>
   </div>
 </template>

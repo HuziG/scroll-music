@@ -36,11 +36,11 @@ export default defineConfig({
   ],
   theme: {
     colors: {
-      'primary': '#5138ED',  //class="bg-brand-primary"
-      'main': '#333333', 
-      'error': '#D81D06', 
-      'vice': '#A8A5B1'
-    }
+      primary: '#5138ED', // class="bg-brand-primary"
+      main: '#333333',
+      error: '#D81D06',
+      vice: '#A8A5B1',
+    },
   },
   safelist: 'prose prose-sm m-auto text-left'.split(' '),
 })

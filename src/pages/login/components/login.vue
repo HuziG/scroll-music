@@ -18,11 +18,15 @@ const emit = defineEmits(['submitForm'])
 import { deepClone } from '~/utils/utils.ts'
 
 defineProps(['formLoading'])
+<<<<<<< HEAD
 const emit = defineEmits(['submitForm'])
 >>>>>>> newmain:src/pages/login/components/login.vue
+=======
+const emit = defineEmits(['submitForm', 'changeState'])
+>>>>>>> newmain
 const formValue = ref({
   email: '',
-  password: ''
+  password: '',
 })
 
 onMounted(() => {
@@ -31,7 +35,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div 
+  <div
     bg-white rounded-5 px-5 w-xl h-xl absolute right-10 z-20 overflow-hidden
     style="top: 15%;tranfrom: translateY(-50%)"
   >
@@ -39,6 +43,7 @@ onMounted(() => {
       登录账号
     </div>
 
+<<<<<<< HEAD
     <n-form
       ref="formRef"
       :label-width="80"
@@ -57,21 +62,43 @@ onMounted(() => {
         />
       </n-form-item>
     </n-form>
+=======
+    <n-spin :show="formLoading">
+      <n-form
+        ref="formRef"
+        :label-width="80"
+        :model="formValue"
+        size="large"
+      >
+        <n-form-item label="邮箱" path="email">
+          <n-input v-model:value="formValue.email" placeholder="输入邮箱" />
+        </n-form-item>
+        <n-form-item label="密码" path="password">
+          <n-input
+            v-model:value="formValue.password"
+            type="password"
+            show-password-on="mousedown"
+            placeholder="输入密码"
+          />
+        </n-form-item>
+      </n-form>
+    </n-spin>
+>>>>>>> newmain
 
     <div text-right>
-      <n-button 
-        quaternary 
-        type="primary" 
+      <n-button
+        quaternary
+        type="primary"
         @click="$emit('changeState', {
           state: 'forget'
-        })" 
+        })"
       >
         忘记密码？
       </n-button>
     </div>
 
-    <n-button 
-      w-full mt-4 
+    <n-button
+      w-full mt-4
       type="primary"
       :disabled="formValue.email === '' || formValue.password === ''"
 <<<<<<< HEAD
@@ -92,17 +119,19 @@ onMounted(() => {
 
     <div mt-3>
       还没有账号?
-      <n-button 
-        quaternary 
-        type="primary" 
+      <n-button
+        quaternary
+        type="primary"
         @click="$emit('changeState', {
           state: 'register'
-        })" 
+        })"
       >
         立即注册
       </n-button>
     </div>
 
-    <div text-vice absolute bottom-0 py-3>@ 2022 滚动的曲谱</div>
+    <div text-vice absolute bottom-0 py-3>
+      @ 2022 滚动的曲谱
+    </div>
   </div>
 </template>

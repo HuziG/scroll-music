@@ -1,10 +1,10 @@
 <script setup lang="ts">
+import { useMessage } from 'naive-ui'
 import { useCreateSheetStore } from '~/stores/createSheetMusic'
 import { uploadFile } from '~/api/base'
-import { useMessage } from 'naive-ui'
-import { baasFile } from '~/interface/base'
+import type { baasFile } from '~/interface/base'
 
-const emit = defineEmits('cancel') 
+const emit = defineEmits('cancel')
 
 const message = useMessage()
 const createSheetStore = useCreateSheetStore()
@@ -20,11 +20,12 @@ const rules = ref({
   uploadUrl: [
     {
       required: false,
-      validator (rule, value: string) {
+      validator(rule, value: string) {
         if (!value) {
           submitDisabled.value = true
           return new Error('需要曲谱地址')
-        } else if (!/http[s]{0,1}:\/\/([\w.]+\/?)\S*/.test(value)) {
+        }
+        else if (!/http[s]{0,1}:\/\/([\w.]+\/?)\S*/.test(value)) {
           submitDisabled.value = true
           return new Error('曲谱地址格式错误')
         }
@@ -33,19 +34,19 @@ const rules = ref({
 
         return true
       },
-      trigger: ['input', 'blur']
-    }
-  ]
+      trigger: ['input', 'blur'],
+    },
+  ],
 })
 
 const handleSubmit = (data: any) => {
-  createSheetStore.$patch(state => {
+  createSheetStore.$patch((state) => {
     state.sheetData.imgs.push(data)
     emit('cancel')
   })
 }
 
-const handleBeforeUpload = async ({ file }) => {
+const handleBeforeUpload = async({ file }) => {
   const fileObj = file.file
   const size = fileObj.size / 1024
 
@@ -70,7 +71,7 @@ const handleBeforeUpload = async ({ file }) => {
     url: formValue.uploadUrl,
     fileId: data.file.id,
     clipTop: '',
-    clipBottom: ''
+    clipBottom: '',
   })
 
   message.success('上传成功！')
@@ -104,21 +105,23 @@ const handleBeforeUpload = async ({ file }) => {
         size="large"
       >
         <n-form-item label="曲谱地址" path="uploadUrl">
-          <n-input 
-            v-model:value="formValue.uploadUrl" 
-            placeholder="请输入曲谱地址 例如：https://..." 
+          <n-input
+            v-model:value="formValue.uploadUrl"
+            placeholder="请输入曲谱地址 例如：https://..."
             :clearable="true"
           />
         </n-form-item>
       </n-form>
     </div>
 
-    <div mt-5><span text-red font-bold>或</span> 上传曲谱文件</div>
-    
+    <div mt-5>
+      <span text-red font-bold>或</span> 上传曲谱文件
+    </div>
+
     <div mt-2>
       <n-spin :show="uploadLoading">
-        <n-upload 
-          accept="image/*" 
+        <n-upload
+          accept="image/*"
           :disabled="uploadDisabled"
           :show-file-list="false"
           :max="1"
@@ -126,7 +129,7 @@ const handleBeforeUpload = async ({ file }) => {
         >
           <n-upload-dragger>
             <div style="margin-bottom: 12px;" text-center>
-              <div i-mdi-cloud-upload text-3xl inline-block/>
+              <div i-mdi-cloud-upload text-3xl inline-block />
             </div>
             <n-text style="font-size: 16px">
               点击或者拖动文件到该区域来上传
@@ -143,16 +146,18 @@ const handleBeforeUpload = async ({ file }) => {
 
     <template #footer>
       <div text-right>
-        <n-button 
-          :disabled="submitDisabled" 
-          type="primary" 
+        <n-button
+          :disabled="submitDisabled"
+          type="primary"
           @click="handleSubmit({
             url: formValue.uploadUrl,
             fileId: '',
             clipTop: '',
             clipBottom: ''
           })"
-        >确定</n-button>
+        >
+          确定
+        </n-button>
       </div>
     </template>
   </n-card>

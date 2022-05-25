@@ -13,7 +13,6 @@ import {
 <<<<<<< HEAD
 =======
 
-
 const markdownWrapperClasses = 'prose prose-sm m-auto text-left'
 >>>>>>> newmain
 
@@ -51,8 +50,8 @@ export default defineConfig({
       include: [/\.vue$/, /\.vue\?vue/, /\.md$/],
       dts: 'src/components.d.ts',
       resolvers: [
-        NaiveUiResolver()
-      ]
+        NaiveUiResolver(),
+      ],
     }),
 
     // https://github.com/antfu/unocss
