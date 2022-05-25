@@ -5,7 +5,6 @@ import { userLogout } from '~/api/user'
 const value = ref('')
 const router = useRouter()
 const iconList = ref([
-  { label: '设置壁纸', icon: 'i-mdi:image-area', value: 'bgImg' },
   { label: '关于作者', icon: 'i-mdi:book', value: 'about' },
 ])
 
@@ -22,26 +21,6 @@ const handleExit = async() => {
         滚动的曲谱
       </span>
 
-      <!-- <n-popselect v-model:value="value" :options="[]" trigger="click">
-          <n-button text size="large">
-            <template #icon>
-              <div i-mdi-account flex items-center justify-center text-xl text-black />
-            </template>
-          </n-button>
-          <template #empty>
-            <div v-for="item in iconList" :key="item.value" mr-8 hover:text-primary cursor-pointer flex flex-col items-center justify-center>
-              <div bg-primary w-8 h-8 rounded-full flex items-center justify-center>
-                <div :class="`${item.icon}`" text-md text-white />
-              </div>
-              <span text-xs mt-1 transition>{{ item.label }}</span>
-            </div>
-          </template>
-          <template #action>
-            <n-button type="error" style="width: 100%;" @click="handleExit">
-              退出账号
-            </n-button>
-          </template>
-        </n-popselect> -->
       <n-popover :overlap="overlap" placement="bottom-end" trigger="click">
         <template #trigger>
           <n-button text size="large">

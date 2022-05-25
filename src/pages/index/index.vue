@@ -2,8 +2,9 @@
 import SheetMusicItem from './components/sheetMusic.vue'
 import CreateSheetModal from './components/createSheetModal.vue'
 import UploadSheetModal from './components/uploadSheetModal.vue'
+import BgImgModal from './components/bgImgModal.vue'
+import BgImgModalMixins from './mixins/bgImgModal'
 import PageHeader from '~/components/PageHeader/index.vue'
-import PageFooter from '~/components/PageFooter/index.vue'
 import { useCreateSheetStore } from '~/stores/createSheetMusic'
 import { useSheetMusicDepot } from '~/stores/sheetMusicDepot'
 import { getSheets } from '~/api/sheetMusic'
@@ -13,6 +14,7 @@ const createSheetStore = useCreateSheetStore()
 const usmd = useSheetMusicDepot()
 const value = ref('')
 const loadSheets = ref(false)
+const { showBgImgModal, bgUrl, cancelBgImgSet, bgImgSet, bgImgSave } = BgImgModalMixins()
 
 const hideUploadModal = () => {
   createSheetStore.$patch((state) => {
@@ -41,7 +43,13 @@ onMounted(() => {
   <div style="min-width: 600px;">
     <page-header />
 
-    <img fixed top-0 left-0 w-full h-screen object-cover style="z-index: -1;" src="https://infinitypro-img.infinitynewtab.com/wallpaper/anime/265.jpg?imageView2/2/w/3072/format/webp/interlace/1" alt="">
+    <img
+      v-if="bgUrl !== ''"
+      fixed top-0 left-0 w-full h-screen object-cover
+      style="z-index: -1;"
+      :src="bgUrl"
+      alt="error"
+    >
 
     <div style="max-width: 1000px;padding: 0 35px;" mx-auto my-5>
       <div flex items-center justify-between>
@@ -90,9 +98,26 @@ onMounted(() => {
       <upload-sheet-modal @cancel="hideUploadModal" />
     </n-modal>
 
+    <n-modal
+      v-model:show="showBgImgModal"
+      :mask-closable="true"
+    >
+      <bg-img-modal
+        @cancel="cancelBgImgSet"
+        @set="bgImgSet"
+        @save="bgImgSave"
+      />
+    </n-modal>
+
     <div style="height: 60px;" />
 
-    <!-- <PageFooter w-full fixed z-20 bottom-0 /> -->
+    <div
+      w-10 h-10 fixed right-5 bottom-5 z-30 flex items-center justify-center cursor-pointer
+      @click="showBgImgModal = true"
+    >
+      <div absolute top-0 left-0 bg-black opacity-20 w-full h-full rounded-full />
+      <span i-mdi:image-area text-base text-white />
+    </div>
   </div>
 </template>
 

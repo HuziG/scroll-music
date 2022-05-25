@@ -1,4 +1,5 @@
 import BaaS from 'minapp-sdk'
+import axios from 'axios'
 
 const SHEET_TABLE_NAME = 'sheet_music'
 const SHEET_NOTE_TABLE_NAME = 'sheet_note'
@@ -85,4 +86,8 @@ export const getSheetsNote = async(sheet_id: string) => {
   const { data } = await Product.setQuery(query).find()
 
   return data
+}
+
+export const getBgImgList = (cid: string) => {
+  return axios.get(`http://wallpaper.apc.360.cn/index.php?c=WallPaperAndroid&a=getAppsByCategory&cid=${cid}&start=0&count=20`)
 }
