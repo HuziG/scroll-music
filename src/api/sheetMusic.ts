@@ -88,6 +88,6 @@ export const getSheetsNote = async(sheet_id: string) => {
   return data
 }
 
-export const getBgImgList = (cid: string) => {
-  return axios.get(`http://wallpaper.apc.360.cn/index.php?c=WallPaperAndroid&a=getAppsByCategory&cid=${cid}&start=0&count=20`)
+export const getBgImgList = (cid: string, page = 0) => {
+  return axios.get(`https://service-dpw12r2n-1258462188.sh.apigw.tencentcs.com/pic/wallpaper?page=${page}&cid=${cid}`)
 }

@@ -1,6 +1,8 @@
 <script setup lang="ts">
+import { getBgImgList } from '~/api/sheetMusic'
+
 const emit = defineEmits(['cancel', 'set', 'save'])
-const cid = emit(9)
+const selectCidIndex = ref(11)
 const cidList = ref([
   { label: '每日精选', cid: 1 },
   { label: '游戏', cid: 5 },
@@ -16,27 +18,33 @@ const cidList = ref([
   { label: '动漫卡通', cid: 26 },
   { label: '情感', cid: 30 },
   { label: '文字', cid: 35 },
-  { label: '每日精选', cid: 1 },
 ])
 const imgList = ref([])
+const loadingList = ref(false)
 
 const handleSave = () => {
 
 }
 
-const handleGetImg = async() => {
-  const { data } = await getBgImgList(cid.value)
-  imgList.value = data
+const handleGetImg = async(cid) => {
+  loadingList.value = true
+  const { data } = await getBgImgList(cid)
+  imgList.value = data.data.data
+  loadingList.value = false
 }
 
+watch(selectCidIndex, (newValue) => {
+  handleGetImg(cidList.value[newValue].cid)
+})
+
 onMounted(() => {
-  handleGetImg()
+  handleGetImg(cidList.value[selectCidIndex.value].cid)
 })
 </script>
 
 <template>
   <n-card
-    style="width: 60%"
+    style="width: 50%;"
     title="更换壁纸"
     :bordered="false"
     size="huge"
@@ -51,15 +59,36 @@ onMounted(() => {
       </n-button>
     </template>
 
+    <div flex flex-wrap class="-ml-3 -mt-3">
+      <div
+        v-for="(item, index) in cidList" :key="item.cid"
+        px-2 py-1 cursor-pointer bg-primary rounded-md bg-opacity-0
+        hover:bg-opacity-20 hover:text-primary ml-3 mt-3
+        :class="`${selectCidIndex === index ? 'bg-opacity-20 text-primary' : ''}`"
+        @click="selectCidIndex = index"
+      >
+        {{ item.label }}
+      </div>
+    </div>
+
+    <n-spin :show="loadingList">
+      <div mt-5 flex flex-wrap h-80 overflow-y-auto justify-between class="-mt-5">
+        <img
+          v-for="item in imgList"
+          :key="item.url"
+          :src="item.url"
+          alt="error"
+          rounded-md object-cover mt-5 cursor-pointer hover:opacity-80
+          style="width: 23%;"
+          @click="emit('set', item.url)"
+        >
+      </div>
+    </n-spin>
+
     <template #footer>
       <div text-right>
-        <n-button
-          :disabled="disabledCreate"
-          :loading="submitLoading"
-          type="primary"
-          @click="handleSave"
-        >
-          保存
+        <n-button type="primary" @click="handleSave">
+          保存配置
         </n-button>
       </div>
     </template>

@@ -7,14 +7,18 @@ export default function() {
   const modalLoading = ref(false)
   const bgUrl = ref('https://infinitypro-img.infinitynewtab.com/wallpaper/anime/265.jpg?imageView2/2/w/3072/format/webp/interlace/1')
   const saveImg = ref('')
+  const resetImg = ref('')
 
   watch(showBgImgModal, (newValue) => {
-    if (newValue)
+    if (newValue) {
       saveImg.value = ''
+      resetImg.value = bgUrl.value
+    }
   })
 
   const cancelBgImgSet = () => {
     showBgImgModal.value = false
+    bgUrl.value = resetImg.value
   }
 
   const bgImgSave = async({ url, _id }: any) => {
