@@ -1,41 +1,47 @@
 import { useMessage } from 'naive-ui'
 import { editValue } from '~/api/base'
+import { useConfigStore } from '~/stores/config'
 
 export default function() {
+  const configStore = useConfigStore()
   const message = useMessage()
   const showBgImgModal = ref(false)
-  const modalLoading = ref(false)
-  const bgUrl = ref('https://infinitypro-img.infinitynewtab.com/wallpaper/anime/265.jpg?imageView2/2/w/3072/format/webp/interlace/1')
+  const bgImgSaveLoading = ref(false)
   const saveImg = ref('')
   const resetImg = ref('')
 
   watch(showBgImgModal, (newValue) => {
     if (newValue) {
       saveImg.value = ''
-      resetImg.value = bgUrl.value
+      resetImg.value = configStore.userConfig.index_bg_img
     }
   })
 
   const cancelBgImgSet = () => {
     showBgImgModal.value = false
-    bgUrl.value = resetImg.value
+    configStore.userConfig.index_bg_img = resetImg.value
   }
 
-  const bgImgSave = async({ url, _id }: any) => {
-    modalLoading.value = true
+  const bgImgSet = (url: string) => {
+    configStore.userConfig.index_bg_img = url
+  }
 
-    await editValue('sheet_config', _id, {
-      bg_img_url: url,
+  const bgImgSave = async() => {
+    bgImgSaveLoading.value = true
+
+    if (!configStore.userConfig._id) {
+      message.warning('无法保存')
+      return false
+    }
+
+    await editValue('user_config', configStore.userConfig._id, {
+      index_bg_img: configStore.userConfig.index_bg_img,
     })
 
     message.success('保存成功')
 
+    bgImgSaveLoading.value = false
     showBgImgModal.value = false
-    modalLoading.value = false
-  }
-
-  const bgImgSet = (url: string) => {
-    bgUrl.value = url
   }
 
   return {
@@ -43,6 +49,7 @@ export default function() {
     bgImgSave,
     bgImgSet,
     showBgImgModal,
-    bgUrl,
+    bgImgSaveLoading,
+    configStore,
   }
 }

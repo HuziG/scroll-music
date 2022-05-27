@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { getBgImgList } from '~/api/sheetMusic'
 
+const prop = defineProps(['saveLoading'])
 const emit = defineEmits(['cancel', 'set', 'save'])
 const selectCidIndex = ref(11)
 const cidList = ref([
@@ -21,6 +22,8 @@ const cidList = ref([
 ])
 const imgList = ref([])
 const loadingList = ref(false)
+const page = ref(1)
+const pageCount = ref(1)
 
 const handleSave = () => {
 
@@ -30,6 +33,7 @@ const handleGetImg = async(cid) => {
   loadingList.value = true
   const { data } = await getBgImgList(cid)
   imgList.value = data.data.data
+  pageCount.value = Math.floor(Number(data.data.total) / 20)
   loadingList.value = false
 }
 
@@ -44,7 +48,7 @@ onMounted(() => {
 
 <template>
   <n-card
-    style="width: 50%;"
+    style="width: 500px;"
     title="更换壁纸"
     :bordered="false"
     size="huge"
@@ -72,22 +76,26 @@ onMounted(() => {
     </div>
 
     <n-spin :show="loadingList">
-      <div mt-5 flex flex-wrap h-80 overflow-y-auto justify-between class="-mt-5">
+      <div mt-5 flex flex-wrap h-80 overflow-y-auto justify-between>
         <img
           v-for="item in imgList"
           :key="item.url"
           :src="item.url"
           alt="error"
-          rounded-md object-cover mt-5 cursor-pointer hover:opacity-80
-          style="width: 23%;"
+          rounded-md object-cover mb-5 cursor-pointer hover:opacity-80
+          style="width: 48%;"
           @click="emit('set', item.url)"
         >
       </div>
     </n-spin>
 
+    <div mt-5>
+      <n-pagination v-model:page="page" :page-count="pageCount" />
+    </div>
+
     <template #footer>
       <div text-right>
-        <n-button type="primary" @click="handleSave">
+        <n-button type="primary" :loading="prop.saveLoading" @click="emit('save')">
           保存配置
         </n-button>
       </div>

@@ -1,4 +1,4 @@
-import BaaS from 'minapp-sdk'
+import { useUserStore } from '~/stores/user'
 import { type UserModule } from '~/types'
 
 export const install: UserModule = ({ router }) => {
@@ -8,7 +8,8 @@ export const install: UserModule = ({ router }) => {
     let data
 
     try {
-      data = await BaaS.auth.getCurrentUser()
+      await useUserStore().requestUserInfo()
+      data = useUserStore().userInfo
     }
     catch (error) {
       data = null

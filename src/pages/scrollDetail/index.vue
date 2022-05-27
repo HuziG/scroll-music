@@ -241,7 +241,7 @@ onBeforeUnmount(() => {
         circle
         type="primary"
         size="medium"
-        @click="router.replace('/')"
+        @click="router.back()"
       >
         <template #icon>
           <div i-mdi:arrow-left-circle text-base />

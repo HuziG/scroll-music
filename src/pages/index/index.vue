@@ -9,12 +9,16 @@ import { useCreateSheetStore } from '~/stores/createSheetMusic'
 import { useSheetMusicDepot } from '~/stores/sheetMusicDepot'
 import { getSheets } from '~/api/sheetMusic'
 import { deepClone } from '~/utils/utils'
+import { useConfigStore } from '~/stores/config'
 
 const createSheetStore = useCreateSheetStore()
 const usmd = useSheetMusicDepot()
 const value = ref('')
 const loadSheets = ref(false)
-const { showBgImgModal, bgUrl, cancelBgImgSet, bgImgSet, bgImgSave } = BgImgModalMixins()
+const {
+  showBgImgModal, bgImgSaveLoading, configStore,
+  cancelBgImgSet, bgImgSet, bgImgSave,
+} = BgImgModalMixins()
 
 const hideUploadModal = () => {
   createSheetStore.$patch((state) => {
@@ -35,6 +39,8 @@ const handleInit = async() => {
 }
 
 onMounted(() => {
+  configStore.requestUserConfig()
+
   handleInit()
 })
 </script>
@@ -44,16 +50,19 @@ onMounted(() => {
     <page-header />
 
     <img
-      v-if="bgUrl !== ''"
       fixed top-0 left-0 w-full h-screen object-cover
       style="z-index: -1;"
-      :src="bgUrl"
+      :src="configStore.userConfig.index_bg_img"
       alt="error"
     >
 
     <div style="max-width: 1000px;padding: 0 35px;" mx-auto my-5>
       <div flex items-center justify-between>
-        <span text-xl>我的曲谱</span>
+        <span
+          text-xl :style="{
+            color: configStore.userConfig.main_color
+          }"
+        >我的曲谱</span>
 
         <n-button
           strong round
@@ -103,6 +112,7 @@ onMounted(() => {
       :mask-closable="true"
     >
       <bg-img-modal
+        :save-loading="bgImgSaveLoading"
         @cancel="cancelBgImgSet"
         @set="bgImgSet"
         @save="bgImgSave"

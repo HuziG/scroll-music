@@ -13,7 +13,6 @@ export const useSheetMusicDepot = defineStore({
   actions: {
     async handleInitSheet() {
       const { objects, meta } = await getSheets()
-
       this.sheetMusicData = objects
       this.pager = meta
     },
