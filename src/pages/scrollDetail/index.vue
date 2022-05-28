@@ -23,7 +23,6 @@ const noteSaveLoading = ref(false)
 
 const darkMode = ref(false)
 
-const step = ref(null)
 const stepSlider = ref(null)
 const speedSlider = ref(null)
 
@@ -47,8 +46,7 @@ const initSessionSheet = () => {
 
   if (data) {
     sheetDetailStore.dispatchSheet(JSON.parse(data))
-    step.value = sheetDetailStore.sheetData.step
-    stepSlider.value = sheetDetailStore.sheetData.step * 100
+    stepSlider.value = sheetDetailStore.sheetData.step
     speedSlider.value = sheetDetailStore.sheetData.speed
     sheetImgWidth.value = sheetDetailStore.sheetData.width
   }
@@ -76,8 +74,10 @@ const handleStop = () => {
 
 const startScroll = () => {
   scrollInterval = setInterval(() => {
+    console.log('startScroll', stepSlider.value)
+
     let topDistance = document.documentElement.scrollTop
-    topDistance += step.value
+    topDistance += stepSlider.value
     document.documentElement.scrollTop = topDistance
   }, speedSlider.value)
 }
@@ -115,19 +115,21 @@ const handleConfirm = async() => {
 
   const data = await editSheet({
     _id: sheetDetailStore.sheetData._id,
-    step: Number(step.value),
+    step: Number(stepSlider.value),
     speed: Number(speedSlider.value),
   })
 
-  sheetDetailStore.dispatchSpeed(step.value, speedSlider.value)
+  sheetDetailStore.dispatchSpeed(stepSlider.value, speedSlider.value)
 
   message.success('设置成功')
 }
 
-watch(stepSlider, (newValue) => {
-  const n = (newValue / 20) * 0.1
-  step.value = 0.5 + Number(toRaw(n.toFixed(1)))
-})
+// watch(stepSlider, (newValue) => {
+//   console.log(newValue)
+//   stepSlider.value = newValue
+//   // const n = (newValue / 20) * 0.1
+//   // step.value = 0.5 + Number(toRaw(n.toFixed(1)))
+// })
 
 const handleSpeedChange = () => {
   clearInterval(scrollInterval)
@@ -452,7 +454,7 @@ onBeforeUnmount(() => {
       <div text-xs text-vice my-1>
         一次滚动的距离
       </div>
-      <n-slider v-model:value="stepSlider" :step="20" />
+      <n-slider v-model:value="stepSlider" :step="0.1" :min="0.5" :max="2" />
 
       <div mt-10>
         速度调节

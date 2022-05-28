@@ -25,20 +25,20 @@ const loadingList = ref(false)
 const page = ref(1)
 const pageCount = ref(1)
 
-const handleSave = () => {
-
-}
-
 const handleGetImg = async(cid) => {
   loadingList.value = true
-  const { data } = await getBgImgList(cid)
+  const { data } = await getBgImgList(cid, (page.value - 1) * 20)
   imgList.value = data.data.data
   pageCount.value = Math.floor(Number(data.data.total) / 20)
   loadingList.value = false
 }
 
 watch(selectCidIndex, (newValue) => {
-  handleGetImg(cidList.value[newValue].cid)
+  handleGetImg(cidList.value[selectCidIndex.value].cid)
+})
+
+watch(page, (newValue) => {
+  handleGetImg(cidList.value[selectCidIndex.value].cid)
 })
 
 onMounted(() => {
@@ -69,7 +69,7 @@ onMounted(() => {
         px-2 py-1 cursor-pointer bg-primary rounded-md bg-opacity-0
         hover:bg-opacity-20 hover:text-primary ml-3 mt-3
         :class="`${selectCidIndex === index ? 'bg-opacity-20 text-primary' : ''}`"
-        @click="selectCidIndex = index"
+        @click="selectCidIndex = index;page = 1"
       >
         {{ item.label }}
       </div>

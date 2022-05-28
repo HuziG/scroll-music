@@ -11,6 +11,7 @@ import { getSheets } from '~/api/sheetMusic'
 import { deepClone } from '~/utils/utils'
 import { useConfigStore } from '~/stores/config'
 
+const router = useRouter()
 const createSheetStore = useCreateSheetStore()
 const usmd = useSheetMusicDepot()
 const value = ref('')
@@ -120,6 +121,13 @@ onMounted(() => {
     </n-modal>
 
     <div style="height: 60px;" />
+
+    <div
+      fixed left-5 bottom-5 z-30 bg-black bg-opacity-20 py-1 px-2 text-white rounded-full cursor-pointer
+      @click="router.push('/about')"
+    >
+      关于作者
+    </div>
 
     <div
       w-10 h-10 fixed right-5 bottom-5 z-30 flex items-center justify-center cursor-pointer

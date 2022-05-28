@@ -31,7 +31,12 @@ const handleExit = async() => {
         </template>
         <div style="width: 300px;">
           <div flex>
-            <div v-for="item in iconList" :key="item.value" mr-5 hover:text-primary cursor-pointer flex flex-col items-center justify-center>
+            <div
+              v-for="item in iconList"
+              :key="item.value"
+              mr-5 hover:text-primary cursor-pointer flex flex-col items-center justify-center
+              @click="router.push('/about')"
+            >
               <div bg-primary w-8 h-8 rounded-full flex items-center justify-center>
                 <div :class="`${item.icon}`" text-md text-white />
               </div>
