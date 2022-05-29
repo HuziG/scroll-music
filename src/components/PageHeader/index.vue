@@ -10,7 +10,7 @@ const iconList = ref([
 
 const handleExit = async() => {
   await userLogout()
-  router.replace('/login')
+  window.location.reload()
 }
 </script>
 

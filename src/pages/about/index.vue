@@ -4,7 +4,7 @@ const router = useRouter()
 
 <template>
   <div mx-auto w-full py-10 px-5 class="lg:w-1/2">
-    <div i-mdi:arrow-left-circle text-2xl text-primary @click="router.back()" />
+    <div i-mdi:arrow-left-circle text-2xl text-primary cursor-pointer @click="router.back()" />
 
     <div mt-8 text-2xl>
       关于作者
@@ -13,7 +13,7 @@ const router = useRouter()
     <div text-base>
       <div
         v-for="(item, index) in [
-          '我是一名白天代码，晚上吉他，年轻力壮的男程序员 👨🏻‍💻',
+          '我叫张小张，我是一名白天代码，晚上吉他，年轻力壮的男程序员 👨🏻‍💻',
           '程序是工作，吉他是兴趣使然。当然，代码也是个人所热爱的',
           '自己小时候学过6年的二胡，2、3年的绘画。艺术细胞还是有点的',
           '后来高中又去学了编程，现在又抱起了吉他',

@@ -74,8 +74,6 @@ const handleStop = () => {
 
 const startScroll = () => {
   scrollInterval = setInterval(() => {
-    console.log('startScroll', stepSlider.value)
-
     let topDistance = document.documentElement.scrollTop
     topDistance += stepSlider.value
     document.documentElement.scrollTop = topDistance
@@ -237,7 +235,7 @@ onBeforeUnmount(() => {
       backgroundColor: darkMode ? '#333333' : '#F0F2F5',
     }"
   >
-    <div fixed top-5 left-5>
+    <div fixed top-5 left-5 z-30>
       <n-button
         strong
         circle
@@ -450,22 +448,46 @@ onBeforeUnmount(() => {
         </n-button>
       </template>
 
-      <div>跨度调节</div>
-      <div text-xs text-vice my-1>
-        一次滚动的距离
+      <div flex items-center justify-between>
+        <div>
+          <div>
+            跨度调节
+          </div>
+          <div text-xs text-vice my-1>
+            一次滚动的距离
+          </div>
+        </div>
+        <div text-primary font-bold text-2xl>
+          {{ stepSlider }} px
+        </div>
       </div>
-      <n-slider v-model:value="stepSlider" :step="0.1" :min="0.5" :max="2" />
+      <n-slider
+        v-model:value="stepSlider"
+        :step="0.1"
+        :min="0.5"
+        :max="2"
+        :tooltip="false"
+      />
 
-      <div mt-10>
-        速度调节
-      </div>
-      <div text-xs text-vice my-1>
-        每多少 ms 滚动一次
+      <div flex items-center justify-between mt-10>
+        <div>
+          <div>
+            速度调节
+          </div>
+          <div text-xs text-vice my-1>
+            每多少毫秒滚动一次
+          </div>
+        </div>
+        <div text-primary font-bold text-2xl>
+          {{ speedSlider }} ms
+        </div>
       </div>
       <n-slider
         v-model:value="speedSlider"
-        :min="30"
-        :step="5"
+        :min="20"
+        :max="50"
+        :step="1"
+        :tooltip="false"
         @update:value="handleSpeedChange"
       />
 

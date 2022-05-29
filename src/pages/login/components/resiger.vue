@@ -77,8 +77,8 @@ const handleValidateForm = (e) => {
 
 <template>
   <div
-    bg-white rounded-5 px-5 w-xl h-xl absolute right-10 z-20 overflow-hidden
-    style="top: 15%;tranfrom: translateY(-50%)"
+    class="top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2"
+    bg-white rounded-5 px-5 w-xl h-xl absolute z-20 overflow-hidden
   >
     <div my-5 text-main font-bold text-2xl flex items-center>
       <div

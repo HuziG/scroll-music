@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { getBgImgList } from '~/api/sheetMusic'
 
+import useMediaSize from '~/mixins/useMediaSize'
+
 const prop = defineProps(['saveLoading'])
 const emit = defineEmits(['cancel', 'set', 'save'])
 const selectCidIndex = ref(11)
@@ -24,6 +26,7 @@ const imgList = ref([])
 const loadingList = ref(false)
 const page = ref(1)
 const pageCount = ref(1)
+const { isLargeScreen } = useMediaSize()
 
 const handleGetImg = async(cid) => {
   loadingList.value = true
@@ -48,8 +51,10 @@ onMounted(() => {
 
 <template>
   <n-card
-    style="width: 500px;"
-    title="更换壁纸"
+    :style="{
+      width: isLargeScreen ? '60%' : '90%'
+    }"
+    title="壁纸设置"
     :bordered="false"
     size="huge"
     role="dialog"
@@ -89,7 +94,7 @@ onMounted(() => {
       </div>
     </n-spin>
 
-    <div mt-5>
+    <div mt-5 float-right>
       <n-pagination v-model:page="page" :page-count="pageCount" />
     </div>
 

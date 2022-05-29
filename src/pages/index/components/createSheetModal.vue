@@ -5,7 +5,9 @@ import { useCreateSheetStore } from '~/stores/createSheetMusic'
 import { useSheetMusicDepot } from '~/stores/sheetMusicDepot'
 import { addSheet, editSheet } from '~/api/sheetMusic'
 import { delFiles } from '~/api/base'
+import useMediaSize from '~/mixins/useMediaSize'
 
+const { isLargeScreen } = useMediaSize()
 const dialog = useDialog()
 const emit = defineEmits('cancel')
 const message = useMessage()
@@ -111,7 +113,9 @@ const handleClipConfirm = (e) => {
 
 <template>
   <n-card
-    style="width: 60%"
+    :style="{
+      width: isLargeScreen ? '60%' : '90%'
+    }"
     title="创建曲谱"
     :bordered="false"
     size="huge"
@@ -131,7 +135,8 @@ const handleClipConfirm = (e) => {
     <div class="-ml-5" mt-3 flex flex-wrap>
       <div
         v-for="(item, index) in createSheetStore.sheetData.imgs"
-        :key="index" class="sheet-item" relative w-55 h-65 mt-5 ml-5 rounded-2 border-2
+        :key="index" class="sheet-item"
+        relative w-45 h-55 lg:w-55 lg:h-65 mt-5 ml-5 rounded-2 border-2
         border-primary overflow-hidden
       >
         <div
@@ -165,7 +170,8 @@ const handleClipConfirm = (e) => {
       </div>
 
       <div
-        v-if="createSheetStore.sheetData.imgs && createSheetStore.sheetData.imgs.length <= 8" w-55 h-65 mt-5 ml-5 border-2 border-primary flex justify-center items-center rounded-2
+        v-if="createSheetStore.sheetData.imgs && createSheetStore.sheetData.imgs.length <= 8"
+        w-45 h-55 lg:w-55 lg:h-65 mt-5 ml-5 border-2 border-primary flex justify-center items-center rounded-2
         text-primary flex-col hover:bg-opacity-5 bg-opacity-0 bg-primary transition
         cursor-pointer
         @click="handleUpload"

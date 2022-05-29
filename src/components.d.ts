@@ -5,8 +5,6 @@ import '@vue/runtime-core'
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
-    Counter: typeof import('./components/Counter.vue')['default']
-    Footer: typeof import('./components/Footer.vue')['default']
     LoginFooter: typeof import('./components/LoginFooter/index.vue')['default']
     NButton: typeof import('naive-ui')['NButton']
     NButtonGroup: typeof import('naive-ui')['NButtonGroup']
@@ -29,7 +27,6 @@ declare module '@vue/runtime-core' {
     NUploadDragger: typeof import('naive-ui')['NUploadDragger']
     PageFooter: typeof import('./components/PageFooter/index.vue')['default']
     PageHeader: typeof import('./components/PageHeader/index.vue')['default']
-    README: typeof import('./components/README.md')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }
