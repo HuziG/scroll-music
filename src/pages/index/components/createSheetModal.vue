@@ -65,6 +65,7 @@ const handleEditSheet = async() => {
   submitLoading.value = false
 
   createSheetStore.clearStore()
+  createSheetStore.showCreateModal = false
 
   message.success('修改成功')
 
@@ -82,6 +83,7 @@ const handleAddSheet = async() => {
   submitLoading.value = false
 
   createSheetStore.clearStore()
+  createSheetStore.showCreateModal = false
 
   message.success('添加成功')
 
