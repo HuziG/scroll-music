@@ -1,33 +1,24 @@
+import BaaS from 'minapp-sdk'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 
-export const useUserStore = defineStore('user', () => {
-  /**
-   * Current name of the user.
-   */
-  const savedName = ref('')
-  const previousNames = ref(new Set<string>())
+export const useUserStore = defineStore({
+  id: 'user',
 
-  const usedNames = computed(() => Array.from(previousNames.value))
-  const otherNames = computed(() => usedNames.value.filter(name => name !== savedName.value))
+  state: () => ({
+    userInfo: {
+      id: null,
+      _email_verified: false,
+    },
+  }),
 
-  /**
-   * Changes the current name of the user and saves the one that was used
-   * before.
-   *
-   * @param name - new name to set
-   */
-  function setNewName(name: string) {
-    if (savedName.value)
-      previousNames.value.add(savedName.value)
-
-    savedName.value = name
-  }
-
-  return {
-    setNewName,
-    otherNames,
-    savedName,
-  }
+  actions: {
+    async requestUserInfo() {
+      if (!this.userInfo.id) {
+        const data = await BaaS.auth.getCurrentUser()
+        this.userInfo = data
+      }
+    },
+  },
 })
 
 if (import.meta.hot)

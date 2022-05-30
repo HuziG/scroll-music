@@ -1,4 +1,5 @@
 import BaaS from 'minapp-sdk'
+import axios from 'axios'
 
 const SHEET_TABLE_NAME = 'sheet_music'
 const SHEET_NOTE_TABLE_NAME = 'sheet_note'
@@ -85,4 +86,8 @@ export const getSheetsNote = async(sheet_id: string) => {
   const { data } = await Product.setQuery(query).find()
 
   return data
+}
+
+export const getBgImgList = (cid: string, page = 0) => {
+  return axios.get(`https://service-dpw12r2n-1258462188.sh.apigw.tencentcs.com/pic/wallpaper?page=${page}&cid=${cid}`)
 }

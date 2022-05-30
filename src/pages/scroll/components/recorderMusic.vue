@@ -119,8 +119,7 @@ onBeforeUnmount(() => {
             @click="handleToggleRecorder(globalState)"
           >
             <template #icon>
-              <div v-if="globalState === 0" i-mdi:microphone text-base />
-              <div v-else i-mdi:radiobox-marked text-base />
+              <div :class="globalState === 0 ? 'i-mdi:microphone' : 'i-mdi:radiobox-marked'" text-base />
             </template>
           </n-button>
         </div>

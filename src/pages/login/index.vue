@@ -27,10 +27,7 @@ const imgList = [
   'https://tse1-mm.cn.bing.net/th/id/R-C.eafdb41966a66e53ef04d09fa96bba35?rik=YIvINuvLwG9y7g&riu=http%3a%2f%2fimg.wanjita.com%2fueditor%2fphp%2fupload%2fimage%2f20200824%2f1598282933997765.jpg&ehk=QsHNUtOwrtH4rnzQnQI5uQcTkC3hQ1tL9CwIDWfyoms%3d&risl=&pid=ImgRaw&r=0',
 ]
 
-const interval = setInterval(() => {
-  imgList.push(imgList[imgIndex ? 0 : 1])
-  imgIndex = !imgIndex
-}, 59000)
+let interval = null
 
 const handleChangeState = ({ state }) => {
   panelState.value = state
@@ -191,6 +188,15 @@ const handleSubmitForm = async({ type, form }) => {
     message.error(typeof error === 'object' ? JSON.stringify(error) : error)
   }
 }
+
+onMounted(() => {
+  setTimeout(() => {
+    interval = setInterval(() => {
+      imgList.push(imgList[imgIndex ? 0 : 1])
+      imgIndex = !imgIndex
+    }, 59000)
+  }, 1000)
+})
 </script>
 
 <template>

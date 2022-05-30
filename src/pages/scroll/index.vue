@@ -4,6 +4,7 @@ import ClipImage from './components/clipImage.vue'
 import richEditModel from './components/richEditModel.vue'
 import SheetWidthModal from './components/sheetWidthModal.vue'
 import RecorderMusic from './components/recorderMusic.vue'
+import keyboardMixins from './keyboardMixins'
 import { useSheetDetailStore } from '~/stores/sheetDetail'
 import { addSheetNote, editSheet, editSheetNote, getSheetsNote } from '~/api/sheetMusic'
 
@@ -23,7 +24,6 @@ const noteSaveLoading = ref(false)
 
 const darkMode = ref(false)
 
-const step = ref(null)
 const stepSlider = ref(null)
 const speedSlider = ref(null)
 
@@ -47,8 +47,7 @@ const initSessionSheet = () => {
 
   if (data) {
     sheetDetailStore.dispatchSheet(JSON.parse(data))
-    step.value = sheetDetailStore.sheetData.step
-    stepSlider.value = sheetDetailStore.sheetData.step * 100
+    stepSlider.value = sheetDetailStore.sheetData.step
     speedSlider.value = sheetDetailStore.sheetData.speed
     sheetImgWidth.value = sheetDetailStore.sheetData.width
   }
@@ -77,7 +76,7 @@ const handleStop = () => {
 const startScroll = () => {
   scrollInterval = setInterval(() => {
     let topDistance = document.documentElement.scrollTop
-    topDistance += step.value
+    topDistance += stepSlider.value
     document.documentElement.scrollTop = topDistance
   }, speedSlider.value)
 }
@@ -115,19 +114,21 @@ const handleConfirm = async() => {
 
   const data = await editSheet({
     _id: sheetDetailStore.sheetData._id,
-    step: Number(step.value),
+    step: Number(stepSlider.value),
     speed: Number(speedSlider.value),
   })
 
-  sheetDetailStore.dispatchSpeed(step.value, speedSlider.value)
+  sheetDetailStore.dispatchSpeed(stepSlider.value, speedSlider.value)
 
   message.success('设置成功')
 }
 
-watch(stepSlider, (newValue) => {
-  const n = (newValue / 20) * 0.1
-  step.value = 0.5 + Number(toRaw(n.toFixed(1)))
-})
+// watch(stepSlider, (newValue) => {
+//   console.log(newValue)
+//   stepSlider.value = newValue
+//   // const n = (newValue / 20) * 0.1
+//   // step.value = 0.5 + Number(toRaw(n.toFixed(1)))
+// })
 
 const handleSpeedChange = () => {
   clearInterval(scrollInterval)
@@ -216,6 +217,13 @@ const handleShowSheetWidthModal = () => {
   showSheetWidthModal.value = true
 }
 
+const { showActionData } = keyboardMixins({
+  scrollMode,
+  handleStart,
+  handleStop,
+  handleRestart,
+})
+
 onMounted(() => {
   initSessionSheet()
   initNightDark()
@@ -235,13 +243,13 @@ onBeforeUnmount(() => {
       backgroundColor: darkMode ? '#333333' : '#F0F2F5',
     }"
   >
-    <div fixed top-5 left-5>
+    <div fixed top-5 left-5 z-30>
       <n-button
         strong
         circle
         type="primary"
         size="medium"
-        @click="router.replace('/')"
+        @click="router.back()"
       >
         <template #icon>
           <div i-mdi:arrow-left-circle text-base />
@@ -448,22 +456,46 @@ onBeforeUnmount(() => {
         </n-button>
       </template>
 
-      <div>跨度调节</div>
-      <div text-xs text-vice my-1>
-        一次滚动的距离
+      <div flex items-center justify-between>
+        <div>
+          <div>
+            跨度调节
+          </div>
+          <div text-xs text-vice my-1>
+            一次滚动的距离
+          </div>
+        </div>
+        <div text-primary font-bold text-2xl>
+          {{ stepSlider }} px
+        </div>
       </div>
-      <n-slider v-model:value="stepSlider" :step="20" />
+      <n-slider
+        v-model:value="stepSlider"
+        :step="0.1"
+        :min="0.5"
+        :max="2"
+        :tooltip="false"
+      />
 
-      <div mt-10>
-        速度调节
-      </div>
-      <div text-xs text-vice my-1>
-        每多少 ms 滚动一次
+      <div flex items-center justify-between mt-10>
+        <div>
+          <div>
+            速度调节
+          </div>
+          <div text-xs text-vice my-1>
+            每多少毫秒滚动一次
+          </div>
+        </div>
+        <div text-primary font-bold text-2xl>
+          {{ speedSlider }} ms
+        </div>
       </div>
       <n-slider
         v-model:value="speedSlider"
-        :min="30"
-        :step="5"
+        :min="20"
+        :max="50"
+        :step="1"
+        :tooltip="false"
         @update:value="handleSpeedChange"
       />
 
@@ -500,6 +532,17 @@ onBeforeUnmount(() => {
       bg-primary bg-opacity-90 text-white
     >
       {{ countDown }}
+    </div>
+
+    <div
+      v-if="showActionData"
+      fixed z-30 bottom-5 bg-black w-40 h-30 rounded-xl bg-opacity-90 text-white
+      class="left-1/2 -translate-x-1/2 flex flex-col items-center justify-center"
+    >
+      <div text-4xl :class="`${showActionData.icon || ''}`" />
+      <div mt-3 text-xl>
+        {{ showActionData.label }}
+      </div>
     </div>
   </div>
 </template>

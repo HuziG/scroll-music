@@ -2,6 +2,7 @@
 import { useMessage } from 'naive-ui'
 import { useCreateSheetStore } from '~/stores/createSheetMusic'
 import { uploadFile } from '~/api/base'
+import useMediaSize from '~/mixins/useMediaSize'
 import type { baasFile } from '~/interface/base'
 
 const emit = defineEmits('cancel')
@@ -15,6 +16,7 @@ const formValue = ref({
   uploadUrl: '',
 })
 const fileId = ref('')
+const { isLargeScreen } = useMediaSize()
 
 const rules = ref({
   uploadUrl: [
@@ -80,7 +82,9 @@ const handleBeforeUpload = async({ file }) => {
 
 <template>
   <n-card
-    style="width: 40%"
+    :style="{
+      width: isLargeScreen ? '600px' : '500px'
+    }"
     title="上传曲谱"
     :bordered="false"
     size="huge"

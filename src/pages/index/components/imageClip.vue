@@ -1,7 +1,10 @@
 <script setup lang="ts">
+import { useMessage } from 'naive-ui'
+
 const props = defineProps(['value'])
 const emit = defineEmits(['cancel', 'confirm'])
 
+const { error } = useMessage()
 const moveLineType = ref('')
 const containerHeight = ref(450)
 
@@ -43,17 +46,38 @@ const handleMouseDown = ({ event, type }) => {
   moveLineType.value = type
 }
 
+const handleTopMouseUp = (e) => {
+  baseTopDistance.value = topDistance.value
+  moveLineType.value = ''
+  topStartY.value = e.y
+}
+
+const handleBottomMouseUp = (e) => {
+  baseBottomDistance.value = bottomDistance.value
+  moveLineType.value = ''
+  bottomStartY.value = e.y
+}
+
 const handleMouseMove = (event) => {
   if (topDistance.value + bottomDistance.value >= 315) {
+    // message.warning('可视距离太小，请重新拖动剪裁')
+
+    error('那东西我们早就不屑啦，哈哈哈', {
+      render: renderMessage,
+      closable: true,
+    })
+
     if (moveLineType.value === 'top') {
-      bottomDistance.value -= 30
-      baseBottomDistance.value -= 30
+      topDistance.value = 0
+      baseTopDistance.value = 0
     }
 
     if (moveLineType.value === 'bottom') {
-      topDistance.value -= 30
-      baseTopDistance.value -= 30
+      bottomDistance.value = 0
+      baseBottomDistance.value = 0
     }
+
+    moveLineType.value = ''
 
     return false
   }
@@ -70,18 +94,6 @@ const handleMouseMove = (event) => {
     if (moveDistance > 0)
       bottomDistance.value = moveDistance
   }
-}
-
-const handleTopMouseUp = (e) => {
-  baseTopDistance.value = topDistance.value
-  moveLineType.value = ''
-  topStartY.value = e.y
-}
-
-const handleBottomMouseUp = (e) => {
-  baseBottomDistance.value = bottomDistance.value
-  moveLineType.value = ''
-  bottomStartY.value = e.y
 }
 </script>
 

@@ -47,7 +47,7 @@ watch(selectValue, async(newValue) => {
 
 const handleToScroll = () => {
   sheetDetailStore.dispatchSheet(props.value)
-  router.push('/scrollDetail')
+  router.push('/scroll')
 }
 </script>
 
@@ -58,7 +58,7 @@ const handleToScroll = () => {
     inline-block rounded-2 py-2 px-3 mt-6 ml-5
   >
     <img
-      style="width: 221px;height: 312px;"
+      style="width: 210px;height: 300px;"
       :src="props.value.imgs[0].url"
       rounded-1 cursor-pointer
       alt="error"

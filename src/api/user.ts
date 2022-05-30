@@ -36,7 +36,7 @@ export const getPasswordByEmail = ({
   email: string
 }) => BaaS.auth.requestPasswordReset({ email })
 
-// 用户登录
+// 用户退出
 export const userLogout = () => {
   return BaaS.auth.logout()
 }
