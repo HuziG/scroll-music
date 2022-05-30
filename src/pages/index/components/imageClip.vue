@@ -95,7 +95,6 @@ const handleMouseMove = (event) => {
       bottomDistance.value = moveDistance
   }
 }
-
 </script>
 
 <template>

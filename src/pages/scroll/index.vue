@@ -4,6 +4,7 @@ import ClipImage from './components/clipImage.vue'
 import richEditModel from './components/richEditModel.vue'
 import SheetWidthModal from './components/sheetWidthModal.vue'
 import RecorderMusic from './components/recorderMusic.vue'
+import keyboardMixins from './keyboardMixins'
 import { useSheetDetailStore } from '~/stores/sheetDetail'
 import { addSheetNote, editSheet, editSheetNote, getSheetsNote } from '~/api/sheetMusic'
 
@@ -215,6 +216,13 @@ const handleShowSheetWidthModal = () => {
   beforeSheetImgWidth.value = sheetImgWidth.value
   showSheetWidthModal.value = true
 }
+
+const { showActionData } = keyboardMixins({
+  scrollMode,
+  handleStart,
+  handleStop,
+  handleRestart,
+})
 
 onMounted(() => {
   initSessionSheet()
@@ -524,6 +532,17 @@ onBeforeUnmount(() => {
       bg-primary bg-opacity-90 text-white
     >
       {{ countDown }}
+    </div>
+
+    <div
+      v-if="showActionData"
+      fixed z-30 bottom-5 bg-black w-40 h-30 rounded-xl bg-opacity-90 text-white
+      class="left-1/2 -translate-x-1/2 flex flex-col items-center justify-center"
+    >
+      <div text-4xl :class="`${showActionData.icon || ''}`" />
+      <div mt-3 text-xl>
+        {{ showActionData.label }}
+      </div>
     </div>
   </div>
 </template>

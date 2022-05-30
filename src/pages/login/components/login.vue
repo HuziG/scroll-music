@@ -69,7 +69,7 @@ onMounted(() => {
       确定
     </n-button>
 
-    <div mt-3>
+    <div mt-3 text-gray-600>
       还没有账号?
       <n-button
         quaternary
