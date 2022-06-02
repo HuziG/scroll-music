@@ -57,8 +57,8 @@ onMounted(() => {
       alt="error"
     >
 
-    <div style="max-width: 1000px;padding: 0 35px;" mx-auto my-5>
-      <div flex items-center justify-between>
+    <div style="max-width: 1000px;padding: 0 35px;" mx-auto my-20>
+      <div flex items-center justify-between mb-2>
         <span
           text-xl :style="{
             color: configStore.userConfig.main_color
@@ -79,7 +79,7 @@ onMounted(() => {
       </div>
 
       <n-spin :show="loadSheets">
-        <div flex flex-wrap class="-ml-5 -mt-3">
+        <div flex flex-wrap class="-ml-5 -mt-5">
           <div v-for="(item, index) in usmd.sheetMusicData" :key="item.id">
             <sheet-music-item :value="item" :index="index" />
           </div>
@@ -104,7 +104,10 @@ onMounted(() => {
       />
     </n-modal>
 
-    <n-modal v-model:show="createSheetStore.showUploadModal" :mask-closable="true">
+    <n-modal
+      v-model:show="createSheetStore.showUploadModal"
+      :mask-closable="true"
+    >
       <upload-sheet-modal @cancel="hideUploadModal" />
     </n-modal>
 

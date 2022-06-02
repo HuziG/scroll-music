@@ -4,6 +4,7 @@ import { useMessage } from 'naive-ui'
 const props = defineProps(['value'])
 const emit = defineEmits(['cancel', 'confirm'])
 
+const message = useMessage()
 const { error } = useMessage()
 const moveLineType = ref('')
 const containerHeight = ref(450)
@@ -60,12 +61,7 @@ const handleBottomMouseUp = (e) => {
 
 const handleMouseMove = (event) => {
   if (topDistance.value + bottomDistance.value >= 315) {
-    // message.warning('可视距离太小，请重新拖动剪裁')
-
-    error('那东西我们早就不屑啦，哈哈哈', {
-      render: renderMessage,
-      closable: true,
-    })
+    message.warning('可视距离太小，请重新拖动剪裁')
 
     if (moveLineType.value === 'top') {
       topDistance.value = 0
@@ -94,6 +90,10 @@ const handleMouseMove = (event) => {
     if (moveDistance > 0)
       bottomDistance.value = moveDistance
   }
+}
+
+const touchstart = () => {
+  console.log('aaa')
 }
 </script>
 
@@ -124,6 +124,7 @@ const handleMouseMove = (event) => {
         absolute transition w-full border-b-4 border-red-500 bg-opacity-20 cursor-move :style="`cursor: ns-resize;top: ${topDistance}px`"
         @mousedown="(event) => handleMouseDown({ event, type:'top' })"
         @mouseup="handleTopMouseUp"
+        @touchstart.prevent="touchstart"
       />
 
       <img :src="props.value.url" border-2 box-border border-primary pointer-events-none select-none w-full h-full alt="error">

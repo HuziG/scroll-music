@@ -185,8 +185,13 @@ const handleClipConfirm = (e) => {
       </div>
     </div>
 
-    <div text-sm text-red font-bold mt-5>
-      * 图片数量最多8个
+    <div text-xs text-red-500 font-bold mt-5>
+      <div>
+        * 一份曲谱可容纳图片数量最多8个
+      </div>
+      <div mt-2>
+        * 曲谱图片有大量留白会影响滚动效果，上传成功后可进行剪裁
+      </div>
     </div>
 
     <n-modal
