@@ -5,6 +5,7 @@ import richEditModel from './components/richEditModel.vue'
 import SheetWidthModal from './components/sheetWidthModal.vue'
 import RecorderMusic from './components/recorderMusic.vue'
 import keyboardMixins from './keyboardMixins'
+import MetronomeSet from './components/metronomeSet.vue'
 import { useSheetDetailStore } from '~/stores/sheetDetail'
 import { addSheetNote, editSheet, editSheetNote, getSheetsNote } from '~/api/sheetMusic'
 
@@ -402,6 +403,7 @@ onBeforeUnmount(() => {
         {{ darkMode ? "白天模式" : "夜间模式" }}
       </n-tooltip> <br>
       <recorder-music @stop-scroll="stopScroll" /> <br>
+      <metronome-set /> <br>
       <n-tooltip :show-arrow="false" placement="left">
         <template #trigger>
           <n-button
