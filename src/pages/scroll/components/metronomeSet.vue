@@ -1,5 +1,7 @@
 <script setup>
+import MetronomeModal from './metronomeModal.vue'
 
+const showModal = ref(false)
 </script>
 
 <template>
@@ -11,6 +13,7 @@
           circle
           type="primary"
           size="medium"
+          @click="showModal = !showModal"
         >
           <template #icon>
             <div class="i-mdi:metronome" />
@@ -19,6 +22,8 @@
       </template>
       节拍器
     </n-tooltip>
+
+    <MetronomeModal v-if="showModal" @cancel="showModal = !showModal" />
   </div>
 </template>
 
