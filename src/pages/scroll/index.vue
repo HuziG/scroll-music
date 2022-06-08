@@ -6,6 +6,7 @@ import SheetWidthModal from './components/sheetWidthModal.vue'
 import RecorderMusic from './components/recorderMusic.vue'
 import keyboardMixins from './keyboardMixins'
 import MetronomeSet from './components/metronomeSet.vue'
+import useMediaSize from './mixins/useMediaSize'
 import { useSheetDetailStore } from '~/stores/sheetDetail'
 import { addSheetNote, editSheet, editSheetNote, getSheetsNote } from '~/api/sheetMusic'
 
@@ -15,8 +16,9 @@ const router = useRouter()
 const countDown = ref(0)
 const baseSpeed = 0.5
 const scrollMode = ref(0)
+const { isLargeScreen } = useMediaSize()
 
-const sheetImgWidth = ref(70)
+const sheetImgWidth = ref(isLargeScreen ? 70 : 90)
 
 const showSheetWidthModal = ref(false)
 const showSpeedModal = ref(false)
