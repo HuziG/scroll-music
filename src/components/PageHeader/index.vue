@@ -15,41 +15,39 @@ const handleExit = async() => {
 </script>
 
 <template>
-  <div>
-    <div shadow-md bg-white h-1xl py-3 px-8 flex items-center justify-between>
-      <span text-xl font-bold border-b-2 border-primary>
-        滚动的曲谱
-      </span>
+  <div fixed top-0 left-0 box-border w-full z-30 shadow-md bg-white border-box h-1xl py-3 px-7 flex items-center justify-between>
+    <span text-xl font-bold border-b-2 border-primary>
+      滚动的曲谱
+    </span>
 
-      <n-popover :overlap="overlap" placement="bottom-end" trigger="click">
-        <template #trigger>
-          <n-button text size="large">
-            <template #icon>
-              <div i-mdi-account flex items-center justify-center text-xl text-black />
-            </template>
-          </n-button>
-        </template>
-        <div style="width: 300px;">
-          <div flex>
-            <div
-              v-for="item in iconList"
-              :key="item.value"
-              mr-5 hover:text-primary cursor-pointer flex flex-col items-center justify-center
-              @click="router.push('/about')"
-            >
-              <div bg-primary w-8 h-8 rounded-full flex items-center justify-center>
-                <div :class="`${item.icon}`" text-md text-white />
-              </div>
-              <span text-xs mt-1 transition>{{ item.label }}</span>
+    <n-popover :overlap="overlap" placement="bottom-end" trigger="click">
+      <template #trigger>
+        <n-button text size="large">
+          <template #icon>
+            <div i-mdi-account flex items-center justify-center text-xl text-black />
+          </template>
+        </n-button>
+      </template>
+      <div style="width: 300px;">
+        <div flex pt-2>
+          <div
+            v-for="item in iconList"
+            :key="item.value"
+            mr-5 hover:text-primary cursor-pointer flex flex-col items-center justify-center
+            @click="router.push('/about')"
+          >
+            <div bg-primary w-8 h-8 rounded-full flex items-center justify-center>
+              <div :class="`${item.icon}`" text-md text-white />
             </div>
+            <span text-xs mt-1 transition>{{ item.label }}</span>
           </div>
-
-          <n-button mt-3 type="error" style="width: 100%;" @click="handleExit">
-            退出账号
-          </n-button>
         </div>
-      </n-popover>
-    </div>
+
+        <n-button mt-3 type="error" style="width: 100%;" @click="handleExit">
+          退出账号
+        </n-button>
+      </div>
+    </n-popover>
   </div>
 </template>
 
