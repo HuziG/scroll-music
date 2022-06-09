@@ -6,7 +6,7 @@ import SheetWidthModal from './components/sheetWidthModal.vue'
 import RecorderMusic from './components/recorderMusic.vue'
 import keyboardMixins from './keyboardMixins'
 import MetronomeSet from './components/metronomeSet.vue'
-import useMediaSize from './mixins/useMediaSize'
+import useMediaSize from '~/mixins/useMediaSize'
 import { useSheetDetailStore } from '~/stores/sheetDetail'
 import { addSheetNote, editSheet, editSheetNote, getSheetsNote } from '~/api/sheetMusic'
 
