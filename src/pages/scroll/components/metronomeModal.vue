@@ -3,6 +3,9 @@ import { useSound } from '@vueuse/sound'
 import popDown from '~/assets/sound/pop-down.mp3'
 import popUpOff from '~/assets/sound/pop-up-off.mp3'
 
+let knockInterval = null
+
+const emit = defineProps(['cancel'])
 const downSound = useSound(popDown, { volume: 0.25 })
 const upOffSound = useSound(popUpOff, { volume: 0.25 })
 
@@ -10,6 +13,7 @@ const switchValue = ref(false)
 
 const perMinuteTimeTag = ref([1])
 const activeTimeTag = ref(0)
+const knockTime = ref(null)
 
 const perMinuteTime = ref(60)
 const timeSignature = ref('1/4')
@@ -41,7 +45,7 @@ const canel = () => {
   catch (error) {
     console.error(error)
   }
-  $emit('cancel')
+  emit('cancel')
 }
 
 const setMetronomeLocalConfig = () => {
@@ -53,18 +57,24 @@ const setMetronomeLocalConfig = () => {
 }
 
 const handleKnocking = (on, interval = null, time = null) => {
-  let knockTime = 0
-  let knockInterval = null
+  let _knockTime = 0
+
+  clearInterval(knockInterval)
 
   const knock = () => {
-    if (knockTime === time - 1) {
+    if (_knockTime === time - 1) {
       upOffSound.play()
-      knockTime = 0
+      _knockTime = 0
     }
     else {
       downSound.play()
-      knockTime += 1
+      _knockTime += 1
     }
+    knockTime.value = _knockTime
+
+    setTimeout(() => {
+      knockTime.value = null
+    }, 100)
   }
 
   if (on) {
@@ -77,10 +87,15 @@ const handleKnocking = (on, interval = null, time = null) => {
   }
 }
 
-// 节拍数
-// watch(time, (newValue) => {
+const getKnockInterval = () => {
+  const interval = 60 / (perMinuteTime.value / (4 / timeSignatureObj.value.beat)) * 1000
+  return interval
+}
 
-// })
+// 节拍数
+watch(perMinuteTime, () => {
+  handleKnocking(true, getKnockInterval(), timeSignatureObj.value.time)
+})
 
 // 拍号
 watch(timeSignature, (newValue) => {
@@ -92,9 +107,7 @@ watch(timeSignature, (newValue) => {
 
 // 节拍开关
 watch(switchValue, (newValue) => {
-  const interval = 60 / (perMinuteTime.value / (4 / timeSignatureObj.value.beat)) * 1000
-  console.log(newValue, interval, timeSignatureObj.value.time)
-  // handleKnocking(newValue, interval, timeSignatureObj.value.time)
+  handleKnocking(newValue, getKnockInterval(), timeSignatureObj.value.time)
 })
 
 onMounted(() => {
@@ -152,7 +165,7 @@ onMounted(() => {
           v-for="(item, index) in perMinuteTimeTag"
           :key="index"
           w-3 h-3 bg-gray-200 rounded-full ml-3
-          :class="`${index === 0 ? 'w-4 h-4' : ''}`"
+          :class="`${index === 0 ? 'w-4 h-4' : ''} ${knockTime === index ? 'bg-primary' : ''}`"
         />
       </div>
 
