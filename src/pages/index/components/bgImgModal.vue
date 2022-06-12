@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { getBgImgList } from '~/api/sheetMusic'
-
+import { useConfigStore } from '~/stores/config'
 import useMediaSize from '~/mixins/useMediaSize'
 
 const prop = defineProps(['saveLoading'])
@@ -27,6 +27,7 @@ const loadingList = ref(false)
 const page = ref(1)
 const pageCount = ref(1)
 const { isLargeScreen } = useMediaSize()
+const configStore = useConfigStore()
 
 const handleGetImg = async(cid) => {
   loadingList.value = true
@@ -34,6 +35,11 @@ const handleGetImg = async(cid) => {
   imgList.value = data.data.data
   pageCount.value = Math.floor(Number(data.data.total) / 20)
   loadingList.value = false
+}
+
+const mainColorToggle = () => {
+  const c = configStore.userConfig.main_color
+  configStore.userConfig.main_color = c === '#333333' ? '#ffffff' : '#333333'
 }
 
 watch(selectCidIndex, (newValue) => {
@@ -99,10 +105,32 @@ onMounted(() => {
     </div>
 
     <template #footer>
-      <div text-right>
-        <n-button type="primary" :loading="prop.saveLoading" @click="emit('save')">
-          保存配置
-        </n-button>
+      <div flex items-center justify-between>
+        <div flex items-center>
+          文字颜色
+          <span
+            text-xl ml-3 w-5 h-5 cursor-pointer box-border border-2 border-primary :style="{
+              backgroundColor: configStore.userConfig.main_color
+            }"
+            @click="mainColorToggle"
+          />
+        </div>
+
+        <n-space>
+          <n-button
+            type="primary"
+            @click="emit('set', '');emit('toggleMainColor', '')"
+          >
+            清除壁纸
+          </n-button>
+          <n-button
+            type="primary"
+            :loading="prop.saveLoading"
+            @click="emit('save')"
+          >
+            保存配置
+          </n-button>
+        </n-space>
       </div>
     </template>
   </n-card>
