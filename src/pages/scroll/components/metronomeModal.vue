@@ -5,7 +5,7 @@ import popUpOff from '~/assets/sound/pop-up-off.mp3'
 
 let knockInterval = null
 
-const emit = defineProps(['cancel'])
+const emit = defineEmits(['cancel'])
 const downSound = useSound(popDown, { volume: 0.25 })
 const upOffSound = useSound(popUpOff, { volume: 0.25 })
 
@@ -35,22 +35,24 @@ const timeSignatureOptions = ref([
   { value: '12/8', label: '12/8' },
 ])
 
-const canel = () => {
+const canelModal = () => {
   try {
-    localStorage.metronome_config = {
+    localStorage.metronome_config = JSON.stringify({
       timeSignature: timeSignature.value,
       perMinuteTime: perMinuteTime.value,
-    }
+    })
   }
   catch (error) {
     console.error(error)
   }
+
   emit('cancel')
 }
 
 const setMetronomeLocalConfig = () => {
-  const config = localStorage.metronome_config
+  let config = localStorage.metronome_config
   if (config) {
+    config = JSON.parse(config)
     timeSignature.value = config.timeSignature
     perMinuteTime.value = config.perMinuteTime
   }
@@ -94,7 +96,8 @@ const getKnockInterval = () => {
 
 // 节拍数
 watch(perMinuteTime, () => {
-  handleKnocking(true, getKnockInterval(), timeSignatureObj.value.time)
+  if (switchValue.value)
+    handleKnocking(true, getKnockInterval(), timeSignatureObj.value.time)
 })
 
 // 拍号
@@ -103,6 +106,9 @@ watch(timeSignature, (newValue) => {
   timeSignatureObj.value.time = _value[0]
   timeSignatureObj.value.beat = _value[1]
   perMinuteTimeTag.value = new Array(Number(_value[0])).fill(1)
+
+  if (switchValue.value)
+    handleKnocking(true, getKnockInterval(), timeSignatureObj.value.time)
 })
 
 // 节拍开关
@@ -112,6 +118,10 @@ watch(switchValue, (newValue) => {
 
 onMounted(() => {
   setMetronomeLocalConfig()
+})
+
+onUnmounted(() => {
+  clearInterval(knockInterval)
 })
 </script>
 
@@ -126,7 +136,7 @@ onMounted(() => {
     style="width: 400px; position: fixed; left: 80px; bottom: 50px"
   >
     <template #header-extra>
-      <n-button quaternary circle @click="cancel">
+      <n-button quaternary circle @click="canelModal">
         <template #icon>
           <div i-mdi-close text-base />
         </template>

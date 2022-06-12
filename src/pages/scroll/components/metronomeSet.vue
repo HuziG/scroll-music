@@ -23,7 +23,10 @@ const showModal = ref(false)
       节拍器
     </n-tooltip>
 
-    <MetronomeModal v-if="showModal" @cancel="showModal = !showModal" />
+    <MetronomeModal
+      v-show="showModal"
+      @cancel="showModal = !showModal"
+    />
   </div>
 </template>
 

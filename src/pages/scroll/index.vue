@@ -404,8 +404,11 @@ onBeforeUnmount(() => {
         </template>
         {{ darkMode ? "白天模式" : "夜间模式" }}
       </n-tooltip> <br>
-      <recorder-music @stop-scroll="stopScroll" /> <br>
+
+      <!-- <recorder-music @stop-scroll="stopScroll" /> <br> -->
+
       <metronome-set /> <br>
+
       <n-tooltip :show-arrow="false" placement="left">
         <template #trigger>
           <n-button
