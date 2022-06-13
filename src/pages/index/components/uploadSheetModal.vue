@@ -52,8 +52,8 @@ const handleBeforeUpload = async({ file }) => {
   const fileObj = file.file
   const size = fileObj.size / 1024
 
-  if (size > 500) {
-    message.error('文件超出 500kb 大小，请压缩文件再上传')
+  if (size > 1000) {
+    message.error('文件超出 1M 大小，请压缩文件再上传')
     return false
   }
 

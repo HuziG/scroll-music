@@ -9,7 +9,6 @@ import { useCreateSheetStore } from '~/stores/createSheetMusic'
 import { useSheetMusicDepot } from '~/stores/sheetMusicDepot'
 import { getSheets } from '~/api/sheetMusic'
 import { deepClone } from '~/utils/utils'
-import { useConfigStore } from '~/stores/config'
 
 const router = useRouter()
 const createSheetStore = useCreateSheetStore()

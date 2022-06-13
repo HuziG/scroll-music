@@ -36,6 +36,7 @@ export default function() {
 
     await editValue('user_config', configStore.userConfig._id, {
       index_bg_img: configStore.userConfig.index_bg_img,
+      main_color: configStore.userConfig.main_color,
     })
 
     message.success('保存成功')

@@ -6,7 +6,7 @@ export const useSheetMusicDepot = defineStore({
   id: 'sheetMusic',
 
   state: () => ({
-    sheetMusicData: [],
+    sheetMusicData: [] as any[],
     pager: {},
   }),
 

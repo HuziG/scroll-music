@@ -6,6 +6,9 @@ import {
   NMessageProvider,
   NNotificationProvider,
 } from 'naive-ui'
+import { useUserStore } from '~/stores/user'
+
+const userStore = useUserStore()
 
 const themeOverrides: GlobalThemeOverrides = {
   common: {
@@ -13,6 +16,8 @@ const themeOverrides: GlobalThemeOverrides = {
     primaryColorHover: '#6C59DE',
   },
 }
+
+userStore.setDemoUser()
 
 // https://github.com/vueuse/head
 // you can use this to manipulate the document head in any components,
