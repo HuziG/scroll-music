@@ -2,7 +2,12 @@ import { useUserStore } from '~/stores/user'
 import { type UserModule } from '~/types'
 
 export const install: UserModule = ({ router }) => {
-  const whiteRoute = ['/login']
+  const whiteRoute: string[] = []
+
+  const demoUser = useRouter().currentRoute.value.query.user === 'demo'
+
+  if (!demoUser)
+    whiteRoute.push('/login')
 
   router.beforeEach(async(to: any, from, next) => {
     let data
