@@ -4,7 +4,7 @@ import { type UserModule } from '~/types'
 export const install: UserModule = ({ router }) => {
   const whiteRoute: string[] = []
 
-  const demoUser = useRouter().currentRoute.value.query.user === 'demo'
+  const demoUser = router.currentRoute.value.query.user === 'demo'
 
   if (!demoUser)
     whiteRoute.push('/login')
