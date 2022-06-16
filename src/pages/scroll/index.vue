@@ -34,6 +34,9 @@ let countDownInterval
 let scrollInterval
 
 const initSheetNote = async() => {
+  if (useUserStore().demoUser)
+    return false
+
   const { objects } = await getSheetsNote(sheetDetailStore.sheetData._id)
   sheetDetailStore.$patch((state) => {
     if (objects.length > 0)
@@ -112,7 +115,12 @@ watch(showSpeedModal, (newValue) => {
     handleRestart()
 })
 
-const handleConfirm = async() => {
+const handleSaveSpeed = async() => {
+  if (useUserStore().demoUser) {
+    message.success('保存成功')
+    return false
+  }
+
   showSpeedModal.value = false
 
   const data = await editSheet({
@@ -144,6 +152,11 @@ const toggleDarkMode = () => {
 }
 
 const handleConfirmNote = async({ content }) => {
+  if (useUserStore().demoUser) {
+    message.success('保存成功')
+    return false
+  }
+
   noteSaveLoading.value = true
 
   if (sheetDetailStore.sheetNote._id) {
@@ -195,6 +208,11 @@ const updateWidth = (width) => {
 }
 
 const saveWidth = async() => {
+  if (useUserStore().demoUser) {
+    message.success('保存成功')
+    return false
+  }
+
   const data = await editSheet({
     _id: sheetDetailStore.sheetData._id,
     width: sheetImgWidth.value,
@@ -508,7 +526,7 @@ onBeforeUnmount(() => {
 
       <template #footer>
         <div style="text-align: right">
-          <n-button type="primary" @click="handleConfirm">
+          <n-button type="primary" @click="handleSaveSpeed">
             保存
           </n-button>
         </div>

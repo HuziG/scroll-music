@@ -91,10 +91,6 @@ const handleMouseMove = (event) => {
       bottomDistance.value = moveDistance
   }
 }
-
-const touchstart = () => {
-  console.log('aaa')
-}
 </script>
 
 <template>
@@ -124,7 +120,6 @@ const touchstart = () => {
         absolute transition w-full border-b-4 border-red-500 bg-opacity-20 cursor-move :style="`cursor: ns-resize;top: ${topDistance}px`"
         @mousedown="(event) => handleMouseDown({ event, type:'top' })"
         @mouseup="handleTopMouseUp"
-        @touchstart.prevent="touchstart"
       />
 
       <img :src="props.value.url" border-2 box-border border-primary pointer-events-none select-none w-full h-full alt="error">

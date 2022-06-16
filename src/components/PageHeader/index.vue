@@ -1,12 +1,14 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
 import { userLogout } from '~/api/user'
+import { useUserStore } from '~/stores/user'
 
 const value = ref('')
 const router = useRouter()
 const iconList = ref([
   { label: '关于作者', icon: 'i-mdi:book', value: 'about' },
 ])
+const userStore = useUserStore()
 
 const handleExit = async() => {
   await userLogout()
@@ -24,7 +26,10 @@ const handleExit = async() => {
       <template #trigger>
         <n-button text size="large">
           <template #icon>
-            <div i-mdi-account flex items-center justify-center text-xl text-black />
+            <div
+              v-if="!userStore.demoUser"
+              i-mdi-account flex items-center justify-center text-xl text-black
+            />
           </template>
         </n-button>
       </template>
