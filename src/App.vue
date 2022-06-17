@@ -10,7 +10,6 @@ import { useUserStore } from '~/stores/user'
 import { logoConsole } from '~/utils/utils'
 
 logoConsole()
-
 useUserStore().setDemoUser()
 
 const themeOverrides: GlobalThemeOverrides = {
