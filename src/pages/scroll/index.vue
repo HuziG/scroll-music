@@ -120,12 +120,16 @@ watch(showSpeedModal, (newValue) => {
 })
 
 const handleSaveSpeed = async() => {
-  if (useUserStore().demoUser) {
-    message.success('保存成功')
-    return false
+  const handleSuccess = () => {
+    showSpeedModal.value = false
+    sheetDetailStore.dispatchSpeed(stepSlider.value, speedSlider.value)
+    message.success('设置成功')
   }
 
-  showSpeedModal.value = false
+  if (useUserStore().demoUser) {
+    handleSuccess()
+    return false
+  }
 
   const data = await editSheet({
     _id: sheetDetailStore.sheetData._id,
@@ -133,9 +137,7 @@ const handleSaveSpeed = async() => {
     speed: Number(speedSlider.value),
   })
 
-  sheetDetailStore.dispatchSpeed(stepSlider.value, speedSlider.value)
-
-  message.success('设置成功')
+  handleSuccess()
 }
 
 // watch(stepSlider, (newValue) => {
@@ -212,8 +214,18 @@ const updateWidth = (width) => {
 }
 
 const saveWidth = async() => {
-  if (useUserStore().demoUser) {
+  const handleSuccess = () => {
+    sheetDetailStore.dispatchChangeValue({
+      width: sheetImgWidth.value,
+    })
+
+    showSheetWidthModal.value = false
+
     message.success('保存成功')
+  }
+
+  if (useUserStore().demoUser) {
+    handleSuccess()
     return false
   }
 
@@ -222,12 +234,7 @@ const saveWidth = async() => {
     width: sheetImgWidth.value,
   })
 
-  sheetDetailStore.dispatchChangeValue({
-    width: sheetImgWidth.value,
-  })
-  showSheetWidthModal.value = false
-
-  message.success('保存成功')
+  handleSuccess()
 }
 
 const beforeSheetImgWidth = ref(null)

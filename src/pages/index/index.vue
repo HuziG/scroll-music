@@ -28,7 +28,7 @@ const hideUploadModal = () => {
 }
 
 const toggleCreateModal = (value) => {
-  if (useUserStore().demoUser) {
+  if (useUserStore().demoUser && value) {
     window.location.href = '/login'
     return false
   }

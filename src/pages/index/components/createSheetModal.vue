@@ -134,7 +134,7 @@ const handleClipConfirm = (e) => {
 
     <n-input v-model:value="createSheetStore.sheetData.name" placeholder="请输入曲谱名称" />
 
-    <div class="-ml-5" mt-3 flex flex-wrap>
+    <div class="-ml-5" flex flex-wrap>
       <div
         v-for="(item, index) in createSheetStore.sheetData.imgs"
         :key="index" class="sheet-item"

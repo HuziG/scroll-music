@@ -16,3 +16,21 @@ export const logoConsole = () => {
   console.log('快看哪个前端大佬来了！？')
   console.log('弹琴，音乐，前端共同融入生活，岂不美哉？')
 }
+
+export const getUrlParams = (key: string) => {
+  try {
+    const paramsArray = window.location.href.split('?')[1].split('&')
+
+    const result: any = {}
+
+    paramsArray.forEach((item) => {
+      const spValue = item.split('=')
+      result[spValue[0]] = spValue[1]
+    })
+
+    return result[key]
+  }
+  catch (err) {
+    return null
+  }
+}
