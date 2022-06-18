@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 build/
 coverage/
 dist/
@@ -8,6 +7,4 @@ node_modules/
 **/*.min.js
 **/*-min.js
 **/*.bundle.js
-=======
 /src/static/
->>>>>>> newmain
