@@ -6,9 +6,11 @@ import SheetWidthModal from './components/sheetWidthModal.vue'
 import RecorderMusic from './components/recorderMusic.vue'
 import keyboardMixins from './keyboardMixins'
 import MetronomeSet from './components/metronomeSet.vue'
+import PrintSheetMixins from './printSheet'
 import useMediaSize from '~/mixins/useMediaSize'
 import { useSheetDetailStore } from '~/stores/sheetDetail'
 import { addSheetNote, editSheet, editSheetNote, getSheetsNote } from '~/api/sheetMusic'
+import { useUserStore } from '~/stores/user'
 
 const message = useMessage()
 const sheetDetailStore = useSheetDetailStore()
@@ -30,10 +32,15 @@ const darkMode = ref(false)
 const stepSlider = ref(null)
 const speedSlider = ref(null)
 
+const { printSheet } = PrintSheetMixins()
+
 let countDownInterval
 let scrollInterval
 
 const initSheetNote = async() => {
+  if (useUserStore().demoUser)
+    return false
+
   const { objects } = await getSheetsNote(sheetDetailStore.sheetData._id)
   sheetDetailStore.$patch((state) => {
     if (objects.length > 0)
@@ -112,7 +119,12 @@ watch(showSpeedModal, (newValue) => {
     handleRestart()
 })
 
-const handleConfirm = async() => {
+const handleSaveSpeed = async() => {
+  if (useUserStore().demoUser) {
+    message.success('保存成功')
+    return false
+  }
+
   showSpeedModal.value = false
 
   const data = await editSheet({
@@ -144,6 +156,11 @@ const toggleDarkMode = () => {
 }
 
 const handleConfirmNote = async({ content }) => {
+  if (useUserStore().demoUser) {
+    message.success('保存成功')
+    return false
+  }
+
   noteSaveLoading.value = true
 
   if (sheetDetailStore.sheetNote._id) {
@@ -195,6 +212,11 @@ const updateWidth = (width) => {
 }
 
 const saveWidth = async() => {
+  if (useUserStore().demoUser) {
+    message.success('保存成功')
+    return false
+  }
+
   const data = await editSheet({
     _id: sheetDetailStore.sheetData._id,
     width: sheetImgWidth.value,
@@ -405,7 +427,25 @@ onBeforeUnmount(() => {
         {{ darkMode ? "白天模式" : "夜间模式" }}
       </n-tooltip> <br>
 
+      <!-- 录音 -->
       <!-- <recorder-music @stop-scroll="stopScroll" /> <br> -->
+
+      <n-tooltip :show-arrow="false" placement="left">
+        <template #trigger>
+          <n-button
+            strong
+            circle
+            type="primary"
+            size="medium"
+            @click="printSheet"
+          >
+            <template #icon>
+              <div i-mdi:printer text-base />
+            </template>
+          </n-button>
+        </template>
+        打印
+      </n-tooltip> <br>
 
       <metronome-set /> <br>
 
@@ -508,7 +548,7 @@ onBeforeUnmount(() => {
 
       <template #footer>
         <div style="text-align: right">
-          <n-button type="primary" @click="handleConfirm">
+          <n-button type="primary" @click="handleSaveSpeed">
             保存
           </n-button>
         </div>

@@ -1,6 +1,7 @@
 import { useMessage } from 'naive-ui'
 import { editValue } from '~/api/base'
 import { useConfigStore } from '~/stores/config'
+import { useUserStore } from '~/stores/user'
 
 export default function() {
   const configStore = useConfigStore()
@@ -27,17 +28,19 @@ export default function() {
   }
 
   const bgImgSave = async() => {
-    bgImgSaveLoading.value = true
+    if (!useUserStore().demoUser) {
+      bgImgSaveLoading.value = true
 
-    if (!configStore.userConfig._id) {
-      message.warning('无法保存')
-      return false
+      if (!configStore.userConfig._id) {
+        message.warning('无法保存')
+        return false
+      }
+
+      await editValue('user_config', configStore.userConfig._id, {
+        index_bg_img: configStore.userConfig.index_bg_img,
+        main_color: configStore.userConfig.main_color,
+      })
     }
-
-    await editValue('user_config', configStore.userConfig._id, {
-      index_bg_img: configStore.userConfig.index_bg_img,
-      main_color: configStore.userConfig.main_color,
-    })
 
     message.success('保存成功')
 

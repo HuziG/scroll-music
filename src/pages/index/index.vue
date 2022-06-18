@@ -9,6 +9,7 @@ import { useCreateSheetStore } from '~/stores/createSheetMusic'
 import { useSheetMusicDepot } from '~/stores/sheetMusicDepot'
 import { getSheets } from '~/api/sheetMusic'
 import { deepClone } from '~/utils/utils'
+import { useUserStore } from '~/stores/user'
 
 const router = useRouter()
 const createSheetStore = useCreateSheetStore()
@@ -27,6 +28,11 @@ const hideUploadModal = () => {
 }
 
 const toggleCreateModal = (value) => {
+  if (useUserStore().demoUser) {
+    window.location.href = '/login'
+    return false
+  }
+
   createSheetStore.clearStore()
 
   createSheetStore.$patch((state) => {
