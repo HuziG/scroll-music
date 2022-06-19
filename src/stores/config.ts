@@ -1,6 +1,8 @@
 import { acceptHMRUpdate, defineStore } from 'pinia'
+import { useUserStore } from './user'
 import { addValue, getValue } from '~/api/base'
 import { TABLE_NAME } from '~/config'
+import { mockUserConfig } from '~/assets/mock/data'
 
 export const useConfigStore = defineStore({
   id: 'config',
@@ -15,6 +17,11 @@ export const useConfigStore = defineStore({
 
   actions: {
     async requestUserConfig() {
+      if (useUserStore().demoUser) {
+        this.userConfig = mockUserConfig
+        return false
+      }
+
       if (this.userConfig._id)
         return false
 

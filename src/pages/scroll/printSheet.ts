@@ -1,3 +1,4 @@
+import NProgress from 'nprogress'
 import { useSheetDetailStore } from '~/stores/sheetDetail'
 
 declare let jquery: any
@@ -8,6 +9,8 @@ export default function() {
 
     if (sheet.length <= 0)
       return false
+
+    NProgress.start()
 
     jquery('#print-selector-imgs').html('')
 
@@ -21,6 +24,8 @@ export default function() {
   const printSheet = () => {
     createDom(() => {
       setTimeout(() => {
+        NProgress.done()
+
         jquery('#print-selector-imgs').printThis({
           importCSS: true,
           importStyle: true,
