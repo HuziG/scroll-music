@@ -9,6 +9,7 @@ import { deepClone } from '~/utils/utils'
 const props = defineProps(['value', 'index'])
 const message = useMessage()
 const menuOptions = [
+  { label: '标签', value: 'tag' },
   { label: '编辑', value: 'edit' },
   { label: '删除', value: 'del' },
 ]
@@ -23,6 +24,15 @@ const timeFormat = computed(() => {
 
   return `${date.getMonth() + 1}月${date.getDate()}日`
 })
+
+const handleToScroll = () => {
+  sheetDetailStore.dispatchSheet(props.value)
+  router.push('/scroll')
+}
+
+const selectTag = (fn) => {
+  fn()
+}
 
 watch(selectValue, async(newValue) => {
   selectValue.value = ''
@@ -42,13 +52,13 @@ watch(selectValue, async(newValue) => {
         state.sheetMusicData.splice(props.index, 1)
       })
       break
+    case 'tag':
+      selectTag(async(tag) => {
+        await usmd.setSheetTag(tag, props.index)
+      })
+      break
   }
 })
-
-const handleToScroll = () => {
-  sheetDetailStore.dispatchSheet(props.value)
-  router.push('/scroll')
-}
 </script>
 
 <template>

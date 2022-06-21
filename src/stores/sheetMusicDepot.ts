@@ -1,6 +1,6 @@
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { useUserStore } from './user'
-import { delSheet, getSheets } from '~/api/sheetMusic'
+import { delSheet, editSheet, getSheets } from '~/api/sheetMusic'
 import { delFiles } from '~/api/base'
 import { mockSheetDepot } from '~/assets/mock/data'
 
@@ -37,6 +37,15 @@ export const useSheetMusicDepot = defineStore({
 
       return await delSheet({
         _id: value._id,
+      })
+    },
+
+    async setSheetTag(tag: string, index: number) {
+      this.sheetMusicData[index].tag = tag
+
+      await editSheet({
+        _id: this.sheetMusicData[index]._id,
+        tag,
       })
     },
 
