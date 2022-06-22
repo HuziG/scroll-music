@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useMessage } from 'naive-ui'
+import TagModal from './tagModal.vue'
 import { useCreateSheetStore } from '~/stores/createSheetMusic'
 import { useSheetMusicDepot } from '~/stores/sheetMusicDepot'
 import { useSheetDetailStore } from '~/stores/sheetDetail'
@@ -18,6 +19,7 @@ const createSheetStore = useCreateSheetStore()
 const sheetDetailStore = useSheetDetailStore()
 const usmd = useSheetMusicDepot()
 const selectValue = ref('')
+const showTagModal = ref(false)
 
 const timeFormat = computed(() => {
   const date = new Date(props.value.created_at * 1000)
@@ -30,8 +32,12 @@ const handleToScroll = () => {
   router.push('/scroll')
 }
 
-const selectTag = (fn) => {
-  fn()
+/**
+ * 选中标签
+ */
+const selectTag = (tag) => {
+  showTagModal.value = false
+  usmd.setSheetTag(tag, props.index)
 }
 
 watch(selectValue, async(newValue) => {
@@ -53,9 +59,7 @@ watch(selectValue, async(newValue) => {
       })
       break
     case 'tag':
-      selectTag(async(tag) => {
-        await usmd.setSheetTag(tag, props.index)
-      })
+      showTagModal.value = true
       break
   }
 })
@@ -65,8 +69,10 @@ watch(selectValue, async(newValue) => {
   <div
     class="hvr-grow-shadow"
     style="background-color: #F5F5F7;"
-    inline-block rounded-2 py-2 px-3 mt-7 ml-5
+    relative inline-block rounded-2 py-2 px-3 mt-7 ml-5
   >
+    <div :class="`${props.value.tag} -top-2 -right-1`" absolute text-3xl />
+
     <img
       style="width: 210px;height: 300px;"
       :src="props.value.imgs[0].url"
@@ -93,6 +99,12 @@ watch(selectValue, async(newValue) => {
         </n-button>
       </n-popselect>
     </div>
+
+    <n-modal
+      v-model:show="showTagModal"
+    >
+      <tag-modal @select="selectTag" />
+    </n-modal>
   </div>
 </template>
 
