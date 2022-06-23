@@ -17,7 +17,7 @@ const clipImgIndex = ref(null)
 const clipImage = ref(null)
 
 const createSheetStore = useCreateSheetStore()
-const smt = useSheetMusicDepot()
+const usmd = useSheetMusicDepot()
 
 const disabledCreate = computed(() => {
   return createSheetStore.sheetData.imgs.length === 0
@@ -69,10 +69,15 @@ const handleEditSheet = async() => {
 
   message.success('修改成功')
 
-  smt.handleInitSheet()
+  usmd.handleInitSheet()
 }
 
 const handleAddSheet = async() => {
+  usmd.$patch({
+    filterTag: '',
+  })
+  usmd.filterSheetByTag()
+
   submitLoading.value = true
 
   const data = await addSheet({
@@ -87,7 +92,7 @@ const handleAddSheet = async() => {
 
   message.success('添加成功')
 
-  smt.handleInitSheet()
+  usmd.handleInitSheet()
 }
 
 const handleSubmit = () => {
