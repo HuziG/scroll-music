@@ -71,7 +71,7 @@ watch(selectValue, async(newValue) => {
     style="background-color: #F5F5F7;"
     relative inline-block rounded-2 py-2 px-3 mt-7 ml-5
   >
-    <div :class="`${props.value.tag} -top-2 -right-1`" absolute text-3xl />
+    <div :class="`${props.value.tag} top-1 right-1`" absolute text-2xl />
 
     <img
       style="width: 210px;height: 300px;"
@@ -103,7 +103,7 @@ watch(selectValue, async(newValue) => {
     <n-modal
       v-model:show="showTagModal"
     >
-      <tag-modal @select="selectTag" />
+      <tag-modal :tag="props.value.tag" @select="selectTag" />
     </n-modal>
   </div>
 </template>

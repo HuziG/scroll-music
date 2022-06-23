@@ -1,5 +1,6 @@
 <script setup lang="ts">
 const emit = defineEmits(['select'])
+const props = defineProps(['tag'])
 const emoji = ref([
   'i-twemoji-keycap-1',
   'i-twemoji-keycap-2',
@@ -56,7 +57,7 @@ const emoji = ref([
       />
     </div>
 
-    <div mt-3>
+    <div v-if="props.tag" mt-3>
       <n-button style="width: 100%" @click="emit('select', '')">
         清空标签
       </n-button>

@@ -10,6 +10,7 @@ export const useSheetMusicDepot = defineStore({
   state: () => ({
     sheetMusicData: [] as any[],
     pager: {},
+    filterTag: '',
   }),
 
   actions: {
@@ -19,7 +20,10 @@ export const useSheetMusicDepot = defineStore({
       }
       else {
         const { objects, meta } = await getSheets()
-        this.sheetMusicData = objects
+        this.sheetMusicData = objects.map((item: any) => {
+          item.show = true
+          return item
+        })
         this.pager = meta
       }
     },
@@ -47,6 +51,26 @@ export const useSheetMusicDepot = defineStore({
         _id: this.sheetMusicData[index]._id,
         tag,
       })
+    },
+
+    filterSheetByTag() {
+      localStorage.filter_tag = this.filterTag
+
+      this.sheetMusicData.forEach((item) => {
+        item.show = false
+      })
+
+      if (this.filterTag === '') {
+        this.sheetMusicData.forEach((item) => {
+          item.show = true
+        })
+      }
+      else {
+        this.sheetMusicData.forEach((item) => {
+          if (item.tag === this.filterTag)
+            item.show = true
+        })
+      }
     },
 
     editSheetMusicData(index: number, data: any) {
