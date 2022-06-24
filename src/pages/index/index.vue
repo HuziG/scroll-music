@@ -67,7 +67,7 @@ onMounted(() => {
     <page-header />
 
     <img
-      fixed top-0 left-0 w-full h-screen object-cover
+      fixed top-0 left-0 w-full h-screen
       style="z-index: -1;"
       :src="configStore.userConfig.index_bg_img"
       alt="error"

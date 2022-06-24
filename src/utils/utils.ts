@@ -13,8 +13,8 @@ export const logoConsole = () => {
  `
 
   console.log(`%c${str}`, 'color: #5138ED;font-size: 10px;')
-  console.log('快看哪个前端大佬来了！？')
-  console.log('弹琴，音乐，前端')
+  console.log('呀嘿，被大佬发现了')
+  console.log('弹琴，音乐，前端一起来玩')
 }
 
 export const getUrlParams = (key: string) => {
