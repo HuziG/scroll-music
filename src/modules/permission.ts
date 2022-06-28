@@ -1,8 +1,7 @@
 import { useUserStore } from '~/stores/user'
-import { type UserModule } from '~/types'
 import { getUrlParams } from '~/utils/utils'
 
-export const install: UserModule = ({ router }) => {
+export const installPermission = ({ router }: any) => {
   const whiteRoute: string[] = ['/login']
 
   router.beforeEach(async(to: any, from, next) => {
