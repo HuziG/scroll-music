@@ -1,4 +1,4 @@
-import BaaS from 'minapp-sdk'
+const BaaS = window.BaaS
 import axios from 'axios'
 
 const SHEET_TABLE_NAME = 'sheet_music'

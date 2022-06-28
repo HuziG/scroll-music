@@ -1,4 +1,4 @@
-import BaaS from 'minapp-sdk'
+const BaaS = window.BaaS
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { useRouter } from 'vue-router'
 

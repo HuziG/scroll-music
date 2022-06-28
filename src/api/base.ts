@@ -1,4 +1,4 @@
-import BaaS from 'minapp-sdk'
+const BaaS = window.BaaS
 
 export const uploadFile = (file: any) => {
   const File = new BaaS.File()
