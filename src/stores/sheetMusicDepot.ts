@@ -4,8 +4,6 @@ import { delSheet, editSheet, getSheets } from '~/api/sheetMusic'
 import { delFiles } from '~/api/base'
 import { mockSheetDepot } from '~/assets/mock/data'
 
-const userStore = useUserStore()
-
 export const useSheetMusicDepot = defineStore({
   id: 'sheetMusic',
 
@@ -37,7 +35,7 @@ export const useSheetMusicDepot = defineStore({
      * 删除曲谱
      */
     async delSheetData(value: any) {
-      if (userStore.demoUser)
+      if (useUserStore().demoUser)
         return false
 
       const delFilesArray: string[] = []
@@ -61,7 +59,7 @@ export const useSheetMusicDepot = defineStore({
      * @param index
      */
     async setSheetTag(tag: string, index: number) {
-      if (userStore.demoUser)
+      if (useUserStore().demoUser)
         return false
 
       this.sheetMusicData[index].tag = tag
