@@ -30,7 +30,11 @@ export const editSheet = (value: any) => {
   return product.update()
 }
 
-// 删除曲谱
+/**
+ * 删除曲谱
+ * @param param0 _id 数据id
+ * @returns
+ */
 export const delSheet = ({
   _id,
 }: { _id: string }) => {
@@ -38,6 +42,7 @@ export const delSheet = ({
   return Product.delete(_id)
 }
 
+// 获取曲谱
 export const getSheets = async() => {
   const query = new BaaS.Query()
 
@@ -50,6 +55,11 @@ export const getSheets = async() => {
   return data
 }
 
+/**
+ * 添加曲谱笔记
+ * @param param0 sheet_id 曲谱id, content 笔记内容
+ * @returns
+ */
 export const addSheetNote = ({
   sheet_id, content,
 }: { sheet_id: string; content: string }) => {
@@ -64,6 +74,11 @@ export const addSheetNote = ({
   return MyRecord.save()
 }
 
+/**
+ * 修改曲谱笔记
+ * @param param0 _id 曲谱id
+ * @returns
+ */
 export const editSheetNote = ({
   _id, content,
 }: { _id: string; content: string }) => {
@@ -76,6 +91,11 @@ export const editSheetNote = ({
   return product.update()
 }
 
+/**
+ * 获取曲谱笔记
+ * @param param0 sheet_id 曲谱id
+ * @returns
+ */
 export const getSheetsNote = async(sheet_id: string) => {
   const query = new BaaS.Query()
 

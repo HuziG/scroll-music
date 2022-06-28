@@ -4,6 +4,8 @@ import { delSheet, editSheet, getSheets } from '~/api/sheetMusic'
 import { delFiles } from '~/api/base'
 import { mockSheetDepot } from '~/assets/mock/data'
 
+const userStore = useUserStore()
+
 export const useSheetMusicDepot = defineStore({
   id: 'sheetMusic',
 
@@ -14,6 +16,9 @@ export const useSheetMusicDepot = defineStore({
   }),
 
   actions: {
+    /**
+     * 初始化曲谱列表
+     */
     async handleInitSheet() {
       if (useUserStore().demoUser) {
         this.sheetMusicData = mockSheetDepot
@@ -28,7 +33,13 @@ export const useSheetMusicDepot = defineStore({
       }
     },
 
+    /**
+     * 删除曲谱
+     */
     async delSheetData(value: any) {
+      if (userStore.demoUser)
+        return false
+
       const delFilesArray: string[] = []
 
       value.imgs.forEach((item: any) => {
@@ -44,7 +55,15 @@ export const useSheetMusicDepot = defineStore({
       })
     },
 
+    /**
+     * 设置曲谱标签
+     * @param tag
+     * @param index
+     */
     async setSheetTag(tag: string, index: number) {
+      if (userStore.demoUser)
+        return false
+
       this.sheetMusicData[index].tag = tag
 
       await editSheet({
@@ -53,6 +72,9 @@ export const useSheetMusicDepot = defineStore({
       })
     },
 
+    /**
+     * 过滤筛选曲谱标签
+     */
     filterSheetByTag() {
       localStorage.filter_tag = this.filterTag
 
@@ -73,6 +95,11 @@ export const useSheetMusicDepot = defineStore({
       }
     },
 
+    /**
+     * 编辑标签
+     * @param index
+     * @param data
+     */
     editSheetMusicData(index: number, data: any) {
       this.sheetMusicData[index] = data
     },
