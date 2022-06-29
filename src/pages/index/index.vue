@@ -67,7 +67,7 @@ onMounted(() => {
     <page-header />
 
     <img
-      fixed top-0 left-0 w-full h-screen
+      fixed top-0 left-0 w-full h-screen object-cover
       style="z-index: -1;"
       :src="configStore.userConfig.index_bg_img"
       alt="error"
@@ -160,15 +160,22 @@ onMounted(() => {
     <div style="height: 60px;" />
 
     <div
-      fixed left-5 bottom-5 z-30 bg-black
-      bg-opacity-60 py-1 px-3 text-white rounded-full cursor-pointer
+      fixed left-5 bottom-2 z-30 bg-black text-xs
+      bg-opacity-60 py-1 px-4 text-white rounded-full cursor-pointer
       @click="router.push('/about')"
     >
       关于作者
     </div>
 
     <div
-      w-10 h-10 fixed right-5 bottom-5 z-30 bg-black rounded-full bg-opacity-60
+      fixed left-30 bottom-2 z-30 bg-black text-xs
+      bg-opacity-60 py-1 px-4 text-white rounded-full cursor-pointer
+    >
+      苏ICP备2021030495号-2
+    </div>
+
+    <div
+      w-10 h-10 fixed right-5 bottom-3 z-30 bg-black rounded-full bg-opacity-60
       flex items-center justify-center cursor-pointer
       @click="showBgImgModal = true"
     >

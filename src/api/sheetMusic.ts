@@ -1,5 +1,5 @@
-const BaaS = window.BaaS
 import axios from 'axios'
+const BaaS = window.BaaS
 
 const SHEET_TABLE_NAME = 'sheet_music'
 const SHEET_NOTE_TABLE_NAME = 'sheet_note'
@@ -108,6 +108,9 @@ export const getSheetsNote = async(sheet_id: string) => {
   return data
 }
 
-export const getBgImgList = (cid: string, page = 0) => {
-  return axios.get(`https://service-dpw12r2n-1258462188.sh.apigw.tencentcs.com/pic/wallpaper?page=${page}&cid=${cid}`)
+/**
+ * 获取壁纸
+ */
+export const getBgImgList = (cid: string, start = 0) => {
+  return axios.get(`https://service-dpw12r2n-1258462188.sh.apigw.tencentcs.com/pic/wallpaper?start=${start}&cid=${cid}`)
 }
