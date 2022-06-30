@@ -63,17 +63,10 @@ onMounted(() => {
 </script>
 
 <template>
-  <div style="min-width: 600px;">
+  <div :class="`sheet-list-container ${configStore.userConfig.index_bg_img}`" style="min-width: 600px;" py-20>
     <page-header />
 
-    <img
-      fixed top-0 left-0 w-full h-screen object-cover
-      style="z-index: -1;"
-      :src="configStore.userConfig.index_bg_img"
-      alt="error"
-    >
-
-    <div style="max-width: 1000px;padding: 0 35px;" mx-auto my-20>
+    <div style="max-width: 1000px;padding: 0 35px;" mx-auto>
       <div flex items-center justify-between mb-2>
         <span
           text-xl :style="{

@@ -10,6 +10,7 @@ import { installBaas } from '~/composables'
 import routes from '~pages'
 
 import './styles/main.css'
+import './styles/bg.scss'
 import 'uno.css'
 
 import 'vfonts/Lato.css'
