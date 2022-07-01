@@ -63,7 +63,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div :class="`sheet-list-container ${configStore.userConfig.index_bg_img}`" style="min-width: 600px;" py-20>
+  <div :class="`sheet-list-container ${configStore.userConfig.index_bg_img}`" style="min-width: 600px;" min-h-screen py-20>
     <page-header />
 
     <div style="max-width: 1000px;padding: 0 35px;" mx-auto>

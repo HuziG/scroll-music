@@ -14,7 +14,6 @@ const typeList = ref([
   { label: '纹路', type: 1 },
   { label: '渐变', type: 2 },
   { label: '纯色', type: 3 },
-  { label: '多段', type: 4 },
 ])
 
 const cssBgList = ref([])
@@ -26,9 +25,16 @@ const cssBgData = {
     'line-five', 'line-six', 'line-seven', 'line-eight',
     'line-nine',
   ],
-  2: ['active-gradualcolor-one', 'active-gradualcolor-two', 'linear-gradient-one'],
-  3: [],
-  4: [],
+  2: [
+    'active-gradualcolor-one', 'active-gradualcolor-two',
+    'linear-gradient-one', 'linear-gradient-two', 'linear-gradient-three',
+    'linear-gradient-four', 'linear-gradient-five', 'linear-gradient-six',
+    'linear-gradient-seven',
+  ],
+  3: [
+    'color-one', 'color-two', 'color-three', 'color-four', 'color-five',
+    'color-six', 'color-seven', 'color-eight', 'color-nine', 'color-ten',
+  ],
 }
 
 const handleGetImg = async(type) => {
@@ -38,6 +44,11 @@ const handleGetImg = async(type) => {
 const mainColorToggle = () => {
   const color = configStore.userConfig.main_color
   configStore.userConfig.main_color = color === '#333333' ? '#ffffff' : '#333333'
+}
+
+const clearBgCss = () => {
+  configStore.userConfig.main_color = '#333333'
+  emit('set', '')
 }
 
 watch(selectTypeIndex, (newValue) => {
@@ -114,7 +125,7 @@ onMounted(() => {
         <n-space>
           <n-button
             type="primary"
-            @click="emit('set', '');emit('toggleMainColor', '')"
+            @click="clearBgCss"
           >
             清除底色
           </n-button>

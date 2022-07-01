@@ -95,4 +95,66 @@
   background: -webkit-linear-gradient(to bottom, #EF629F, #EECDA3);  /* Chrome 10-25, Safari 5.1-6 */
   background: linear-gradient(to bottom, #EF629F, #EECDA3); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
+.linear-gradient-two{
+  background: #c31432;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to bottom, #240b36, #c31432);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to bottom, #240b36, #c31432); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+.linear-gradient-three{
+  background: #40E0D0;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to bottom, #FF0080, #FF8C00, #40E0D0);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to bottom, #FF0080, #FF8C00, #40E0D0); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+.linear-gradient-four{
+  background: #0f0c29;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to bottom, #24243e, #302b63, #0f0c29);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to bottom, #24243e, #302b63, #0f0c29); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+.linear-gradient-five{
+  background: #4568DC;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to top, #B06AB3, #4568DC);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to top, #B06AB3, #4568DC); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+.linear-gradient-six{
+  background: #833ab4;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to top, #fcb045, #fd1d1d, #833ab4);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to top, #fcb045, #fd1d1d, #833ab4); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+.linear-gradient-seven{
+  background: #ff0084;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to top, #33001b, #ff0084);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to top, #33001b, #ff0084); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
 
+
+// 纯色
+.color-one{
+  background-color: #E892CA;
+}
+.color-two{
+  background-color: #2792C3;
+}
+.color-three{
+  background-color: #EE827D;
+}
+.color-four{
+  background-color: #04A381;
+}
+.color-five{
+  background-color: #698AAB;
+}
+.color-six{
+  background-color: #B77B57;
+}
+.color-seven{
+  background-color: #4C6CB3;
+}
+.color-eight{
+  background-color: #634950;
+}
+.color-nine{
+  background-color: #F5B199;
+}
+.color-ten{
+  background-color: #83CCD3;
+}
