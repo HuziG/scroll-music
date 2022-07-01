@@ -1,19 +1,32 @@
-import { ViteSSG } from 'vite-ssg';
-import { setupLayouts } from 'virtual:generated-layouts';
+// import { ViteSSG } from 'vite-ssg'
+import { createApp } from 'vue';
+import { createRouter, createWebHashHistory } from 'vue-router';
 import App from './App.vue';
-import generatedRoutes from '~pages';
+import { installPinia } from './modules/pinia';
+import { installNprogress } from './modules/nprogress';
+import { installPermission } from './modules/permission';
+import { installPwa } from './modules/pwa';
 import { installBaas } from '~/composables';
+import routes from '~pages';
 
 import './styles/main.css';
+import './styles/bg.scss';
 import 'uno.css';
 
 import 'vfonts/Lato.css';
 
-const routes = setupLayouts(generatedRoutes);
+const app = createApp(App);
+
+const router = createRouter({
+  history: createWebHashHistory(),
+  routes,
+});
 
 installBaas();
+installPinia({ app });
+installNprogress({ router });
+installPermission({ router });
+installPwa({ router });
 
-export const createApp = ViteSSG(App, { routes, base: import.meta.env.BASE_URL }, (ctx) => {
-  // install all modules under `modules/`
-  Object.values(import.meta.globEager('./modules/*.ts')).forEach((i) => i.install?.(ctx));
-});
+app.use(router);
+app.mount('#app');

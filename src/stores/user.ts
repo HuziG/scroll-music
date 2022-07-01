@@ -1,6 +1,6 @@
-import BaaS from 'minapp-sdk'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { useRouter } from 'vue-router'
+const BaaS = window.BaaS
 
 export const useUserStore = defineStore({
   id: 'user',
@@ -15,6 +15,7 @@ export const useUserStore = defineStore({
 
   actions: {
     setDemoUser() {
+      console.log(useRouter())
       this.demoUser = useRouter().currentRoute.value.query.user === 'demo'
     },
 

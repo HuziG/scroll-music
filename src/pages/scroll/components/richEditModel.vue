@@ -2,6 +2,7 @@
 import '@wangeditor/editor/dist/css/style.css'
 import { defineEmits, onBeforeUnmount, onMounted, ref, shallowRef } from 'vue'
 import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
+
 export default {
   components: { Editor, Toolbar },
   props: ['htmlContent', 'noteSaveLoading'],

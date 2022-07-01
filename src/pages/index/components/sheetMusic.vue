@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useMessage } from 'naive-ui'
+import TagModal from './tagModal.vue'
 import { useCreateSheetStore } from '~/stores/createSheetMusic'
 import { useSheetMusicDepot } from '~/stores/sheetMusicDepot'
 import { useSheetDetailStore } from '~/stores/sheetDetail'
@@ -9,6 +10,7 @@ import { deepClone } from '~/utils/utils'
 const props = defineProps(['value', 'index'])
 const message = useMessage()
 const menuOptions = [
+  { label: '标签', value: 'tag' },
   { label: '编辑', value: 'edit' },
   { label: '删除', value: 'del' },
 ]
@@ -17,12 +19,26 @@ const createSheetStore = useCreateSheetStore()
 const sheetDetailStore = useSheetDetailStore()
 const usmd = useSheetMusicDepot()
 const selectValue = ref('')
+const showTagModal = ref(false)
 
 const timeFormat = computed(() => {
   const date = new Date(props.value.created_at * 1000)
 
   return `${date.getMonth() + 1}月${date.getDate()}日`
 })
+
+const handleToScroll = () => {
+  sheetDetailStore.dispatchSheet(props.value)
+  router.push('/scroll')
+}
+
+/**
+ * 选中标签
+ */
+const selectTag = (tag) => {
+  showTagModal.value = false
+  usmd.setSheetTag(tag, props.index)
+}
 
 watch(selectValue, async(newValue) => {
   selectValue.value = ''
@@ -42,21 +58,21 @@ watch(selectValue, async(newValue) => {
         state.sheetMusicData.splice(props.index, 1)
       })
       break
+    case 'tag':
+      showTagModal.value = true
+      break
   }
 })
-
-const handleToScroll = () => {
-  sheetDetailStore.dispatchSheet(props.value)
-  router.push('/scroll')
-}
 </script>
 
 <template>
   <div
     class="hvr-grow-shadow"
     style="background-color: #F5F5F7;"
-    inline-block rounded-2 py-2 px-3 mt-7 ml-5
+    relative inline-block rounded-2 py-2 px-3 mt-7 ml-5
   >
+    <div :class="`${props.value.tag} top-1 right-1`" absolute text-2xl />
+
     <img
       style="width: 210px;height: 300px;"
       :src="props.value.imgs[0].url"
@@ -83,6 +99,12 @@ const handleToScroll = () => {
         </n-button>
       </n-popselect>
     </div>
+
+    <n-modal
+      v-model:show="showTagModal"
+    >
+      <tag-modal :tag="props.value.tag" @select="selectTag" />
+    </n-modal>
   </div>
 </template>
 

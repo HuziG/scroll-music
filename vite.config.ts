@@ -63,17 +63,17 @@ export default defineConfig({
         theme_color: '#5138ED',
         icons: [
           {
-            src: '/pwa-192x192.png',
+            src: '/static/pwa-192x192.png',
             sizes: '192x192',
             type: 'image/png',
           },
           {
-            src: '/pwa-512x512.png',
+            src: '/static/pwa-512x512.png',
             sizes: '512x512',
             type: 'image/png',
           },
           {
-            src: '/pwa-512x512.png',
+            src: '/static/pwa-512x512.png',
             sizes: '512x512',
             type: 'image/png',
             purpose: 'any maskable',
@@ -97,6 +97,7 @@ export default defineConfig({
   // https://github.com/antfu/vite-ssg
   ssgOptions: {
     script: 'async',
+    format: 'cjs',
     formatting: 'minify',
     onFinished() {
       generateSitemap();

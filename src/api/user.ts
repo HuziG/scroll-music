@@ -1,4 +1,4 @@
-import BaaS from 'minapp-sdk'
+const BaaS = window.BaaS
 
 // 邮箱注册
 export const emailRegister = ({
