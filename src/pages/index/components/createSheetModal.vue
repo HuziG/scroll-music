@@ -197,6 +197,9 @@ const handleClipConfirm = (e) => {
       <div mt-2>
         * 曲谱图片有大量留白会影响滚动效果，上传成功后可进行剪裁
       </div>
+      <div mt-2>
+        * 请上传合法图片，上传暴恐、反党反政、色情等非法图片会删号的呦
+      </div>
     </div>
 
     <n-modal
