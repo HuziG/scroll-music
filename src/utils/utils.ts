@@ -13,7 +13,7 @@ export const logoConsole = () => {
  `
 
   console.log(`%c${str}`, 'color: #5138ED;font-size: 10px;')
-  console.log('呀嘿，被大佬发现了')
+  console.log('呀嘿，被发现了')
   console.log('弹琴，音乐，前端一起来玩')
 }
 
