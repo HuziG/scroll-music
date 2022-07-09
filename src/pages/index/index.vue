@@ -153,7 +153,7 @@ onMounted(() => {
     <div style="height: 60px;" />
 
     <div
-      fixed left-5 bottom-2 z-30 bg-black text-xs
+      fixed left-5 bottom-3 z-30 bg-black text-xs
       bg-opacity-60 py-1 px-4 text-white rounded-full cursor-pointer
       @click="router.push('/about')"
     >
@@ -161,7 +161,7 @@ onMounted(() => {
     </div>
 
     <div
-      fixed left-30 bottom-2 z-30 bg-black text-xs
+      fixed left-30 bottom-3 z-30 bg-black text-xs
       bg-opacity-60 py-1 px-4 text-white rounded-full cursor-pointer
     >
       苏ICP备2021030495号-2

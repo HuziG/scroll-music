@@ -53,6 +53,7 @@ specifiers:
   vue-i18n: ^9.1.9
   vue-router: ^4.0.14
   vue-tsc: ^0.34.8
+  vuedraggable: ^4.1.0
   workbox-window: ^6.5.3
 
 dependencies:
@@ -110,6 +111,7 @@ devDependencies:
   vue-demi: registry.npmmirror.com/vue-demi/0.12.5_vue@3.2.37
   vue-i18n: registry.npmmirror.com/vue-i18n/9.1.10_vue@3.2.37
   vue-router: registry.npmmirror.com/vue-router/4.0.16_vue@3.2.37
+  vuedraggable: registry.npmmirror.com/vuedraggable/4.1.0_vue@3.2.37
   workbox-window: registry.npmmirror.com/workbox-window/6.5.3
 
 devDependencies:
@@ -9074,6 +9076,12 @@ packages:
     engines: {node: '>=8.3.0'}
     dev: false
 
+  registry.npmmirror.com/sortablejs/1.14.0:
+    resolution: {integrity: sha512-pBXvQCs5/33fdN1/39pPL0NZF20LeRbLQ5jtnheIPN9JQAaufGjKdWduZn4U7wCtVuzKhmRkI0DFYHYRbB2H1w==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/sortablejs/-/sortablejs-1.14.0.tgz}
+    name: sortablejs
+    version: 1.14.0
+    dev: false
+
   registry.npmmirror.com/source-map-js/1.0.2:
     resolution: {integrity: sha512-R0XvVJ9WusLiqTCEiGCmICCMplcCkIwwR11mOSD9CR5u+IXYdiseeEuXCVAjS54zqwkLcPNnmU4OeJ6tUrWhDw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/source-map-js/-/source-map-js-1.0.2.tgz}
     name: source-map-js
@@ -10382,9 +10390,24 @@ packages:
     dev: false
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   /wbuf/1.7.3:
     resolution: {integrity: sha512-O84QOnr0icsbFGLS0O3bI5FswxzRr8/gHwWkDlQFskhSPryQXvrTMxjxGP4+iWYoauLoBvfDpkrOauZ+0iZpDA==}
 =======
+=======
+  registry.npmmirror.com/vuedraggable/4.1.0_vue@3.2.37:
+    resolution: {integrity: sha512-FU5HCWBmsf20GpP3eudURW3WdWTKIbEIQxh9/8GE806hydR9qZqRRxRE3RjqX7PkuLuMQG/A7n3cfj9rCEchww==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/vuedraggable/-/vuedraggable-4.1.0.tgz}
+    id: registry.npmmirror.com/vuedraggable/4.1.0
+    name: vuedraggable
+    version: 4.1.0
+    peerDependencies:
+      vue: ^3.0.1
+    dependencies:
+      sortablejs: registry.npmmirror.com/sortablejs/1.14.0
+      vue: registry.npmmirror.com/vue/3.2.37
+    dev: false
+
+>>>>>>> newmain
   registry.npmmirror.com/vueuc/0.4.45_vue@3.2.37:
     resolution: {integrity: sha512-TdiDHn9TkJyStKJYzGGiZlekasdoYTial47UAMwQ5fuVp/5GAeJKvFk4UMtSrDfECsNncfNJ6TNveVBAq+IvrQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/vueuc/-/vueuc-0.4.45.tgz}
     id: registry.npmmirror.com/vueuc/0.4.45
