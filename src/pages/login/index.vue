@@ -12,7 +12,6 @@ import {
 } from '~/api/user.ts'
 import LoginPageFooter from '~/components/LoginFooter/index.vue'
 
-let imgIndex = false
 const router = useRouter()
 const FORM_STATE = {
   LOGIN: 'login',
@@ -24,8 +23,8 @@ const panelState = ref(FORM_STATE.LOGIN) // login \ register \ forget
 const notification = useNotification()
 const message = useMessage()
 const imgList = [
-  'https://tse1-mm.cn.bing.net/th/id/R-C.ff17f6bba0eb6277269425c2993ab43b?rik=wia1VgFpHvKelg&riu=http%3a%2f%2fwww.ccguitar.cn%2fpu%2f2017%2f2%2f20%2f92216_74616%2f1.gif&ehk=7cNDVcMhmvR3WfCfrEbKP%2fqLqq495236YQlwgPe7qxU%3d&risl=&pid=ImgRaw&r=0',
-  'https://tse1-mm.cn.bing.net/th/id/R-C.eafdb41966a66e53ef04d09fa96bba35?rik=YIvINuvLwG9y7g&riu=http%3a%2f%2fimg.wanjita.com%2fueditor%2fphp%2fupload%2fimage%2f20200824%2f1598282933997765.jpg&ehk=QsHNUtOwrtH4rnzQnQI5uQcTkC3hQ1tL9CwIDWfyoms%3d&risl=&pid=ImgRaw&r=0',
+  'https://i0.hdslb.com/bfs/article/watermark/eaaf026ff58fa90680293514b36dcd1dc1d73cc0.jpg@942w_1334h_progressive.webp',
+  'https://i0.hdslb.com/bfs/article/watermark/6bf02bd0812e6f6a47113ddba48184ad283ed81b.jpg@942w_1334h_progressive.webp',
 ]
 
 let interval = null
@@ -82,11 +81,12 @@ const handleSubmitForm = async({ type, form }) => {
   }
 }
 
-onMounted(() => {
+onMounted(async() => {
+  await nextTick()
+
   setTimeout(() => {
     interval = setInterval(() => {
-      imgList.push(imgList[imgIndex ? 0 : 1])
-      imgIndex = !imgIndex
+      imgList.concat(imgList.value)
     }, 59000)
   }, 1000)
 })
@@ -155,6 +155,7 @@ onMounted(() => {
       transform: translate3d(0, -50%, 0);
   }
 }
+
 .rowup{
   -webkit-animation: 60s rowup linear infinite normal;
   animation: 60s rowup linear infinite normal;
