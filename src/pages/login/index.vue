@@ -18,13 +18,16 @@ const FORM_STATE = {
   REGISTER: 'register',
   FORGET: 'forget',
 }
+const readImg = ref(0)
+const scrollImageClass = ref('')
 const formLoading = ref(false)
 const panelState = ref(FORM_STATE.LOGIN) // login \ register \ forget
 const notification = useNotification()
 const message = useMessage()
 const imgList = [
-  'https://i0.hdslb.com/bfs/article/watermark/eaaf026ff58fa90680293514b36dcd1dc1d73cc0.jpg@942w_1334h_progressive.webp',
-  'https://i0.hdslb.com/bfs/article/watermark/6bf02bd0812e6f6a47113ddba48184ad283ed81b.jpg@942w_1334h_progressive.webp',
+  'https://i0.hdslb.com/bfs/article/watermark/f2a06ed86fdcb5aa7521a803b104131933cd5091.jpg@942w_1334h_progressive.webp',
+  'https://i0.hdslb.com/bfs/article/watermark/c1a2de860525792fc17ea296c4f7aeff33ed510a.jpg@942w_1334h_progressive.webp',
+  'https://i0.hdslb.com/bfs/article/watermark/a6f030559777a7434e2d661f83d09cb6afdeab8f.jpg@942w_1334h_progressive.webp',
 ]
 
 let interval = null
@@ -51,6 +54,10 @@ const handleSubmitForm = async({ type, form }) => {
           setTimeout(() => {
             router.replace('/')
           }, 500)
+        }).catch((error) => {
+          message.error(JSON.stringify(error))
+        }).finally(() => {
+          formLoading.value = false
         })
         break
       case FORM_STATE.REGISTER:
@@ -81,14 +88,20 @@ const handleSubmitForm = async({ type, form }) => {
   }
 }
 
-onMounted(async() => {
-  await nextTick()
+const imageOnload = () => {
+  readImg.value += 1
+}
 
-  setTimeout(() => {
-    interval = setInterval(() => {
-      imgList.concat(imgList.value)
-    }, 59000)
-  }, 1000)
+watch(readImg, (value) => {
+  if (value >= 3) {
+    scrollImageClass.value = 'rowup'
+
+    setTimeout(() => {
+      interval = setInterval(() => {
+        imgList.concat(imgList.value)
+      }, 59000)
+    }, 1000)
+  }
 })
 </script>
 
@@ -98,19 +111,17 @@ onMounted(async() => {
       滚动的曲谱
 
       <div text-sm mt-5 font-normal>
-        * 产品功能全部免费
+        * 产品功能均免费
         <br><br>
         * 支持上传曲谱，自定义滚动速度
         <br><br>
         * 多样的速度调节，满足需求
-        <br><br>
-        * 个人账号所持曲谱数量不限量
       </div>
     </div>
 
     <div w-full h-full bg-black bg-opacity-80 absolute top-0 left-0 z-10 />
 
-    <div class="rowup">
+    <div :class="scrollImageClass">
       <img
         v-for="url in imgList"
         :key="url"
@@ -118,6 +129,7 @@ onMounted(async() => {
         object-cover
         style="width: 100%;height: 100%;"
         alt="error"
+        @load="imageOnload"
       >
     </div>
 
@@ -140,7 +152,7 @@ onMounted(async() => {
       @submit-form="handleSubmitForm"
     />
 
-    <LoginPageFooter absolute z-20 bottom-5 />
+    <LoginPageFooter absolute z-20 bottom-5 right-2 />
   </div>
 </template>
 
