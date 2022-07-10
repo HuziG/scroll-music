@@ -115,6 +115,7 @@ const handleValidateForm = (e) => {
             type="password"
             show-password-on="mousedown"
             placeholder="输入确认密码"
+            @keydown.enter="handleValidateForm"
           />
         </n-form-item>
       </n-form>
