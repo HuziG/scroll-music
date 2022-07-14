@@ -74,7 +74,11 @@ onMounted(() => {
     <n-spin :show="formLoading">
       <n-form ref="formRef" :rules="rules" :label-width="80" :model="formValue" size="large">
         <n-form-item label="邮箱" path="email">
-          <n-input v-model:value="formValue.email" placeholder="输入注册邮箱" />
+          <n-input
+            v-model:value="formValue.email"
+            placeholder="输入注册邮箱"
+            @keydown.enter="handleValidateForm"
+          />
         </n-form-item>
       </n-form>
     </n-spin>

@@ -40,11 +40,11 @@ const router = useRouter()
         </div>
       </div>
 
-      <div mt-8 text-gray-500 text-xl>
+      <div mt-8 mb-5 text-gray-500 text-xl>
         联系方式
       </div>
       <div>
-        <div
+        <!-- <div
           v-for="(item, index) in [
             { label: '邮箱', icon: '', value: '1067408814@qq.com' },
             { label: '交流QQ群', icon: '', value: '671644918' },
@@ -56,7 +56,12 @@ const router = useRouter()
             {{ item.label }}
           </div>
           <div>{{ item.value }}</div>
-        </div>
+        </div> -->
+        <div>Email</div>
+        <div>1067408814@qq.com</div>
+        <div h-5 />
+        <div>交流Q群</div>
+        <div>671644918</div>
       </div>
     </div>
   </div>

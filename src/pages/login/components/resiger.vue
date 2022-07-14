@@ -98,13 +98,30 @@ onMounted(() => {
       </n-spin>
     </div>
 
-    <n-modal v-model:show="createSheetStore.showCreateModal" :mask-closable="false">
-      <create-sheet-modal @cancel="toggleCreateModal(false)" />
-    </n-modal>
-
-    <n-modal v-model:show="createSheetStore.showUploadModal" :mask-closable="true">
-      <upload-sheet-modal @cancel="hideUploadModal" />
-    </n-modal>
+    <n-spin :show="formLoading">
+      <n-form ref="formRef" :rules="rules" :label-width="80" :model="formValue" size="large">
+        <n-form-item label="邮箱" path="email">
+          <n-input v-model:value="formValue.email" placeholder="输入邮箱" />
+        </n-form-item>
+        <n-form-item label="密码" path="password">
+          <n-input
+            v-model:value="formValue.password"
+            type="password"
+            show-password-on="mousedown"
+            placeholder="输入密码"
+          />
+        </n-form-item>
+        <n-form-item label="再次确认密码" path="rePassword">
+          <n-input
+            v-model:value="formValue.rePassword"
+            type="password"
+            show-password-on="mousedown"
+            placeholder="输入确认密码"
+            @keydown.enter="handleValidateForm"
+          />
+        </n-form-item>
+      </n-form>
+    </n-spin>
 
     <n-modal v-model:show="showBgImgModal" :mask-closable="true">
       <bg-img-modal

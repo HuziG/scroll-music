@@ -6,6 +6,14 @@ const formValue = ref({
   email: '',
   password: '',
 });
+
+const handleSubmit = () => {
+  emit('submitForm', {
+    type: 'login',
+    form: deepClone(formValue.value),
+  });
+};
+
 onMounted(() => {
   formValue.value.email = localStorage.user_email;
 });
@@ -36,6 +44,7 @@ onMounted(() => {
             type="password"
             show-password-on="mousedown"
             placeholder="输入密码"
+            @keydown.enter="handleSubmit"
           />
         </n-form-item>
       </n-form>
@@ -60,12 +69,7 @@ onMounted(() => {
       mt-4
       type="primary"
       :disabled="formValue.email === '' || formValue.password === ''"
-      @click="
-        emit('submitForm', {
-          type: 'login',
-          form: deepClone(formValue),
-        })
-      "
+      @click="handleSubmit"
     >
       确定
     </n-button>

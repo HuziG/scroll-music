@@ -38,25 +38,31 @@ onMounted(() => {
 })
 
 const handleMouseDown = ({ event, type }) => {
+  const y = event.y || Math.floor(event.changedTouches[0].clientY)
+
   if (type === 'top')
-    topStartY.value = event.y
+    topStartY.value = y
 
   if (type === 'bottom')
-    bottomStartY.value = event.y
+    bottomStartY.value = y
 
   moveLineType.value = type
 }
 
-const handleTopMouseUp = (e) => {
+const handleTopMouseUp = (event) => {
+  const y = event.y || Math.floor(event.changedTouches[0].clientY)
+
   baseTopDistance.value = topDistance.value
   moveLineType.value = ''
-  topStartY.value = e.y
+  topStartY.value = y
 }
 
-const handleBottomMouseUp = (e) => {
+const handleBottomMouseUp = (event) => {
+  const y = event.y || Math.floor(event.changedTouches[0].clientY)
+
   baseBottomDistance.value = bottomDistance.value
   moveLineType.value = ''
-  bottomStartY.value = e.y
+  bottomStartY.value = y
 }
 
 const handleMouseMove = (event) => {
@@ -78,14 +84,16 @@ const handleMouseMove = (event) => {
     return false
   }
 
+  const y = event.y || Math.floor(event.changedTouches[0].clientY)
+
   if (moveLineType.value === 'top') {
-    const moveDistance = event.y - topStartY.value + baseTopDistance.value
+    const moveDistance = y - topStartY.value + baseTopDistance.value
     if (moveDistance > 0)
       topDistance.value = moveDistance
   }
 
   if (moveLineType.value === 'bottom') {
-    let moveDistance = event.y - bottomStartY.value
+    let moveDistance = y - bottomStartY.value
     moveDistance = moveDistance < 0 ? (Math.abs(moveDistance) + baseBottomDistance.value) : (baseBottomDistance.value - Math.abs(moveDistance))
     if (moveDistance > 0)
       bottomDistance.value = moveDistance
@@ -113,11 +121,14 @@ const handleMouseMove = (event) => {
     <div
       ref="clipContainer"
       relative mx-auto select-none :style="`width: 300px;height: ${containerHeight}px;`"
+      @touchmove="handleMouseMove"
       @mousemove="handleMouseMove"
     >
       <div absolute bg-red bg-opacity-20 top-0 left-0 w-full :style="`height: ${topDistance}px`" />
       <div
         absolute transition w-full border-b-4 border-red-500 bg-opacity-20 cursor-move :style="`cursor: ns-resize;top: ${topDistance}px`"
+        @touchstart="(event) => handleMouseDown({ event, type:'top' })"
+        @touchend="handleTopMouseUp"
         @mousedown="(event) => handleMouseDown({ event, type:'top' })"
         @mouseup="handleTopMouseUp"
       />
@@ -127,6 +138,8 @@ const handleMouseMove = (event) => {
       <div absolute bg-red bg-opacity-20 bottom-0 left-0 w-full :style="`height: ${bottomDistance}px;`" />
       <div
         absolute transition w-full border-t-4 border-red-500 bg-opacity-20 :style="`cursor: ns-resize;bottom: ${bottomDistance}px`"
+        @touchstart="(event) => handleMouseDown({ event, type:'bottom' })"
+        @touchend="handleBottomMouseUp"
         @mousedown="(event) => handleMouseDown({ event, type:'bottom' })"
         @mouseup="handleBottomMouseUp"
       />
