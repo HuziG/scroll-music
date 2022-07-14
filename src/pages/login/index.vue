@@ -68,7 +68,7 @@ const handleSubmitForm = async({ type, form }) => {
         await confirmEmail()
         notification.success({
           content: '注册成功',
-          meta: '请登录注册邮箱，验证账号并使用',
+          meta: '请登录注册邮箱，验证账号并使用，10分钟有效',
         })
         break
       case FORM_STATE.FORGET:

@@ -11,7 +11,7 @@ const formValue = ref({
 const handleSubmit = () => {
   emit('submitForm', {
     type: 'login',
-    form: deepClone(formValue),
+    form: deepClone(formValue.value),
   })
 }
 
