@@ -4,7 +4,7 @@ import { getUrlParams } from '~/utils/utils'
 export const installPermission = ({ router }: any) => {
   const whiteRoute: string[] = ['/login']
 
-  router.beforeEach(async(to: any, from, next) => {
+  router.beforeEach(async(to: any, from: any, next: any) => {
     let data
 
     if (getUrlParams('user') === 'demo') {

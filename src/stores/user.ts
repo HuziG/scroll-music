@@ -1,7 +1,6 @@
 import { acceptHMRUpdate, defineStore } from 'pinia'
-import { useRouter } from 'vue-router'
 import { getUrlParams } from '~/utils/utils'
-const BaaS = window.BaaS
+const BaaS = (window as any).BaaS
 
 export const useUserStore = defineStore({
   id: 'user',
@@ -12,11 +11,12 @@ export const useUserStore = defineStore({
       id: null,
       _email_verified: false,
     },
+    loginPanel: 'login',
   }),
 
   actions: {
     setDemoUser() {
-      // this.demoUser = getUrlParams('user') === 'demo'
+      this.demoUser = getUrlParams('user') === 'demo'
     },
 
     async requestUserInfo() {

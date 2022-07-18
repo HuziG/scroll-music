@@ -13,6 +13,7 @@ import { addSheetNote, editSheet, editSheetNote, getSheetsNote } from '~/api/she
 import { useUserStore } from '~/stores/user'
 
 const message = useMessage()
+const beforeSheetImgWidth = ref(null)
 const sheetDetailStore = useSheetDetailStore()
 const router = useRouter()
 const countDown = ref(0)
@@ -38,10 +39,8 @@ let countDownInterval
 let scrollInterval
 
 const initSheetNote = async() => {
-  if (useUserStore().demoUser)
-    return false
-
   const { objects } = await getSheetsNote(sheetDetailStore.sheetData._id)
+
   sheetDetailStore.$patch((state) => {
     if (objects.length > 0)
       state.sheetNote = objects[0]
@@ -126,11 +125,6 @@ const handleSaveSpeed = async() => {
     message.success('设置成功')
   }
 
-  if (useUserStore().demoUser) {
-    handleSuccess()
-    return false
-  }
-
   const data = await editSheet({
     _id: sheetDetailStore.sheetData._id,
     step: Number(stepSlider.value),
@@ -158,11 +152,6 @@ const toggleDarkMode = () => {
 }
 
 const handleConfirmNote = async({ content }) => {
-  if (useUserStore().demoUser) {
-    message.success('保存成功')
-    return false
-  }
-
   noteSaveLoading.value = true
 
   if (sheetDetailStore.sheetNote._id) {
@@ -224,11 +213,6 @@ const saveWidth = async() => {
     message.success('保存成功')
   }
 
-  if (useUserStore().demoUser) {
-    handleSuccess()
-    return false
-  }
-
   const data = await editSheet({
     _id: sheetDetailStore.sheetData._id,
     width: sheetImgWidth.value,
@@ -236,8 +220,6 @@ const saveWidth = async() => {
 
   handleSuccess()
 }
-
-const beforeSheetImgWidth = ref(null)
 
 const cancelWidthSet = () => {
   showSheetWidthModal.value = false

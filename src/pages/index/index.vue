@@ -41,14 +41,13 @@ const hideUploadModal = () => {
 const toggleCreateModal = (value) => {
   if (useUserStore().demoUser && value) {
     window.location.href = '/login'
-    return false
   }
-
-  createSheetStore.clearStore()
-
-  createSheetStore.$patch((state) => {
-    state.showCreateModal = value
-  })
+  else {
+    createSheetStore.clearStore()
+    createSheetStore.$patch((state) => {
+      state.showCreateModal = value
+    })
+  }
 }
 
 const handleInit = async() => {
