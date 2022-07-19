@@ -5,8 +5,8 @@ import { deepClone } from '~/utils/utils.ts'
 import { loginWithSmsVerificationCode, sendSmsCode, telephoneRegister, verifySmsCode } from '~/api/user'
 import SmsInput from '~/components/SmsInput/index.vue'
 
+const buttonLoading = ref(false)
 const message = useMessage()
-const formRef = ref(null)
 const formValue = ref({
   telephone: '',
   code: '',
@@ -15,17 +15,20 @@ const formValue = ref({
 /**
  * 登录
  */
-const handleValidateForm = async(e) => {
+const handleValidateForm = (e) => {
   const { telephone, code } = formValue.value
 
   e.preventDefault()
 
-  formRef.value?.validate((errors) => {
-    if (!errors)
-      loginWithSmsVerificationCode(telephone, code)
-    else
-      message.error('登录信息填写有误，请纠正')
-  })
+  buttonLoading.value = true
+
+  await loginWithSmsVerificationCode(telephone, code)
+
+  buttonLoading.value = false
+
+  setTimeout(() => {
+    router.replace('/')
+  }, 500)
 }
 
 const disabledSubmit = computed(() => {
@@ -47,7 +50,6 @@ watch(() => formValue.telephone, (newValue, oldValue) => {
 <template>
   <div>
     <n-form
-      ref="formRef"
       :label-width="80"
       :model="formValue"
       size="large"
@@ -67,6 +69,7 @@ watch(() => formValue.telephone, (newValue, oldValue) => {
     <n-button
       w-full mt-4
       type="primary"
+      :loading="buttonLoading"
       :disabled="disabledSubmit"
       @click="handleValidateForm"
     >

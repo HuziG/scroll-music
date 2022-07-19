@@ -1,10 +1,21 @@
-<script setup lang="ts">
+<script lang="ts">
+import { telephoneLogin, telephoneRegister } from '~/api/user'
 import { useUserStore } from '~/stores/user'
 
 const useStore = useUserStore()
 
-const handleGetTelForm = (payload) => {
+const handleGetTelForm = () => {
+  await telephoneRegister({ phone: form.telephone, password: form.password })
 
+  localStorage.user_account = form.telephone
+
+  await telephoneLogin({ phone: form.telephone, password: form.password })
+
+  notification.success({
+    content: '手机号注册成功，已自动登录',
+  })
+
+  // useStore.loginPanel = 'login'
 }
 </script>
 
@@ -18,26 +29,17 @@ const handleGetTelForm = (payload) => {
         i-mdi-arrow-left-bold-circle inline-block text-primary mr-3 cursor-pointer
         @click="useStore.loginPanel = 'login'"
       />
-      忘记密码
+      注册账号
     </div>
 
     <n-tabs type="line" animated>
-      <!-- <n-tab-pane name="telephone" tab="手机找回">
+      <n-tab-pane name="telephone" tab="手机注册">
         <telephone-register @submitForm="handleGetTelForm" />
-      </n-tab-pane> -->
-      <n-tab-pane name="email" tab="邮箱找回">
-        <email-forget />
+      </n-tab-pane>
+      <n-tab-pane name="email" tab="验证码注册">
+        <email-register />
       </n-tab-pane>
     </n-tabs>
-
-    <n-button
-      w-full mt-4
-      type="primary"
-      :disabled="disabledSubmit"
-      @click="handleValidateForm"
-    >
-      提交
-    </n-button>
 
     <div text-vice absolute bottom-0 py-3>
       @ 2022 滚动的曲谱

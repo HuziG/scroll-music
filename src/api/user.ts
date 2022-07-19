@@ -17,7 +17,7 @@ export const telephoneRegister = ({
   telephone: string
   password: string
 }) => {
-  return BaaS.auth.register({ telephone, password })
+  return BaaS.auth.register({ phone: telephone, password })
 }
 
 // 确认注册
@@ -72,12 +72,9 @@ export const verifySmsCode = ({
 }
 
 // 短信一键登录
-export const loginWithSmsVerificationCode = ({
-  telephone, code,
-}: {
-  telephone: string
-  code: number
-}) => BaaS.auth.loginWithSmsVerificationCode(telephone, String(code))
+export const loginWithSmsVerificationCode = (
+  telephone: string, code: string,
+) => BaaS.auth.loginWithSmsVerificationCode(telephone, String(code))
 
 // 手机登录
 export const telephoneLogin = ({

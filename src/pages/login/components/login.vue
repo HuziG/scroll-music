@@ -50,9 +50,7 @@ onMounted(() => {
         <n-button
           quaternary
           type="primary"
-          @click="$emit('changeState', {
-            state: 'register'
-          })"
+          @click="useStore.loginPanel = 'register'"
         >
           立即注册
         </n-button>
@@ -61,9 +59,7 @@ onMounted(() => {
       <n-button
         quaternary
         type="primary"
-        @click="$emit('changeState', {
-          state: 'forget'
-        })"
+        @click="useStore.loginPanel = 'forget'"
       >
         忘记密码？
       </n-button>
