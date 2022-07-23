@@ -6,24 +6,15 @@ import {
   NMessageProvider,
   NNotificationProvider,
 } from 'naive-ui'
-import { useUserStore } from '~/stores/user'
 import { logoConsole } from '~/utils/utils'
 
 logoConsole()
 
-const userStore = useUserStore()
-const router = useRouter()
 const themeOverrides: GlobalThemeOverrides = {
   common: {
     primaryColor: '#5138ED',
     primaryColorHover: '#6C59DE',
   },
-}
-
-const loginTo = () => {
-  // window.location.href = '/login'
-
-  router.replace('/login')
 }
 
 // https://github.com/vueuse/head
@@ -44,11 +35,6 @@ const loginTo = () => {
       <n-message-provider>
         <n-dialog-provider>
           <RouterView />
-
-          <div v-if="userStore.demoUser" fixed w-full left-0 bottom-0 text-white bg-primary text-center box-border py-5>
-            当前为试用模式，如使用正式版，请
-            <span font-bold text-white hover:opacity-60 inline-block ml-3 cursor-pointer @click="loginTo">立即登录</span>
-          </div>
         </n-dialog-provider>
       </n-message-provider>
     </n-notification-provider>

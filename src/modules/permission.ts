@@ -1,36 +1,31 @@
 import { useUserStore } from '~/stores/user'
-import { getUrlParams } from '~/utils/utils'
 
 export const installPermission = ({ router }: any) => {
-  const whiteRoute: string[] = ['/login']
+  const skipRoute: string[] = ['/login']
+  const demoPermissionRoute: string[] = ['/login', '/scroll', '/']
 
   router.beforeEach(async(to: any, from: any, next: any) => {
-    let data
+    let userData
 
-    if (getUrlParams('user') === 'demo') {
-      next()
-      return false
-    }
+    const userStore = useUserStore()
 
     try {
-      await useUserStore().requestUserInfo()
-      data = useUserStore().userInfo
+      await userStore.requestUserInfo()
+      userData = userStore.userInfo
     }
     catch (error) {
-      data = null
+      userData = null
     }
 
-    if (whiteRoute.includes(to.fullPath)) {
-      if (data && data._email_verified)
-        next('/')
-      else
-        next()
-    }
-    else {
-      if (data && data._email_verified)
-        next()
-      else
-        next('/login')
-    }
+    const isDemoMode = !userData
+
+    userStore.demoUser = isDemoMode
+
+    // 如果为 demo 模式，则不设防
+    if (isDemoMode && demoPermissionRoute.includes(to.path))
+      next()
+
+    if (!isDemoMode && skipRoute.includes(to.path))
+      next('/')
   })
 }

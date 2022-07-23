@@ -8,6 +8,7 @@ import keyboardMixins from './keyboardMixins'
 import MetronomeSet from './components/metronomeSet.vue'
 import PrintSheetMixins from './printSheet'
 import useMediaSize from '~/mixins/useMediaSize'
+import DemoFooter from '~/components/DemoFooter.vue'
 import { useSheetDetailStore } from '~/stores/sheetDetail'
 import { addSheetNote, editSheet, editSheetNote, getSheetsNote } from '~/api/sheetMusic'
 import { useUserStore } from '~/stores/user'
@@ -580,6 +581,8 @@ onBeforeUnmount(() => {
         {{ showActionData.label }}
       </div>
     </div>
+
+    <demo-footer />
   </div>
 </template>
 

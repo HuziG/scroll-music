@@ -7,8 +7,10 @@ import BgImgModalMixins from './mixins/bgImgModal'
 import TagFilter from './mixins/tagFilter'
 import TagModal from './components/tagModal.vue'
 import PageHeader from '~/components/PageHeader/index.vue'
+import DemoFooter from '~/components/DemoFooter.vue'
 import { useCreateSheetStore } from '~/stores/createSheetMusic'
 import { useSheetMusicDepot } from '~/stores/sheetMusicDepot'
+import { useUserStore } from '~/stores/user'
 import { getSheets } from '~/api/sheetMusic'
 import { deepClone } from '~/utils/utils'
 
@@ -39,7 +41,7 @@ const hideUploadModal = () => {
 
 const toggleCreateModal = (value) => {
   if (useUserStore().demoUser && value) {
-    window.location.href = '/login'
+    router.replace('/login')
   }
   else {
     createSheetStore.clearStore()
@@ -172,11 +174,8 @@ onMounted(() => {
     >
       <span i-mdi:image-area text-base text-white />
     </div>
-    <!--
-    <div v-if="userStore.demoUser" fixed w-full left-0 bottom-0 text-white bg-primary text-center box-border py-5>
-      当前为试用模式，如使用正式版，请
-      <span font-bold text-white hover:opacity-60 inline-block ml-3 cursor-pointer @click="loginTo">立即登录</span>
-    </div> -->
+
+    <demo-footer />
   </div>
 </template>
 
