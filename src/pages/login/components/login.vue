@@ -1,26 +1,27 @@
 <script setup lang="ts">
-import TelephoneLogin from './telephoneLogin.vue'
-import AccountLogin from './accountLogin.vue'
-import { deepClone } from '~/utils/utils.ts'
+defineProps(['formLoading'])
 
-const props = defineProps(['formLoading'])
-
-const emit = defineEmits(['changeState'])
-
+const router = useRouter()
+const emit = defineEmits(['submitForm', 'changeState'])
 const formValue = ref({
-  account: '',
+  email: '',
   password: '',
 })
 
-const loginMode = ref('telephone')
-
-/**
- * demo模式
- */
-const enterDemo = () => {
-  const href = window.location.href
-  window.location.href = `https://${window.location.host}/#/?user=demo`
+const handleSubmit = () => {
+  emit('submitForm', {
+    type: 'login',
+    form: formValue.value,
+  })
 }
+
+const toDemo = () => {
+  router.push('/')
+}
+
+onMounted(() => {
+  formValue.value.email = localStorage.user_email
+})
 </script>
 
 <template>
@@ -32,48 +33,65 @@ const enterDemo = () => {
       <div text-main font-bold text-2xl>
         登录账号
       </div>
-      <n-button quaternary type="primary" @click="enterDemo">
-        跳过登录，看看案例
+
+      <n-button quaternary type="primary" @click="toDemo">
+        跳过登录，随便逛逛
       </n-button>
     </div>
 
-    <telephone-login v-if="loginMode === 'telephone'" />
-    <account-login v-if="loginMode === 'account'" />
+    <n-spin :show="formLoading">
+      <n-form
+        ref="formRef"
+        :label-width="80"
+        :model="formValue"
+        size="large"
+      >
+        <n-form-item label="邮箱" path="email">
+          <n-input v-model:value="formValue.email" placeholder="输入邮箱" />
+        </n-form-item>
+        <n-form-item label="密码" path="password">
+          <n-input
+            v-model:value="formValue.password"
+            type="password"
+            show-password-on="mousedown"
+            placeholder="输入密码"
+            @keydown.enter="handleSubmit"
+          />
+        </n-form-item>
+      </n-form>
+    </n-spin>
 
-    <div flex items-center justify-between my-4>
-      <div text-gray-600>
-        还没有账号?
-        <n-button
-          quaternary
-          type="primary"
-          @click="useStore.loginPanel = 'register'"
-        >
-          立即注册
-        </n-button>
-      </div>
-
+    <div text-right>
       <n-button
         quaternary
         type="primary"
-        @click="useStore.loginPanel = 'forget'"
+        @click="$emit('changeState', {
+          state: 'forget'
+        })"
       >
         忘记密码？
       </n-button>
     </div>
 
-    <div my-3 flex items-center justify-around>
-      <n-button primary strong @click="loginMode= 'telephone'">
-        <template #icon>
-          <div text-base i-mdi:cellphone-android />
-        </template>
-        手机号快速登录
-      </n-button>
+    <n-button
+      w-full mt-4
+      type="primary"
+      :disabled="formValue.email === '' || formValue.password === ''"
+      @click="handleSubmit"
+    >
+      确定
+    </n-button>
 
-      <n-button primary strong @click="loginMode = 'account'">
-        <template #icon>
-          <div text-base i-mdi:email />
-        </template>
-        账号密码登录
+    <div mt-3 text-gray-600>
+      还没有账号?
+      <n-button
+        quaternary
+        type="primary"
+        @click="$emit('changeState', {
+          state: 'register'
+        })"
+      >
+        立即注册
       </n-button>
     </div>
 

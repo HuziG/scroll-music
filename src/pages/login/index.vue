@@ -2,24 +2,27 @@
 import { useMessage, useNotification } from 'naive-ui'
 import { useRouter } from 'vue-router'
 import LoginPanel from './components/login.vue'
-import ResigerPanel from './components/register.vue'
+import ResigerPanel from './components/resiger.vue'
 import ForgetPasswordPanel from './components/forgetPassword.vue'
 import {
   confirmEmail,
   emailLogin,
   emailRegister,
   getPasswordByEmail,
-  telephoneRegister,
 } from '~/api/user.ts'
 import LoginPageFooter from '~/components/LoginFooter/index.vue'
-import { useUserStore } from '~/stores/user'
 
 const router = useRouter()
-const useStore = useUserStore()
-const notification = useNotification()
+const FORM_STATE = {
+  LOGIN: 'login',
+  REGISTER: 'register',
+  FORGET: 'forget',
+}
 const readImg = ref(0)
 const scrollImageClass = ref('')
-const panelState = ref(useStore.loginPanel) // login \ register \ forget
+const formLoading = ref(false)
+const panelState = ref(FORM_STATE.LOGIN) // login \ register \ forget
+const notification = useNotification()
 const message = useMessage()
 const imgList = [
   'https://i0.hdslb.com/bfs/article/watermark/f2a06ed86fdcb5aa7521a803b104131933cd5091.jpg@942w_1334h_progressive.webp',
@@ -28,6 +31,62 @@ const imgList = [
 ]
 
 let interval = null
+
+const handleChangeState = ({ state }) => {
+  panelState.value = state
+}
+
+const handleSubmitForm = async({ type, form }) => {
+  formLoading.value = true
+  try {
+    switch (type) {
+      case FORM_STATE.LOGIN:
+        emailLogin({ email: form.email, password: form.password }).then(({ _email_verified }) => {
+          if (_email_verified)
+            message.success('登录成功！')
+          else
+            message.error('邮箱未验证，登录失败！')
+
+          formLoading.value = false
+
+          localStorage.user_email = form.email
+
+          setTimeout(() => {
+            router.replace('/')
+          }, 500)
+        }).catch((error) => {
+          message.error(JSON.stringify(error))
+        }).finally(() => {
+          formLoading.value = false
+        })
+        break
+      case FORM_STATE.REGISTER:
+        await emailRegister({ email: form.email, password: form.password })
+        localStorage.user_email = form.email
+        formLoading.value = false
+        panelState.value = FORM_STATE.LOGIN
+        await confirmEmail()
+        notification.success({
+          content: '注册成功',
+          meta: '请登录注册邮箱，验证账号并使用',
+        })
+        break
+      case FORM_STATE.FORGET:
+        await getPasswordByEmail({ email: form.email })
+        formLoading.value = false
+        notification.info({
+          content: '邮件已发送',
+          meta: '请登录邮箱地址，找回密码',
+        })
+
+        break
+    }
+  }
+  catch (error) {
+    message.error(typeof error === 'object' ? JSON.stringify(error) : error)
+    formLoading.value = false
+  }
+}
 
 const imageOnload = () => {
   readImg.value += 1
@@ -75,13 +134,22 @@ watch(readImg, (value) => {
     </div>
 
     <LoginPanel
-      v-if="useStore.loginPanel === 'login'"
+      v-if="panelState === FORM_STATE.LOGIN"
+      :form-loading="formLoading"
+      @change-state="handleChangeState"
+      @submit-form="handleSubmitForm"
     />
-    <RegisterPanel
-      v-if="useStore.loginPanel === 'register'"
+    <ResigerPanel
+      v-if="panelState === FORM_STATE.REGISTER"
+      :form-loading="formLoading"
+      @change-state="handleChangeState"
+      @submit-form="handleSubmitForm"
     />
     <ForgetPasswordPanel
-      v-if="useStore.loginPanel === 'forget'"
+      v-if="panelState === FORM_STATE.FORGET"
+      :form-loading="formLoading"
+      @change-state="handleChangeState"
+      @submit-form="handleSubmitForm"
     />
 
     <LoginPageFooter absolute z-20 bottom-5 right-2 />

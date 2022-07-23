@@ -1,11 +1,55 @@
 <script setup lang="ts">
-import { useUserStore } from '~/stores/user'
+import { NButton, NForm, NFormItem, NInput, NSpin } from 'naive-ui'
+import { deepClone } from '~/utils/utils.ts'
 
-const useStore = useUserStore()
+defineProps(['formLoading'])
 
-const handleGetTelForm = (payload) => {
+const formRef = ref(null)
+const formValue = ref({
+  email: '',
+})
+const emit = defineEmits(['submitForm', 'changeState'])
 
+const rules = ref({
+  email: [
+    {
+      required: true,
+      validator(rule, value: string) {
+        if (!value)
+          return new Error('需要邮箱')
+        else if (!/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/.test(value))
+          return new Error('邮箱地址格式错误')
+
+        return true
+      },
+      trigger: ['input', 'blur'],
+    },
+  ],
+})
+
+const disabledSubmit = computed(() => {
+  const _form = formValue.value
+  return _form.email === ''
+})
+
+const handleValidateForm = (e) => {
+  e.preventDefault()
+  formRef.value?.validate((errors) => {
+    if (!errors) {
+      emit('submitForm', {
+        type: 'forget',
+        form: deepClone(formValue.value),
+      })
+    }
+    else {
+      message.error('注册信息填写有误，请纠正')
+    }
+  })
 }
+
+onMounted(() => {
+  formValue.value.email = localStorage.user_email
+})
 </script>
 
 <template>
@@ -16,19 +60,30 @@ const handleGetTelForm = (payload) => {
     <div my-5 text-main font-bold text-2xl flex items-center>
       <div
         i-mdi-arrow-left-bold-circle inline-block text-primary mr-3 cursor-pointer
-        @click="useStore.loginPanel = 'login'"
+        @click="emit('changeState', {
+          state: 'login'
+        })"
       />
       忘记密码
     </div>
 
-    <n-tabs type="line" animated>
-      <!-- <n-tab-pane name="telephone" tab="手机找回">
-        <telephone-register @submitForm="handleGetTelForm" />
-      </n-tab-pane> -->
-      <n-tab-pane name="email" tab="邮箱找回">
-        <email-forget />
-      </n-tab-pane>
-    </n-tabs>
+    <n-spin :show="formLoading">
+      <n-form
+        ref="formRef"
+        :rules="rules"
+        :label-width="80"
+        :model="formValue"
+        size="large"
+      >
+        <n-form-item label="邮箱" path="email">
+          <n-input
+            v-model:value="formValue.email"
+            placeholder="输入注册邮箱"
+            @keydown.enter="handleValidateForm"
+          />
+        </n-form-item>
+      </n-form>
+    </n-spin>
 
     <n-button
       w-full mt-4
