@@ -27,5 +27,8 @@ export const installPermission = ({ router }: any) => {
 
     if (!isDemoMode && skipRoute.includes(to.path))
       next('/')
+
+    else
+      next()
   })
 }
