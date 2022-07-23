@@ -11,7 +11,6 @@ import { useCreateSheetStore } from '~/stores/createSheetMusic'
 import { useSheetMusicDepot } from '~/stores/sheetMusicDepot'
 import { getSheets } from '~/api/sheetMusic'
 import { deepClone } from '~/utils/utils'
-import { useUserStore } from '~/stores/user'
 
 const router = useRouter()
 const createSheetStore = useCreateSheetStore()
@@ -153,7 +152,7 @@ onMounted(() => {
 
     <div
       fixed left-5 bottom-3 z-30 bg-black text-xs
-      bg-opacity-60 py-1 px-4 text-white rounded-full cursor-pointer
+      bg-opacity-60 py-2 px-4 text-white rounded-full cursor-pointer
       @click="router.push('/about')"
     >
       关于作者
@@ -161,7 +160,7 @@ onMounted(() => {
 
     <div
       fixed left-30 bottom-3 z-30 bg-black text-xs
-      bg-opacity-60 py-1 px-4 text-white rounded-full cursor-pointer
+      bg-opacity-60 py-2 px-4 text-white rounded-full cursor-pointer
     >
       苏ICP备2021030495号-2
     </div>
@@ -173,6 +172,11 @@ onMounted(() => {
     >
       <span i-mdi:image-area text-base text-white />
     </div>
+    <!--
+    <div v-if="userStore.demoUser" fixed w-full left-0 bottom-0 text-white bg-primary text-center box-border py-5>
+      当前为试用模式，如使用正式版，请
+      <span font-bold text-white hover:opacity-60 inline-block ml-3 cursor-pointer @click="loginTo">立即登录</span>
+    </div> -->
   </div>
 </template>
 

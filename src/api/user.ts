@@ -62,13 +62,8 @@ export const sendSmsCode = ({
 }
 
 // 验证手机验证码
-export const verifySmsCode = ({
-  telephone, code,
-}: {
-  telephone: string
-  code: number
-}) => {
-  return BaaS.verifySmsCode({ phone: telephone, code })
+export const verifySmsCode = (params: { phone: string; code: string }) => {
+  return BaaS.verifySmsCode(params)
 }
 
 // 短信一键登录

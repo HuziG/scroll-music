@@ -12,8 +12,11 @@ export const logoConsole = () => {
 /____/\___/_/   \____/_/_/  /_/  /_/\__,_/____/_/\___/  
  `
 
+  // eslint-disable-next-line no-console
   console.log(`%c${str}`, 'color: #5138ED;font-size: 10px;')
+  // eslint-disable-next-line no-console
   console.log('呀嘿，被发现了')
+  // eslint-disable-next-line no-console
   console.log('弹琴，音乐，前端一起来玩')
 }
 
