@@ -21,10 +21,6 @@ const enterDemo = () => {
   const href = window.location.href
   window.location.href = `https://${window.location.host}/#/?user=demo`
 }
-
-onMounted(() => {
-  formValue.value.account = localStorage.user_account
-})
 </script>
 
 <template>

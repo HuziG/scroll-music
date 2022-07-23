@@ -14,7 +14,7 @@ const message = useMessage()
 const formRef = ref(null)
 
 const formValue = ref({
-  telephone: '',
+  phone: '',
   code: '',
   password: '',
   rePassword: '',
@@ -28,7 +28,7 @@ const validatePasswordStartWith = (rule, value) => {
   )
 }
 const rules = ref({
-  telephone: [
+  phone: [
     {
       required: true,
       validator(rule: FormItemRule, value: string) {
@@ -71,10 +71,10 @@ const handleValidateForm = async(e) => {
 
   formRef.value?.validate((errors) => {
     if (!errors) {
-      const { telephone, code } = formValue.value
+      const { phone, code } = formValue.value
 
       await verifySmsCode({
-        telephone,
+        phone,
         code,
       }).catch(() => {
         message.error('短信验证码错误')
@@ -91,7 +91,7 @@ const disabledSubmit = computed(() => {
   return Object.values(formValue.value).map(item => item.trim()).includes('')
 })
 
-watch(() => formValue.telephone, (newValue, oldValue) => {
+watch(() => formValue.phone, (newValue, oldValue) => {
   if (newValue.length < oldValue.length)
     return false
 
@@ -113,15 +113,15 @@ watch(() => formValue.telephone, (newValue, oldValue) => {
         :model="formValue"
         size="large"
       >
-        <n-form-item label="手机号" path="telephone">
-          <n-input v-model:value="formValue.telephone" type="number" placeholder="输入手机号">
+        <n-form-item label="手机号" path="phone">
+          <n-input v-model:value="formValue.phone" type="number" placeholder="输入手机号">
             <template #prefix>
               <div text-base text-gray-400 i-mdi:cellphone-android />
             </template>
           </n-input>
         </n-form-item>
         <n-form-item label="短信验证码" path="code">
-          <sms-input :telephone="formValue.telephone" />
+          <sms-input :telephone="formValue.phone" />
         </n-form-item>
 
         <n-form-item label="密码" path="password">

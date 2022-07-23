@@ -15,7 +15,7 @@ const formValue = ref({
 /**
  * 登录
  */
-const handleValidateForm = (e) => {
+const handleValidateForm = async(e) => {
   const { telephone, code } = formValue.value
 
   e.preventDefault()
@@ -44,6 +44,10 @@ watch(() => formValue.telephone, (newValue, oldValue) => {
 
   if (value.length === 9)
     fromValue.value = `${value.slice(0, 4)}${value.slice(4, 8)} ${value.slice(8, value.length)}`
+})
+
+onMounted(() => {
+  formValue.value.account = localStorage.user_account
 })
 </script>
 

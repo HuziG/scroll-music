@@ -1,12 +1,17 @@
 <script lang="ts" setup>
 import { emailLogin, telephoneLogin } from '~/api/user'
+import { useUserStore } from '~/stores/user'
 
+const useStore = useUserStore()
+const buttonLoading = ref(false)
 const formValue = ref({
   account: '',
   password: '',
 })
 
 const handleSubmit = async() => {
+  buttonLoading.value = true
+
   const { account, password } = formValue.value
 
   localStorage.user_account = account
@@ -15,6 +20,8 @@ const handleSubmit = async() => {
     await telephoneLogin({ phone: account, password }).catch((error) => {
       message.error(JSON.stringify(error))
     })
+
+    buttonLoading.value = false
 
     setTimeout(() => {
       router.replace('/')
@@ -25,12 +32,15 @@ const handleSubmit = async() => {
       message.error(JSON.stringify(error))
     })
 
-    if (verified)
+    if (verified) {
+      useStore.demoUser = false
       message.success('登录成功！')
-    else
+    }
+    else {
       message.error('邮箱未验证，登录失败！')
+    }
 
-    formLoading.value = false
+    buttonLoading.value = false
 
     setTimeout(() => {
       router.replace('/')
@@ -40,6 +50,10 @@ const handleSubmit = async() => {
 
 const disabledSubmit = computed(() => {
   return Object.values(formValue.value).map(item => item.trim()).includes('')
+})
+
+onMounted(() => {
+  formValue.value.account = localStorage.user_account
 })
 </script>
 
@@ -76,6 +90,7 @@ const disabledSubmit = computed(() => {
     <n-button
       w-full mt-4
       type="primary"
+      :loading="buttonLoading"
       :disabled="disabledSubmit"
       @click="handleValidateForm"
     >
