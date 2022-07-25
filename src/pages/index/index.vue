@@ -8,6 +8,7 @@ import TagFilter from './mixins/tagFilter'
 import TagModal from './components/tagModal.vue'
 import PageHeader from '~/components/PageHeader/index.vue'
 import DemoFooter from '~/components/DemoFooter.vue'
+import HelpModal from '~/components/HelpModal.vue'
 import { useCreateSheetStore } from '~/stores/createSheetMusic'
 import { useSheetMusicDepot } from '~/stores/sheetMusicDepot'
 import { useUserStore } from '~/stores/user'
@@ -19,6 +20,7 @@ const createSheetStore = useCreateSheetStore()
 const usmd = useSheetMusicDepot()
 const value = ref('')
 const loadSheets = ref(false)
+const helpModalRef = ref(null)
 
 const {
   showBgImgModal, bgImgSaveLoading, configStore,
@@ -56,6 +58,10 @@ const handleInit = async() => {
   await usmd.filterSheetByTag()
 }
 
+const handleShowHelp = () => {
+  helpModalRef.value.handleShow()
+}
+
 onMounted(() => {
   configStore.requestUserConfig()
   handleInit()
@@ -64,7 +70,7 @@ onMounted(() => {
 
 <template>
   <div :class="`sheet-list-container ${configStore.userConfig.index_bg_img}`" style="min-width: 600px;" min-h-screen py-20>
-    <page-header />
+    <page-header @showHelp="handleShowHelp" />
 
     <div style="max-width: 1000px;padding: 0 35px;" mx-auto>
       <div flex items-center justify-between mb-2>
@@ -153,16 +159,16 @@ onMounted(() => {
     <div style="height: 60px;" />
 
     <div
-      fixed left-5 bottom-3 z-30 bg-black text-xs
-      bg-opacity-60 py-2 px-4 text-white rounded-full cursor-pointer
+      fixed left-5 bottom-4 z-30 bg-black text-xs
+      bg-opacity-60 py-1 px-4 text-white rounded-full cursor-pointer
       @click="router.push('/about')"
     >
       关于作者
     </div>
 
     <div
-      fixed left-30 bottom-3 z-30 bg-black text-xs
-      bg-opacity-60 py-2 px-4 text-white rounded-full cursor-pointer
+      fixed left-30 bottom-4 z-30 bg-black text-xs
+      bg-opacity-60 py-1 px-4 text-white rounded-full cursor-pointer
     >
       苏ICP备2021030495号-2
     </div>
@@ -176,6 +182,8 @@ onMounted(() => {
     </div>
 
     <demo-footer />
+
+    <help-modal ref="helpModalRef" />
   </div>
 </template>
 
