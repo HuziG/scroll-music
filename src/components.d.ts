@@ -6,9 +6,9 @@ import '@vue/runtime-core'
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     DemoFooter: typeof import('./components/DemoFooter.vue')['default']
+    HelpModal: typeof import('./components/HelpModal.vue')['default']
     LoginFooter: typeof import('./components/LoginFooter/index.vue')['default']
     NButton: typeof import('naive-ui')['NButton']
-    NButtonGroup: typeof import('naive-ui')['NButtonGroup']
     NCard: typeof import('naive-ui')['NCard']
     NEmpty: typeof import('naive-ui')['NEmpty']
     NForm: typeof import('naive-ui')['NForm']
@@ -19,7 +19,6 @@ declare module '@vue/runtime-core' {
     NP: typeof import('naive-ui')['NP']
     NPopover: typeof import('naive-ui')['NPopover']
     NPopselect: typeof import('naive-ui')['NPopselect']
-    NSlider: typeof import('naive-ui')['NSlider']
     NSpace: typeof import('naive-ui')['NSpace']
     NSpin: typeof import('naive-ui')['NSpin']
     NText: typeof import('naive-ui')['NText']

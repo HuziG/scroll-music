@@ -273,7 +273,7 @@ onBeforeUnmount(() => {
     </div>
 
     <div fixed top-5 right-5 z-30>
-      <n-tooltip :show-arrow="false" placement="left">
+      <n-tooltip :show-arrow="true" placement="left">
         <template #trigger>
           <n-button
             strong
@@ -290,7 +290,7 @@ onBeforeUnmount(() => {
         </template>
         {{ scrollMode === 0 ? "开始" : "暂停" }}
       </n-tooltip> <br><br>
-      <n-tooltip :show-arrow="false" placement="left">
+      <n-tooltip :show-arrow="true" placement="left">
         <template #trigger>
           <n-button
             strong
@@ -306,7 +306,7 @@ onBeforeUnmount(() => {
         </template>
         重置
       </n-tooltip> <br><br>
-      <n-tooltip :show-arrow="false" placement="left">
+      <n-tooltip :show-arrow="true" placement="left">
         <template #trigger>
           <n-button
             strong
@@ -326,7 +326,7 @@ onBeforeUnmount(() => {
       <br><br>
 
       <n-button-group vertical>
-        <n-tooltip :show-arrow="false" placement="left">
+        <n-tooltip :show-arrow="true" placement="left">
           <template #trigger>
             <n-button
               strong
@@ -342,7 +342,7 @@ onBeforeUnmount(() => {
           </template>
           向上翻页
         </n-tooltip>
-        <n-tooltip :show-arrow="false" placement="left">
+        <n-tooltip :show-arrow="true" placement="left">
           <template #trigger>
             <n-button
               strong
@@ -362,7 +362,7 @@ onBeforeUnmount(() => {
     </div>
 
     <div fixed bottom-5 right-5 flex flex-col z-30>
-      <n-tooltip :show-arrow="false" placement="left">
+      <n-tooltip :show-arrow="true" placement="left">
         <template #trigger>
           <n-button
             strong
@@ -379,7 +379,7 @@ onBeforeUnmount(() => {
         </template>
         曲谱宽度
       </n-tooltip>
-      <n-tooltip :show-arrow="false" placement="left">
+      <n-tooltip :show-arrow="true" placement="left">
         <template #trigger>
           <n-button
             strong
@@ -399,7 +399,7 @@ onBeforeUnmount(() => {
     </div>
 
     <div fixed bottom-5 left-5 flex flex-col z-30>
-      <n-tooltip :show-arrow="false" placement="left">
+      <n-tooltip :show-arrow="true" placement="left">
         <template #trigger>
           <n-button
             strong
@@ -420,7 +420,7 @@ onBeforeUnmount(() => {
       <!-- 录音 -->
       <!-- <recorder-music @stop-scroll="stopScroll" /> <br> -->
 
-      <n-tooltip :show-arrow="false" placement="left">
+      <n-tooltip :show-arrow="true" placement="left">
         <template #trigger>
           <n-button
             strong
@@ -439,7 +439,7 @@ onBeforeUnmount(() => {
 
       <metronome-set /> <br>
 
-      <n-tooltip :show-arrow="false" placement="left">
+      <n-tooltip :show-arrow="true" placement="left">
         <template #trigger>
           <n-button
             strong

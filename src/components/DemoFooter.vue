@@ -12,7 +12,7 @@ const loginTo = () => {
 </script>
 
 <template>
-  <div v-if="userStore.demoUser" class="wrapper" fixed w-full left-0 bottom-0 text-white text-center box-border py-5>
+  <div v-if="userStore.demoUser" class="wrapper" fixed w-full left-0 bottom-0 text-white text-center box-border py-3>
     当前为试用模式，不可创建曲谱，如需正式使用请
 
     <span
