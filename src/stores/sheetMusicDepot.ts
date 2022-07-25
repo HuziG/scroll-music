@@ -35,9 +35,6 @@ export const useSheetMusicDepot = defineStore({
      * 删除曲谱
      */
     async delSheetData(value: any) {
-      if (useUserStore().demoUser)
-        return false
-
       const delFilesArray: string[] = []
 
       value.imgs.forEach((item: any) => {
@@ -59,9 +56,6 @@ export const useSheetMusicDepot = defineStore({
      * @param index
      */
     async setSheetTag(tag: string, index: number) {
-      if (useUserStore().demoUser)
-        return false
-
       this.sheetMusicData[index].tag = tag
 
       await editSheet({

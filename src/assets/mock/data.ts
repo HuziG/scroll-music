@@ -57,6 +57,6 @@ export const mockSheetDepot = [
 
 export const mockUserConfig = {
   _id: '62901c207510396d3908a718',
-  index_bg_img: 'http://p19.qhimg.com/t010f79eb57a2478acd.jpg',
+  index_bg_img: 'active-gradualcolor-two',
   main_color: '#ffffff',
 }

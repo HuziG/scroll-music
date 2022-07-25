@@ -64,9 +64,15 @@ const handleSubmitForm = async ({ type, form }) => {
         await confirmEmail();
         notification.success({
           content: '注册成功',
+<<<<<<< HEAD
           meta: '请登录注册邮箱，验证账号并使用，10分钟有效',
         });
         break;
+=======
+          meta: '请登录注册邮箱，验证账号并使用',
+        })
+        break
+>>>>>>> newmain
       case FORM_STATE.FORGET:
         await getPasswordByEmail({ email: form.email });
         formLoading.value = false;

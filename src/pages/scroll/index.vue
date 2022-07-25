@@ -8,11 +8,13 @@ import keyboardMixins from './keyboardMixins'
 import MetronomeSet from './components/metronomeSet.vue'
 import PrintSheetMixins from './printSheet'
 import useMediaSize from '~/mixins/useMediaSize'
+import DemoFooter from '~/components/DemoFooter.vue'
 import { useSheetDetailStore } from '~/stores/sheetDetail'
 import { addSheetNote, editSheet, editSheetNote, getSheetsNote } from '~/api/sheetMusic'
 import { useUserStore } from '~/stores/user'
 
 const message = useMessage()
+const beforeSheetImgWidth = ref(null)
 const sheetDetailStore = useSheetDetailStore()
 const router = useRouter()
 const countDown = ref(0)
@@ -38,10 +40,8 @@ let countDownInterval
 let scrollInterval
 
 const initSheetNote = async() => {
-  if (useUserStore().demoUser)
-    return false
-
   const { objects } = await getSheetsNote(sheetDetailStore.sheetData._id)
+
   sheetDetailStore.$patch((state) => {
     if (objects.length > 0)
       state.sheetNote = objects[0]
@@ -126,11 +126,6 @@ const handleSaveSpeed = async() => {
     message.success('设置成功')
   }
 
-  if (useUserStore().demoUser) {
-    handleSuccess()
-    return false
-  }
-
   const data = await editSheet({
     _id: sheetDetailStore.sheetData._id,
     step: Number(stepSlider.value),
@@ -158,11 +153,6 @@ const toggleDarkMode = () => {
 }
 
 const handleConfirmNote = async({ content }) => {
-  if (useUserStore().demoUser) {
-    message.success('保存成功')
-    return false
-  }
-
   noteSaveLoading.value = true
 
   if (sheetDetailStore.sheetNote._id) {
@@ -224,11 +214,6 @@ const saveWidth = async() => {
     message.success('保存成功')
   }
 
-  if (useUserStore().demoUser) {
-    handleSuccess()
-    return false
-  }
-
   const data = await editSheet({
     _id: sheetDetailStore.sheetData._id,
     width: sheetImgWidth.value,
@@ -236,8 +221,6 @@ const saveWidth = async() => {
 
   handleSuccess()
 }
-
-const beforeSheetImgWidth = ref(null)
 
 const cancelWidthSet = () => {
   showSheetWidthModal.value = false
@@ -290,7 +273,7 @@ onBeforeUnmount(() => {
     </div>
 
     <div fixed top-5 right-5 z-30>
-      <n-tooltip :show-arrow="false" placement="left">
+      <n-tooltip :show-arrow="true" placement="left">
         <template #trigger>
           <n-button
             strong
@@ -307,7 +290,7 @@ onBeforeUnmount(() => {
         </template>
         {{ scrollMode === 0 ? "开始" : "暂停" }}
       </n-tooltip> <br><br>
-      <n-tooltip :show-arrow="false" placement="left">
+      <n-tooltip :show-arrow="true" placement="left">
         <template #trigger>
           <n-button
             strong
@@ -323,7 +306,7 @@ onBeforeUnmount(() => {
         </template>
         重置
       </n-tooltip> <br><br>
-      <n-tooltip :show-arrow="false" placement="left">
+      <n-tooltip :show-arrow="true" placement="left">
         <template #trigger>
           <n-button
             strong
@@ -343,7 +326,7 @@ onBeforeUnmount(() => {
       <br><br>
 
       <n-button-group vertical>
-        <n-tooltip :show-arrow="false" placement="left">
+        <n-tooltip :show-arrow="true" placement="left">
           <template #trigger>
             <n-button
               strong
@@ -359,7 +342,7 @@ onBeforeUnmount(() => {
           </template>
           向上翻页
         </n-tooltip>
-        <n-tooltip :show-arrow="false" placement="left">
+        <n-tooltip :show-arrow="true" placement="left">
           <template #trigger>
             <n-button
               strong
@@ -379,7 +362,7 @@ onBeforeUnmount(() => {
     </div>
 
     <div fixed bottom-5 right-5 flex flex-col z-30>
-      <n-tooltip :show-arrow="false" placement="left">
+      <n-tooltip :show-arrow="true" placement="left">
         <template #trigger>
           <n-button
             strong
@@ -396,7 +379,7 @@ onBeforeUnmount(() => {
         </template>
         曲谱宽度
       </n-tooltip>
-      <n-tooltip :show-arrow="false" placement="left">
+      <n-tooltip :show-arrow="true" placement="left">
         <template #trigger>
           <n-button
             strong
@@ -416,7 +399,7 @@ onBeforeUnmount(() => {
     </div>
 
     <div fixed bottom-5 left-5 flex flex-col z-30>
-      <n-tooltip :show-arrow="false" placement="left">
+      <n-tooltip :show-arrow="true" placement="left">
         <template #trigger>
           <n-button
             strong
@@ -437,7 +420,7 @@ onBeforeUnmount(() => {
       <!-- 录音 -->
       <!-- <recorder-music @stop-scroll="stopScroll" /> <br> -->
 
-      <n-tooltip :show-arrow="false" placement="left">
+      <n-tooltip :show-arrow="true" placement="left">
         <template #trigger>
           <n-button
             strong
@@ -456,7 +439,7 @@ onBeforeUnmount(() => {
 
       <metronome-set /> <br>
 
-      <n-tooltip :show-arrow="false" placement="left">
+      <n-tooltip :show-arrow="true" placement="left">
         <template #trigger>
           <n-button
             strong
@@ -598,6 +581,8 @@ onBeforeUnmount(() => {
         {{ showActionData.label }}
       </div>
     </div>
+
+    <demo-footer />
   </div>
 </template>
 

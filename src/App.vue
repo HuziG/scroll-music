@@ -5,12 +5,19 @@ import {
   NDialogProvider,
   NMessageProvider,
   NNotificationProvider,
+<<<<<<< HEAD
 } from 'naive-ui';
 import { useUserStore } from '~/stores/user';
 import { logoConsole } from '~/utils/utils';
 
 logoConsole();
 useUserStore().setDemoUser();
+=======
+} from 'naive-ui'
+import { logoConsole } from '~/utils/utils'
+
+logoConsole()
+>>>>>>> newmain
 
 const themeOverrides: GlobalThemeOverrides = {
   common: {

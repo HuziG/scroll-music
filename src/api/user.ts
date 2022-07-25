@@ -1,4 +1,4 @@
-const BaaS = window.BaaS
+const BaaS = (window as any).BaaS
 
 // 邮箱注册
 export const emailRegister = ({
@@ -6,7 +6,19 @@ export const emailRegister = ({
 }: {
   email: string
   password: string
-}) => BaaS.auth.register({ email, password })
+}) => {
+  return BaaS.auth.register({ email, password })
+}
+
+// 邮箱注册
+export const telephoneRegister = ({
+  telephone, password,
+}: {
+  telephone: string
+  password: string
+}) => {
+  return BaaS.auth.register({ phone: telephone, password })
+}
 
 // 确认注册
 export const confirmEmail = () => {
@@ -27,14 +39,45 @@ export const emailLogin = ({
 }: {
   email: string
   password: string
-}) => BaaS.auth.login({ email, password })
+}) => {
+  return BaaS.auth.login({ email, password })
+}
 
 // 邮箱找回密码
 export const getPasswordByEmail = ({
   email,
 }: {
   email: string
-}) => BaaS.auth.requestPasswordReset({ email })
+}) => {
+  return BaaS.auth.requestPasswordReset({ email })
+}
+
+// 发送手机验证码
+export const sendSmsCode = ({
+  telephone,
+}: {
+  telephone: string
+}) => {
+  return BaaS.sendSmsCode({ phone: telephone, signatureID: 1 })
+}
+
+// 验证手机验证码
+export const verifySmsCode = (params: { phone: string; code: string }) => {
+  return BaaS.verifySmsCode(params)
+}
+
+// 短信一键登录
+export const loginWithSmsVerificationCode = (
+  telephone: string, code: string,
+) => BaaS.auth.loginWithSmsVerificationCode(telephone, String(code))
+
+// 手机登录
+export const telephoneLogin = ({
+  telephone, password,
+}: {
+  telephone: string
+  password: string
+}) => BaaS.auth.login({ phone: telephone, password })
 
 // 用户退出
 export const userLogout = () => {

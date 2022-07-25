@@ -1,7 +1,14 @@
 <script setup lang="ts">
+<<<<<<< HEAD
 import { deepClone } from '~/utils/utils.ts';
 defineProps(['formLoading']);
 const emit = defineEmits(['submitForm', 'changeState']);
+=======
+defineProps(['formLoading'])
+
+const router = useRouter()
+const emit = defineEmits(['submitForm', 'changeState'])
+>>>>>>> newmain
 const formValue = ref({
   email: '',
   password: '',
@@ -10,9 +17,19 @@ const formValue = ref({
 const handleSubmit = () => {
   emit('submitForm', {
     type: 'login',
+<<<<<<< HEAD
     form: deepClone(formValue.value),
   });
 };
+=======
+    form: formValue.value,
+  })
+}
+>>>>>>> newmain
+
+const toDemo = () => {
+  router.push('/')
+}
 
 onMounted(() => {
   formValue.value.email = localStorage.user_email;
@@ -31,7 +48,19 @@ onMounted(() => {
     z-20
     overflow-hidden
   >
+<<<<<<< HEAD
     <div my-5 text-main font-bold text-2xl>登录账号</div>
+=======
+    <div flex items-center justify-between my-5>
+      <div text-main font-bold text-2xl>
+        登录账号
+      </div>
+
+      <n-button quaternary type="primary" @click="toDemo">
+        跳过登录，随便逛逛
+      </n-button>
+    </div>
+>>>>>>> newmain
 
     <n-spin :show="formLoading">
       <n-form ref="formRef" :label-width="80" :model="formValue" size="large">

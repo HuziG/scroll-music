@@ -9,7 +9,7 @@ export const useConfigStore = defineStore({
 
   state: () => ({
     userConfig: {
-      _id: null,
+      _id: '',
       index_bg_img: '',
       main_color: '',
     },

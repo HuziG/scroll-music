@@ -1,24 +1,19 @@
 import { acceptHMRUpdate, defineStore } from 'pinia'
-import { useRouter } from 'vue-router'
-import { getUrlParams } from '~/utils/utils'
-const BaaS = window.BaaS
+const BaaS = (window as any).BaaS
 
 export const useUserStore = defineStore({
   id: 'user',
 
   state: () => ({
-    demoUser: false,
+    demoUser: true,
     userInfo: {
       id: null,
       _email_verified: false,
     },
+    loginPanel: 'login',
   }),
 
   actions: {
-    setDemoUser() {
-      // this.demoUser = getUrlParams('user') === 'demo'
-    },
-
     async requestUserInfo() {
       if (!this.userInfo.id) {
         const data = await BaaS.auth.getCurrentUser()

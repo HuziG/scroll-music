@@ -1,12 +1,16 @@
-import axios from 'axios'
-const BaaS = window.BaaS
+import RequestMixins from './mixins'
 
+const { requestAdmins } = RequestMixins()
+
+const BaaS = (window as any).BaaS
 const SHEET_TABLE_NAME = 'sheet_music'
 const SHEET_NOTE_TABLE_NAME = 'sheet_note'
 
 export const addSheet = ({
   name, imgs,
 }: { name: string; imgs: string[] }) => {
+  requestAdmins()
+
   const MyTableObject = new BaaS.TableObject(SHEET_TABLE_NAME)
   const MyRecord = MyTableObject.create()
 
@@ -21,6 +25,8 @@ export const addSheet = ({
 
 // 修改曲谱
 export const editSheet = (value: any) => {
+  requestAdmins()
+
   const Product = new BaaS.TableObject(SHEET_TABLE_NAME)
 
   const product = Product.getWithoutData(value._id)
@@ -38,12 +44,16 @@ export const editSheet = (value: any) => {
 export const delSheet = ({
   _id,
 }: { _id: string }) => {
+  requestAdmins()
+
   const Product = new BaaS.TableObject(SHEET_TABLE_NAME)
   return Product.delete(_id)
 }
 
 // 获取曲谱
 export const getSheets = async() => {
+  requestAdmins()
+
   const query = new BaaS.Query()
 
   query.compare('user_id', '=', JSON.parse(localStorage.ifx_baas_uid).value)
@@ -63,6 +73,8 @@ export const getSheets = async() => {
 export const addSheetNote = ({
   sheet_id, content,
 }: { sheet_id: string; content: string }) => {
+  requestAdmins()
+
   const MyTableObject = new BaaS.TableObject(SHEET_NOTE_TABLE_NAME)
   const MyRecord = MyTableObject.create()
 
@@ -82,6 +94,8 @@ export const addSheetNote = ({
 export const editSheetNote = ({
   _id, content,
 }: { _id: string; content: string }) => {
+  requestAdmins()
+
   const Product = new BaaS.TableObject(SHEET_NOTE_TABLE_NAME)
 
   const product = Product.getWithoutData(_id)
@@ -97,6 +111,8 @@ export const editSheetNote = ({
  * @returns
  */
 export const getSheetsNote = async(sheet_id: string) => {
+  requestAdmins()
+
   const query = new BaaS.Query()
 
   query.compare('sheet_id', '=', sheet_id)
@@ -111,6 +127,6 @@ export const getSheetsNote = async(sheet_id: string) => {
 /**
  * 获取壁纸
  */
-export const getBgImgList = (cid: string, start = 0) => {
-  return axios.get(`https://service-dpw12r2n-1258462188.sh.apigw.tencentcs.com/pic/wallpaper?start=${start}&cid=${cid}`)
-}
+// export const getBgImgList = (cid: string, start = 0) => {
+//   return axios.get(`https://service-dpw12r2n-1258462188.sh.apigw.tencentcs.com/pic/wallpaper?start=${start}&cid=${cid}`)
+// }
