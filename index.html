@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>滚动的曲谱</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
+  <link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/static/pwa-192x192.png">
+  <link rel="mask-icon" href="/static/safari-pinned-tab.svg" color="#00aba9">
+  <meta name="description" content='支持上传个人曲谱,跨端的,免费的,最佳读谱体验的曲谱浏览器'>
+  <meta name="keywords" content="音乐,曲谱,吉他,钢琴,Music,上传曲谱,吉他谱,钢琴谱,免费曲谱,滚动的曲谱">
+  <meta name="anthor" content="zxz,106740814@qq.com">
+  <meta name="robots" content="音乐,曲谱,吉他,钢琴,Music,上传曲谱,吉他谱,钢琴谱,免费曲谱,滚动的曲谱">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <meta name="msapplication-TileColor" content="#00aba9">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="referrer" content="no-referrer" />
+  <script>
+    (function() {
+      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+      const setting = localStorage.getItem('vueuse-color-scheme') || 'auto'
+      if (setting === 'dark' || (prefersDark && setting !== 'light'))
+        document.documentElement.classList.toggle('dark', true)
+    })()
+  </script>
+
+  <style>
+    body{
+      background-color: #F0F2F5;
+      min-height: 100vh !important;
+    }
+
+    *{
+      touch-action: none;
+    }
+
+    #print-selector{
+      position:absolute;
+      top: -100000px;
+      left: -100000px;
+    }
+    #print-selector-imgs{
+      width: 1000px;
+    }
+    #print-selector-imgs img{
+      width: 1000px;
+    }
+  </style>
+</head>
+<body class="font-sans">
+  <div id="app"></div>
+
+  <div id="print-selector">
+    <div id="print-selector-imgs"></div>
+  </div>
+
+  <script type="text/javascript" src="./env.js"></script>
+  <script type="module" src="/src/main.ts"></script>
+  <script type="text/javascript" src="/static/recorder.js"></script>
+  <script type="text/javascript" src="/static/sdk-web.3.22.0.js"></script>
+  <script type="text/javascript" src="https://cdn.bootcdn.net/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+  <script type="text/javascript" src="https://cdn.bootcdn.net/ajax/libs/printThis/1.9.0/printThis.min.js"></script>
+  
+  <script type="text/javascript">
+    // eslint-disable-next-line no-undef
+    window.jquery = $
+    // eslint-disable-next-line no-undef
+    window.BaaS = BaaS
+  </script>
+
+  <script>
+    // eslint-disable-next-line no-unused-expressions, @typescript-eslint/no-unused-vars, no-sequences
+    !(function(p) { 'use strict'; !(function(t) { const s = window; const e = document; const i = p; const c = ''.concat(e.location.protocol === 'https:' ? 'https://' : 'http://', 'sdk.51.la/js-sdk-pro.min.js'); const n = e.createElement('script'); const r = e.getElementsByTagName('script')[0]; n.type = 'text/javascript', n.setAttribute('charset', 'UTF-8'), n.async = !0, n.src = c, n.id = 'LA_COLLECT', i.d = n; const o = function() { s.LA.ids.push(i) }; s.LA ? s.LA.ids && o() : (s.LA = p, s.LA.ids = [], o()), r.parentNode.insertBefore(n, r) }()) }({ id: netWatch.id, ck: netWatch.ck, hashMode: true }))
+  </script>
+</body>
+</html>
