@@ -19,6 +19,7 @@
 运行前在 public/static 中新建 env.js 文件
 
 ```bash
+// 网站监控秘钥，可忽略不计
 const netWatch = {
   id: '',
   ck: '',
