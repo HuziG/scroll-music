@@ -14,6 +14,22 @@
 
 数据库及服务：serverless 知晓云（ 项目中 key 已隐藏，如需使用，请自行创建相关配置
 
+## 秘钥文件相关
+
+运行前在 public/static 中新建 env.js 文件
+
+```bash
+const netWatch = {
+  id: '',
+  ck: '',
+}
+
+const BAAS_KEY = '知晓云服务秘钥'
+
+window.netWatch = netWatch
+window.BAAS_KEY = BAAS_KEY
+```
+
 ## 代码分支
 
 newadmin 为可运行分支
