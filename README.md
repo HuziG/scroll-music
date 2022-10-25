@@ -31,6 +31,12 @@ window.netWatch = netWatch
 window.BAAS_KEY = BAAS_KEY
 ```
 
+## 关于数据库初始化
+
+新建数据库：sheet_note、user_config、sheet_music
+
+随后，分别对应导入表结构。表结构 json 在根目录 dbjson 中
+
 ## 代码分支
 
 newadmin 为可运行分支
