@@ -1,0 +1,148 @@
+{
+  "name": "sheet_music",
+  "description": "曲谱",
+  "row_read_perm": [
+    "user:{created_by}"
+  ],
+  "row_write_perm": [
+    "user:{created_by}"
+  ],
+  "write_perm": [
+    "user:*"
+  ],
+  "schema": {
+    "fields": [
+      {
+        "name": "id",
+        "type": "id",
+        "description": "id"
+      },
+      {
+        "acl": {
+          "clientVisible": true,
+          "clientReadOnly": false,
+          "creatorVisible": false
+        },
+        "name": "name",
+        "type": "string",
+        "default": null,
+        "constraints": {
+          "rules": [
+            {
+              "type": "allow_value_null",
+              "value": false
+            }
+          ],
+          "required": false
+        },
+        "description": "曲谱名称"
+      },
+      {
+        "acl": {
+          "clientVisible": false,
+          "clientReadOnly": false,
+          "creatorVisible": true
+        },
+        "name": "user_id",
+        "type": "number",
+        "constraints": {
+          "rules": [],
+          "required": false
+        },
+        "description": "用户id"
+      },
+      {
+        "acl": {
+          "clientVisible": true,
+          "clientReadOnly": false,
+          "creatorVisible": false
+        },
+        "name": "step",
+        "type": "number",
+        "default": 0.6,
+        "constraints": {
+          "rules": [],
+          "required": false
+        },
+        "description": "滚动速率"
+      },
+      {
+        "acl": {
+          "clientVisible": true,
+          "clientReadOnly": false,
+          "creatorVisible": false
+        },
+        "name": "speed",
+        "type": "number",
+        "default": 30,
+        "constraints": {
+          "rules": [],
+          "required": false
+        },
+        "description": "速度"
+      },
+      {
+        "acl": {
+          "clientVisible": true,
+          "clientReadOnly": false,
+          "creatorVisible": false
+        },
+        "name": "imgs",
+        "type": "array",
+        "items": {
+          "type": "object"
+        },
+        "constraints": {
+          "rules": [],
+          "required": false
+        },
+        "description": ""
+      },
+      {
+        "acl": {
+          "clientVisible": true,
+          "clientReadOnly": false,
+          "creatorVisible": false
+        },
+        "name": "width",
+        "type": "number",
+        "default": null,
+        "constraints": {
+          "rules": [],
+          "required": false
+        },
+        "description": "曲谱宽"
+      },
+      {
+        "acl": {
+          "clientVisible": true,
+          "clientReadOnly": false,
+          "creatorVisible": true
+        },
+        "name": "tag",
+        "type": "string",
+        "default": null,
+        "constraints": {
+          "rules": [],
+          "required": false
+        },
+        "description": "标签"
+      },
+      {
+        "name": "created_by",
+        "type": "integer",
+        "description": "created_by"
+      },
+      {
+        "name": "created_at",
+        "type": "integer",
+        "description": "created_at"
+      },
+      {
+        "name": "updated_at",
+        "type": "integer",
+        "description": "updated_at"
+      }
+    ]
+  }
+}
