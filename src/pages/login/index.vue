@@ -74,6 +74,8 @@ const imgList = ref([
   'https://i0.hdslb.com/bfs/article/watermark/a6f030559777a7434e2d661f83d09cb6afdeab8f.jpg@942w_1334h_progressive.webp',
 ]);
 
+const { replace } = useRouter();
+
 const handleChangeState = ({ state }) => {
   panelState.value = state;
 };
@@ -91,16 +93,19 @@ const handleSubmitForm = async ({
       case FORM_STATE.LOGIN:
         emailLogin({ email: form.email, password: form.password })
           .then(({ _email_verified }: { _email_verified: boolean }) => {
-            if (_email_verified) message.success('登录成功！');
-            else message.error('邮箱未验证，登录失败！');
+            if (_email_verified) {
+              message.success('登录成功！');
 
-            formLoading.value = false;
+              formLoading.value = false;
 
-            localStorage.user_email = form.email;
+              localStorage.user_email = form.email;
 
-            localStorage.clear();
-
-            return;
+              replace('/');
+            } else {
+              message.error('邮箱未验证，登录失败！');
+              localStorage.clear();
+              return;
+            }
           })
           .catch((error: any) => {
             message.error(JSON.stringify(error));
@@ -139,8 +144,6 @@ const handleSubmitForm = async ({
 const imageOnload = () => {
   readImg.value += 1;
 };
-
-let interval: any = null;
 
 watch(readImg, (value) => {
   if (value >= 3) {

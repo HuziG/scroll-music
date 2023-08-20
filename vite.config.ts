@@ -1,18 +1,14 @@
-import path from 'path'
-import { defineConfig } from 'vite'
-import Vue from '@vitejs/plugin-vue'
-import Pages from 'vite-plugin-pages'
-import generateSitemap from 'vite-ssg-sitemap'
-import Layouts from 'vite-plugin-vue-layouts'
-import Components from 'unplugin-vue-components/vite'
-import AutoImport from 'unplugin-auto-import/vite'
-import { VitePWA } from 'vite-plugin-pwa'
-import VueI18n from '@intlify/vite-plugin-vue-i18n'
-import Inspect from 'vite-plugin-inspect'
-import Unocss from 'unocss/vite'
-import {
-  NaiveUiResolver,
-} from 'unplugin-vue-components/resolvers'
+import path from 'path';
+import { defineConfig } from 'vite';
+import Vue from '@vitejs/plugin-vue';
+import Pages from 'vite-plugin-pages';
+import Layouts from 'vite-plugin-vue-layouts';
+import Components from 'unplugin-vue-components/vite';
+import AutoImport from 'unplugin-auto-import/vite';
+import VueI18n from '@intlify/vite-plugin-vue-i18n';
+import Inspect from 'vite-plugin-inspect';
+import Unocss from 'unocss/vite';
+import { NaiveUiResolver } from 'unplugin-vue-components/resolvers';
 
 export default defineConfig({
   resolve: {
@@ -37,14 +33,7 @@ export default defineConfig({
 
     // https://github.com/antfu/unplugin-auto-import
     AutoImport({
-      imports: [
-        'vue',
-        'vue-router',
-        'vue-i18n',
-        'vue/macros',
-        '@vueuse/head',
-        '@vueuse/core',
-      ],
+      imports: ['vue', 'vue-router', 'vue-i18n', 'vue/macros', '@vueuse/head', '@vueuse/core'],
       dts: 'src/auto-imports.d.ts',
     }),
 
@@ -55,9 +44,7 @@ export default defineConfig({
       // allow auto import and register components used in markdown
       include: [/\.vue$/, /\.vue\?vue/, /\.md$/],
       dts: 'src/components.d.ts',
-      resolvers: [
-        NaiveUiResolver(),
-      ],
+      resolvers: [NaiveUiResolver()],
     }),
 
     // https://github.com/antfu/unocss
@@ -65,33 +52,33 @@ export default defineConfig({
     Unocss(),
 
     // https://github.com/antfu/vite-plugin-pwa
-    VitePWA({
-      registerType: 'autoUpdate',
-      includeAssets: ['favicon.svg', 'safari-pinned-tab.svg'],
-      manifest: {
-        name: '滚动的曲谱',
-        short_name: '滚动的曲谱',
-        theme_color: '#5138ED',
-        icons: [
-          {
-            src: '/static/pwa-192x192.png',
-            sizes: '192x192',
-            type: 'image/png',
-          },
-          {
-            src: '/static/pwa-512x512.png',
-            sizes: '512x512',
-            type: 'image/png',
-          },
-          {
-            src: '/static/pwa-512x512.png',
-            sizes: '512x512',
-            type: 'image/png',
-            purpose: 'any maskable',
-          },
-        ],
-      },
-    }),
+    // VitePWA({
+    //   registerType: 'autoUpdate',
+    //   includeAssets: ['favicon.svg', 'safari-pinned-tab.svg'],
+    //   manifest: {
+    //     name: '滚动的曲谱',
+    //     short_name: '滚动的曲谱',
+    //     theme_color: '#5138ED',
+    //     icons: [
+    //       {
+    //         src: '/static/pwa-192x192.png',
+    //         sizes: '192x192',
+    //         type: 'image/png',
+    //       },
+    //       {
+    //         src: '/static/pwa-512x512.png',
+    //         sizes: '512x512',
+    //         type: 'image/png',
+    //       },
+    //       {
+    //         src: '/static/pwa-512x512.png',
+    //         sizes: '512x512',
+    //         type: 'image/png',
+    //         purpose: 'any maskable',
+    //       },
+    //     ],
+    //   },
+    // }),
 
     // https://github.com/intlify/bundle-tools/tree/main/packages/vite-plugin-vue-i18n
     VueI18n({
@@ -106,10 +93,10 @@ export default defineConfig({
   ],
 
   // https://github.com/antfu/vite-ssg
-  ssgOptions: {
-    script: 'async',
-    format: 'cjs',
-    formatting: 'minify',
-    onFinished() { generateSitemap() },
-  },
-})
+  // ssgOptions: {
+  //   script: 'async',
+  //   format: 'cjs',
+  //   formatting: 'minify',
+  //   onFinished() { generateSitemap() },
+  // },
+});
