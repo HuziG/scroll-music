@@ -170,6 +170,13 @@ onMounted(() => {
       fixed left-30 bottom-4 z-30 bg-black text-xs
       bg-opacity-60 py-1 px-4 text-white rounded-full cursor-pointer
     >
+      v 1.0.1
+    </div>
+
+    <div
+      fixed left-50 bottom-4 z-30 bg-black text-xs
+      bg-opacity-60 py-1 px-4 text-white rounded-full cursor-pointer
+    >
       苏ICP备2021030495号-2
     </div>
 
