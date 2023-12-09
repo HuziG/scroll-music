@@ -9,10 +9,10 @@ specifiers:
   '@intlify/vite-plugin-vue-i18n': ^4.0.0
   '@types/markdown-it-link-attributes': ^3.0.1
   '@types/nprogress': ^0.2.0
+  '@unhead/vue': ^1.8.9
   '@vitejs/plugin-vue': ^2.3.1
   '@vue/test-utils': ^2.0.0-rc.21
   '@vueuse/core': ^8.3.0
-  '@vueuse/head': ^0.7.6
   '@vueuse/sound': ^1.1.7
   '@wangeditor/editor': ^5.0.1
   '@wangeditor/editor-for-vue': ^5.1.12
@@ -52,7 +52,7 @@ specifiers:
 
 dependencies:
   '@iconify-json/twemoji': 1.1.5
-  '@vueuse/head': 0.7.6_vue@3.2.37
+  '@unhead/vue': 1.8.9_vue@3.2.37
   '@vueuse/sound': 1.1.7_vue@3.2.37
   '@wangeditor/editor': 5.1.1
   '@wangeditor/editor-for-vue': 5.1.12_a76aza2fktkf7baiulym3iqxkm
@@ -97,7 +97,7 @@ devDependencies:
   vite-plugin-pages: 0.23.0_vite@2.9.13
   vite-plugin-pwa: 0.12.0_tnsigwn7ufmh7l3meeoga3cxyy
   vite-plugin-vue-layouts: 0.6.0_evrllnkh5nrlwbwnbxhvh4u3v4
-  vite-ssg: 0.20.1_k7shjfzctjeydlate74macei7a
+  vite-ssg: 0.20.1_6azcdmptiz5alakzkxokeanfje
   vite-ssg-sitemap: 0.2.7
   vitest: 0.9.4_sass@1.53.0
   vue-tsc: 0.34.17_typescript@4.7.4
@@ -1459,9 +1459,9 @@ packages:
       - supports-color
     dev: true
 
-  /@intlify/bundle-utils/4.0.0_vue-i18n@9.1.10:
-    resolution: {integrity: sha512-klXrYT9VXyKEXsD6UY3pShg0O5MPC07n0TZ5RrSs5ry6T1eZVolIFGJi9c3qcDrh1qjJxgikRnPBmD7qGDqbjw==}
-    engines: {node: '>= 12'}
+  /@intlify/bundle-utils/7.0.0_vue-i18n@9.1.10:
+    resolution: {integrity: sha512-+/RBsYWbiZcs97RyVb4mrsSrLmIMaI6evj30jI9f1psjXx+syRbf0ab63I5SIz290EOm6TE80fTst/Xjel+D9w==}
+    engines: {node: '>= 14.16'}
     peerDependencies:
       petite-vue-i18n: '*'
       vue-i18n: '*'
@@ -1471,9 +1471,14 @@ packages:
       vue-i18n:
         optional: true
     dependencies:
-      '@intlify/message-compiler': 9.3.0-beta.16
-      '@intlify/shared': 9.3.0-beta.16
+      '@intlify/message-compiler': 9.3.0-beta.20
+      '@intlify/shared': 9.3.0-beta.20
+      acorn: 8.11.2
+      escodegen: 2.0.0
+      estree-walker: 2.0.2
       jsonc-eslint-parser: 1.4.1
+      magic-string: 0.30.5
+      mlly: 1.4.2
       source-map: 0.6.1
       vue-i18n: 9.1.10_vue@3.2.37
       yaml-eslint-parser: 0.3.2
@@ -1504,12 +1509,12 @@ packages:
       '@intlify/shared': 9.1.10
       source-map: 0.6.1
 
-  /@intlify/message-compiler/9.3.0-beta.16:
-    resolution: {integrity: sha512-CGQI3xRcs1ET75eDQ0DUy3MRYOqTauRIIgaMoISKiF83gqRWg93FqN8lGMKcpBqaF4tI0JhsfosCaGiBL9+dnw==}
-    engines: {node: '>= 14'}
+  /@intlify/message-compiler/9.3.0-beta.20:
+    resolution: {integrity: sha512-hwqQXyTnDzAVZ300SU31jO0+3OJbpOdfVU6iBkrmNpS7t2HRnVACo0EwcEXzJa++4EVDreqz5OeqJbt+PeSGGA==}
+    engines: {node: '>= 16'}
     dependencies:
-      '@intlify/shared': 9.3.0-beta.16
-      source-map: 0.6.1
+      '@intlify/shared': 9.3.0-beta.20
+      source-map-js: 1.0.2
     dev: true
 
   /@intlify/message-resolver/9.1.10:
@@ -1528,9 +1533,14 @@ packages:
     resolution: {integrity: sha512-Om54xJeo1Vw+K1+wHYyXngE8cAbrxZHpWjYzMR9wCkqbhGtRV5VLhVc214Ze2YatPrWlS2WSMOWXR8JktX/IgA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npm.taobao.org/@intlify/shared/-/shared-9.1.10.tgz}
     engines: {node: '>= 10'}
 
-  /@intlify/shared/9.3.0-beta.16:
-    resolution: {integrity: sha512-kXbm4svALe3lX+EjdJxfnabOphqS4yQ1Ge/iIlR8tvUiYRCoNz3hig1M4336iY++Dfx5ytEQJPNjIcknNIuvig==}
-    engines: {node: '>= 14'}
+  /@intlify/shared/9.3.0-beta.20:
+    resolution: {integrity: sha512-RucSPqh8O9FFxlYUysQTerSw0b9HIRpyoN1Zjogpm0qLiHK+lBNSa5sh1nCJ4wSsNcjphzgpLQCyR60GZlRV8g==}
+    engines: {node: '>= 16'}
+    dev: true
+
+  /@intlify/shared/9.4.1:
+    resolution: {integrity: sha512-A51elBmZWf1FS80inf/32diO9DeXoqg9GR9aUDHFcfHoNDuT46Q+fpPOdj8jiJnSHSBh8E1E+6qWRhAZXdK3Ng==}
+    engines: {node: '>= 16'}
     dev: true
 
   /@intlify/vite-plugin-vue-i18n/4.0.0_ok2vr3izc5tvtuuot2yw6handq:
@@ -1546,8 +1556,8 @@ packages:
       vue-i18n:
         optional: true
     dependencies:
-      '@intlify/bundle-utils': 4.0.0_vue-i18n@9.1.10
-      '@intlify/shared': 9.3.0-beta.16
+      '@intlify/bundle-utils': 7.0.0_vue-i18n@9.1.10
+      '@intlify/shared': 9.4.1
       '@rollup/pluginutils': 4.2.1
       debug: 4.3.4
       fast-glob: 3.2.11
@@ -1602,6 +1612,10 @@ packages:
 
   /@jridgewell/sourcemap-codec/1.4.14:
     resolution: {integrity: sha512-XPSJHWmi394fuUuzDnGz1wiKqWfo1yXecHQMRf2l6hztTO+nPru658AyDngaBe7isIxEkRsPR3FZh+s7iVa4Uw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npm.taobao.org/@jridgewell/sourcemap-codec/-/sourcemap-codec-1.4.14.tgz}
+    dev: true
+
+  /@jridgewell/sourcemap-codec/1.4.15:
+    resolution: {integrity: sha512-eF2rxCRulEKXHTRiDrDy6erMYWqNw4LPdQ8UQA4huuxaQsVeRPFl2oM8oDGxMFhJUWZf9McpLtJasDDZb/Bpeg==}
     dev: true
 
   /@jridgewell/trace-mapping/0.3.14:
@@ -1959,6 +1973,38 @@ packages:
       eslint-visitor-keys: 3.3.0
     dev: true
 
+  /@unhead/dom/1.8.9:
+    resolution: {integrity: sha512-qY4CUVNKEM7lEAcTz5t71QYca+NXgUY5RwhSzB6sBBzZxQTiFOeTVKC6uWXU0N+3jBUdP/zdD3iN1JIjziDlng==}
+    dependencies:
+      '@unhead/schema': 1.8.9
+      '@unhead/shared': 1.8.9
+    dev: false
+
+  /@unhead/schema/1.8.9:
+    resolution: {integrity: sha512-Cumjt2uLfBMEXflvq7Nk8KNqa/JS4MlRGWkjXx/uUXJ1vUeQqeMV8o3hrnRvDDoTXr9LwPapTMUbtClN3TSBgw==}
+    dependencies:
+      hookable: 5.5.3
+      zhead: 2.2.4
+    dev: false
+
+  /@unhead/shared/1.8.9:
+    resolution: {integrity: sha512-0o4+CBCi9EnTKPF6cEuLacnUHUkF0u/FfiKrWnKWUiB8wTD1v3UCf5ZCrNCjuJmKHTqj6ZtZ2hIfXsqWfc+3tA==}
+    dependencies:
+      '@unhead/schema': 1.8.9
+    dev: false
+
+  /@unhead/vue/1.8.9_vue@3.2.37:
+    resolution: {integrity: sha512-sL1d2IRBZd5rjzhgTYni2DiociSpt+Cfz3iVWKb0EZwQHgg0GzV8Hkoj5TjZYZow6EjDSPRfVPXDwOwxkVOgug==}
+    peerDependencies:
+      vue: '>=2.7 || >=3'
+    dependencies:
+      '@unhead/schema': 1.8.9
+      '@unhead/shared': 1.8.9
+      hookable: 5.5.3
+      unhead: 1.8.9
+      vue: 3.2.37
+    dev: false
+
   /@unocss/cli/0.31.17:
     resolution: {integrity: sha512-at/gAnZBrutoTuee7dujhN/TRSCWAq+1QYm2ekfNktt4dgA5xVzvFQo63GEUvnM4tE51SQkIbznf44BxNbuEUQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npm.taobao.org/@unocss/cli/-/cli-0.31.17.tgz}
     engines: {node: '>=14'}
@@ -2275,13 +2321,6 @@ packages:
       vue-demi: 0.12.5_vue@3.2.37
     dev: true
 
-  /@vueuse/head/0.7.6_vue@3.2.37:
-    resolution: {integrity: sha512-cOWqCkT3WiF5oEpw+VVEWUJd9RLD5rc7DmnFp3cePsejp+t7686uKD9Z9ZU7Twb7R/BI8iexKTmXo9D/F3v6UA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npm.taobao.org/@vueuse/head/-/head-0.7.6.tgz}
-    peerDependencies:
-      vue: '>=3'
-    dependencies:
-      vue: 3.2.37
-
   /@vueuse/metadata/8.7.5:
     resolution: {integrity: sha512-emJZKRQSaEnVqmlu39NpNp8iaW+bPC2kWykWoWOZMSlO/0QVEmO/rt8A5VhOEJTKLX3vwTevqbiRy9WJRwVOQg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npm.taobao.org/@vueuse/metadata/-/metadata-8.7.5.tgz}
     dev: true
@@ -2305,7 +2344,7 @@ packages:
     resolution: {integrity: sha512-rn4uIeEz9SqZ82KroFQ4OGXRIZ8cLlvfk/CxfZBBkjfRjE1VpanzKYCAoN3dD716dBfLPsAa6Aq7VV6TpZCpVw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npm.taobao.org/@vueuse/sound/-/sound-1.1.7.tgz}
     dependencies:
       howler: 2.2.3
-      vue-demi: 0.13.11_nwr6tvhzfjtz7ld5mgea42f5ca
+      vue-demi: 0.14.6_nwr6tvhzfjtz7ld5mgea42f5ca
     optionalDependencies:
       '@vue/composition-api': 1.6.3_vue@3.2.37
     transitivePeerDependencies:
@@ -2540,6 +2579,12 @@ packages:
 
   /acorn/7.4.1:
     resolution: {integrity: sha512-nQyp0o1/mNdbTO1PO6kHkwSrmgZ0MT/jCCpNiwbUjGoRN4dlBhqJtoQuCnEOKzgTVwg0ZWiCoQy6SxMebQVh8A==}
+    engines: {node: '>=0.4.0'}
+    hasBin: true
+    dev: true
+
+  /acorn/8.11.2:
+    resolution: {integrity: sha512-nc0Axzp/0FILLEVsm4fNwLCwMttvhEI263QtVPQcbpfZZ3ts0hLsZGOpE6czNlid7CJ9MlyH8reXkpsf3YUY4w==}
     engines: {node: '>=0.4.0'}
     hasBin: true
     dev: true
@@ -4537,6 +4582,10 @@ packages:
     engines: {node: '>=12.0.0'}
     dev: true
 
+  /hookable/5.5.3:
+    resolution: {integrity: sha512-Yc+BQe8SvoXH1643Qez1zqLRmbA5rCL+sSmk6TVos0LWVfNIB7PGncdlId77WzLGSIB5KaWgTaNTs2lNVEI6VQ==}
+    dev: false
+
   /hosted-git-info/2.8.9:
     resolution: {integrity: sha512-mxIDAb9Lsm6DoOJ7xH+5+X4y1LU/4Hi50L9C5sIswK3JzULS4bwk1FvjdBgvYR4bzT4tuUQiC15FE2f5HbLvYw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npm.taobao.org/hosted-git-info/-/hosted-git-info-2.8.9.tgz}
     dev: true
@@ -5120,6 +5169,10 @@ packages:
       semver: 7.3.7
     dev: true
 
+  /jsonc-parser/3.2.0:
+    resolution: {integrity: sha512-gfFQZrcTc8CnKXp6Y4/CBT3fTc0OVuDofpre4aEeEpSBPV5X5v4+Vmx+8snU7RLPrNHPKSgLxGo9YuQzz20o+w==}
+    dev: true
+
   /jsonfile/6.1.0:
     resolution: {integrity: sha512-5dgndWOriYSm5cnYaJNhalLNDKOqFwyDB/rr1E9ZsGciGvKPs8R2xYGCacuf3z6K1YKDz182fd+fY3cn3pMqXQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npm.taobao.org/jsonfile/-/jsonfile-6.1.0.tgz}
     dependencies:
@@ -5276,6 +5329,13 @@ packages:
       sourcemap-codec: 1.4.8
     dev: true
 
+  /magic-string/0.30.5:
+    resolution: {integrity: sha512-7xlpfBaQaP/T6Vh8MO/EqXSW5En6INHEvEXQiuff7Gku0PWjU3uf6w/j9o7O+SpB5fOAkrI5HeoNgwjEO0pFsA==}
+    engines: {node: '>=12'}
+    dependencies:
+      '@jridgewell/sourcemap-codec': 1.4.15
+    dev: true
+
   /mdast-util-from-markdown/0.8.5:
     resolution: {integrity: sha512-2hkTXtYYnr+NubD/g6KGBS/0mFmBcifAsI0yIWRiRo0PjVs6SSOSOdtzbp6kSGnShDN6G5aWZpKQ2lWRy27mWQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npm.taobao.org/mdast-util-from-markdown/-/mdast-util-from-markdown-0.8.5.tgz}
     dependencies:
@@ -5391,6 +5451,15 @@ packages:
 
   /minimist/1.2.6:
     resolution: {integrity: sha512-Jsjnk4bw3YJqYzbdyBiNsPWHPfO++UGG749Cxs6peCu5Xg4nrena6OVxOYxrQTqww0Jmwt+Ref8rggumkTLz9Q==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npm.taobao.org/minimist/-/minimist-1.2.6.tgz}
+    dev: true
+
+  /mlly/1.4.2:
+    resolution: {integrity: sha512-i/Ykufi2t1EZ6NaPLdfnZk2AX8cs0d+mTzVKuPfqPKPatxLApaBoxJQ9x1/uckXtrS/U5oisPMDkNs0yQTaBRg==}
+    dependencies:
+      acorn: 8.11.2
+      pathe: 1.1.1
+      pkg-types: 1.0.3
+      ufo: 1.3.2
     dev: true
 
   /mrmime/1.0.1:
@@ -5779,6 +5848,10 @@ packages:
     resolution: {integrity: sha512-sTitTPYnn23esFR3RlqYBWn4c45WGeLcsKzQiUpXJAyfcWkolvlYpV8FLo7JishK946oQwMFUCHXQ9AjGPKExw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npm.taobao.org/pathe/-/pathe-0.2.0.tgz}
     dev: true
 
+  /pathe/1.1.1:
+    resolution: {integrity: sha512-d+RQGp0MAYTIaDBIMmOfMwz3E+LOZnxx1HZd5R18mmCZY0QBlK0LDZfPc8FW8Ed2DlvsuE6PRjroDY+wg4+j/Q==}
+    dev: true
+
   /pathval/1.1.1:
     resolution: {integrity: sha512-Dp6zGqpTdETdR63lehJYPeIOqpiNBNtc7BpWSLrOje7UaIsE5aY92r/AunQA7rsXvet3lrJ3JnZX29UPTKXyKQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npm.taobao.org/pathval/-/pathval-1.1.1.tgz}
     dev: true
@@ -5812,6 +5885,14 @@ packages:
       vue: 3.2.37
       vue-demi: 0.12.5_vue@3.2.37
     dev: false
+
+  /pkg-types/1.0.3:
+    resolution: {integrity: sha512-nN7pYi0AQqJnoLPC9eHFQ8AcyaixBUOwvqc5TDnIKCMEE6I0y8P7OKA7fPexsXGCGxQDl/cmrLAp26LhcwxZ4A==}
+    dependencies:
+      jsonc-parser: 3.2.0
+      mlly: 1.4.2
+      pathe: 1.1.1
+    dev: true
 
   /pluralize/8.0.0:
     resolution: {integrity: sha512-Nc3IT5yHzflTfbjgqWcCPpo7DaKy4FnpB0l/zCAW0Tc7jxAiuqSxHasntB3D7887LSrA93kDJ9IXovxJYxyLCA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npm.taobao.org/pluralize/-/pluralize-8.0.0.tgz}
@@ -6324,7 +6405,7 @@ packages:
     dev: false
 
   /source-map-js/1.0.2:
-    resolution: {integrity: sha512-R0XvVJ9WusLiqTCEiGCmICCMplcCkIwwR11mOSD9CR5u+IXYdiseeEuXCVAjS54zqwkLcPNnmU4OeJ6tUrWhDw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npm.taobao.org/source-map-js/-/source-map-js-1.0.2.tgz}
+    resolution: {integrity: sha512-R0XvVJ9WusLiqTCEiGCmICCMplcCkIwwR11mOSD9CR5u+IXYdiseeEuXCVAjS54zqwkLcPNnmU4OeJ6tUrWhDw==}
     engines: {node: '>=0.10.0'}
 
   /source-map-support/0.5.21:
@@ -6703,6 +6784,10 @@ packages:
     resolution: {integrity: sha512-/+BmBDe8GvlB2nIflWasLLAInjYG0bC9HRnfEpNi4sw77J2AJNnEVnTDReVrehoh825+Q/evF3THXTAweyam2g==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npm.taobao.org/ufo/-/ufo-0.8.4.tgz}
     dev: true
 
+  /ufo/1.3.2:
+    resolution: {integrity: sha512-o+ORpgGwaYQXgqGDwd+hkS4PuZ3QnmqMMxRuajK/a38L6fTpcE5GPIfrf+L/KemFzfUpeUQc1rRS1iDBozvnFA==}
+    dev: true
+
   /uglify-js/3.16.1:
     resolution: {integrity: sha512-X5BGTIDH8U6IQ1TIRP62YC36k+ULAa1d59BxlWvPUJ1NkW5L3FwcGfEzuVvGmhJFBu0YJ5Ge25tmRISqCmLiRQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npm.taobao.org/uglify-js/-/uglify-js-3.16.1.tgz}
     engines: {node: '>=0.8.0'}
@@ -6725,6 +6810,15 @@ packages:
       defu: 6.0.0
       jiti: 1.14.0
     dev: true
+
+  /unhead/1.8.9:
+    resolution: {integrity: sha512-qqCNmA4KOEDjcl+OtRZTllGehXewcQ31zbHjvhl/jqCs2MfRcZoxFW1y7A4Y4BgR/O7PI89K+GoWGcxK3gn64Q==}
+    dependencies:
+      '@unhead/dom': 1.8.9
+      '@unhead/schema': 1.8.9
+      '@unhead/shared': 1.8.9
+      hookable: 5.5.3
+    dev: false
 
   /unicode-canonical-property-names-ecmascript/2.0.0:
     resolution: {integrity: sha512-yY5PpDlfVIU5+y/BSCxAJRBIS1Zc2dDG3Ujq+sR0U+JjUevW2JhocOF+soROYDSaAezOzOKuyyixhD6mBknSmQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npm.taobao.org/unicode-canonical-property-names-ecmascript/-/unicode-canonical-property-names-ecmascript-2.0.0.tgz}
@@ -7043,7 +7137,7 @@ packages:
     resolution: {integrity: sha512-vzB2qey/PZGv8gd3nCkLiXxEemByZrTHjhkO7aFcjbxAKlW36RraBMZkizzRUo6uB06Uo7yM4UmzjE5h6dfvsg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npm.taobao.org/vite-ssg-sitemap/-/vite-ssg-sitemap-0.2.7.tgz}
     dev: true
 
-  /vite-ssg/0.20.1_k7shjfzctjeydlate74macei7a:
+  /vite-ssg/0.20.1_6azcdmptiz5alakzkxokeanfje:
     resolution: {integrity: sha512-fVlI5bXeGDnkuJX3G1Ac+J5jvQ6y8MKzqhHMgOwGzhJMclkhs6JV9ssZSVRN/jk4/sGf9cuTXxCWrR5mbEKkFg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npm.taobao.org/vite-ssg/-/vite-ssg-0.20.1.tgz}
     engines: {node: '>=14.0.0'}
     hasBin: true
@@ -7057,7 +7151,6 @@ packages:
       critters:
         optional: true
     dependencies:
-      '@vueuse/head': 0.7.6_vue@3.2.37
       critters: 0.0.16
       fs-extra: 10.1.0
       html-minifier: 4.0.0
@@ -7157,22 +7250,6 @@ packages:
     dependencies:
       vue: 3.2.37
 
-  /vue-demi/0.13.11_nwr6tvhzfjtz7ld5mgea42f5ca:
-    resolution: {integrity: sha512-IR8HoEEGM65YY3ZJYAjMlKygDQn25D5ajNFNoKh9RSDMQtlzCxtfQjdQgv9jjK+m3377SsJXY8ysq8kLCZL25A==}
-    engines: {node: '>=12'}
-    hasBin: true
-    requiresBuild: true
-    peerDependencies:
-      '@vue/composition-api': ^1.0.0-rc.1
-      vue: ^3.0.0-0 || ^2.6.0
-    peerDependenciesMeta:
-      '@vue/composition-api':
-        optional: true
-    dependencies:
-      '@vue/composition-api': 1.6.3_vue@3.2.37
-      vue: 3.2.37
-    dev: false
-
   /vue-demi/0.13.1_vue@3.2.37:
     resolution: {integrity: sha512-xmkJ56koG3ptpLnpgmIzk9/4nFf4CqduSJbUM0OdPoU87NwRuZ6x49OLhjSa/fC15fV+5CbEnrxU4oyE022svg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npm.taobao.org/vue-demi/-/vue-demi-0.13.1.tgz}
     engines: {node: '>=12'}
@@ -7187,6 +7264,22 @@ packages:
     dependencies:
       vue: 3.2.37
     dev: true
+
+  /vue-demi/0.14.6_nwr6tvhzfjtz7ld5mgea42f5ca:
+    resolution: {integrity: sha512-8QA7wrYSHKaYgUxDA5ZC24w+eHm3sYCbp0EzcDwKqN3p6HqtTCGR/GVsPyZW92unff4UlcSh++lmqDWN3ZIq4w==}
+    engines: {node: '>=12'}
+    hasBin: true
+    requiresBuild: true
+    peerDependencies:
+      '@vue/composition-api': ^1.0.0-rc.1
+      vue: ^3.0.0-0 || ^2.6.0
+    peerDependenciesMeta:
+      '@vue/composition-api':
+        optional: true
+    dependencies:
+      '@vue/composition-api': 1.6.3_vue@3.2.37
+      vue: 3.2.37
+    dev: false
 
   /vue-eslint-parser/8.3.0_eslint@8.18.0:
     resolution: {integrity: sha512-dzHGG3+sYwSf6zFBa0Gi9ZDshD7+ad14DGOdTLjruRVgZXe2J+DcZ9iUhyR48z5g1PqRa20yt3Njna/veLJL/g==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npm.taobao.org/vue-eslint-parser/-/vue-eslint-parser-8.3.0.tgz}
@@ -7627,3 +7720,7 @@ packages:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npm.taobao.org/yocto-queue/-/yocto-queue-0.1.0.tgz}
     engines: {node: '>=10'}
     dev: true
+
+  /zhead/2.2.4:
+    resolution: {integrity: sha512-8F0OI5dpWIA5IGG5NHUg9staDwz/ZPxZtvGVf01j7vHqSyZ0raHY+78atOVxRqb73AotX22uV1pXt3gYSstGag==}
+    dev: false
