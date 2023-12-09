@@ -1,84 +1,81 @@
 <script setup lang="ts">
-import SheetMusicItem from './components/sheetMusic.vue'
-import CreateSheetModal from './components/createSheetModal.vue'
-import UploadSheetModal from './components/uploadSheetModal.vue'
-import BgImgModal from './components/bgImgModal.vue'
-import BgImgModalMixins from './mixins/bgImgModal'
-import TagFilter from './mixins/tagFilter'
-import TagModal from './components/tagModal.vue'
-import PageHeader from '~/components/PageHeader/index.vue'
-import DemoFooter from '~/components/DemoFooter.vue'
-import HelpModal from '~/components/HelpModal.vue'
-import { useCreateSheetStore } from '~/stores/createSheetMusic'
-import { useSheetMusicDepot } from '~/stores/sheetMusicDepot'
-import { useUserStore } from '~/stores/user'
-import { getSheets } from '~/api/sheetMusic'
-import { deepClone } from '~/utils/utils'
+import SheetMusicItem from './components/sheetMusic.vue';
+import CreateSheetModal from './components/createSheetModal.vue';
+import UploadSheetModal from './components/uploadSheetModal.vue';
+import BgImgModal from './components/bgImgModal.vue';
+import BgImgModalMixins from './mixins/bgImgModal';
+import TagFilter from './mixins/tagFilter';
+import TagModal from './components/tagModal.vue';
+import PageHeader from '~/components/PageHeader/index.vue';
+import DemoFooter from '~/components/DemoFooter.vue';
+import HelpModal from '~/components/HelpModal.vue';
+import { useCreateSheetStore } from '~/stores/createSheetMusic';
+import { useSheetMusicDepot } from '~/stores/sheetMusicDepot';
+import { useUserStore } from '~/stores/user';
 
-const router = useRouter()
-const createSheetStore = useCreateSheetStore()
-const usmd = useSheetMusicDepot()
-const value = ref('')
-const loadSheets = ref(false)
-const helpModalRef = ref(null)
+const router = useRouter();
+const createSheetStore = useCreateSheetStore();
+const usmd = useSheetMusicDepot();
+const loadSheets = ref(false);
+const helpModalRef = ref();
 
-const {
-  showBgImgModal, bgImgSaveLoading, configStore,
-  cancelBgImgSet, bgImgSet, bgImgSave,
-} = BgImgModalMixins()
+const { showBgImgModal, bgImgSaveLoading, configStore, cancelBgImgSet, bgImgSet, bgImgSave } =
+  BgImgModalMixins();
 
-const {
-  showTagModal,
-  filterTag,
-  handleSelectTag,
-} = TagFilter({
+const { showTagModal, handleSelectTag } = TagFilter({
   usmd,
-})
+});
 
 const hideUploadModal = () => {
   createSheetStore.$patch((state) => {
-    state.showUploadModal = false
-  })
-}
+    state.showUploadModal = false;
+  });
+};
 
-const toggleCreateModal = (value) => {
+const toggleCreateModal = (value: boolean) => {
   if (useUserStore().demoUser && value) {
-    router.replace('/login')
-  }
-  else {
-    createSheetStore.clearStore()
+    router.replace('/login');
+  } else {
+    createSheetStore.clearStore();
     createSheetStore.$patch((state) => {
-      state.showCreateModal = value
-    })
+      state.showCreateModal = value;
+    });
   }
-}
+};
 
-const handleInit = async() => {
-  await usmd.handleInitSheet()
-  await usmd.filterSheetByTag()
-}
+const handleInit = async () => {
+  await usmd.handleInitSheet();
+  await usmd.filterSheetByTag();
+};
 
 const handleShowHelp = () => {
-  helpModalRef.value.handleShow()
-}
+  helpModalRef.value.handleShow();
+};
 
 onMounted(() => {
-  configStore.requestUserConfig()
-  handleInit()
-})
+  configStore.requestUserConfig();
+  handleInit();
+});
 </script>
 
 <template>
-  <div :class="`sheet-list-container ${configStore.userConfig.index_bg_img}`" style="min-width: 600px;" min-h-screen py-20>
+  <div
+    :class="`sheet-list-container ${configStore.userConfig.index_bg_img}`"
+    style="min-width: 600px"
+    min-h-screen
+    py-20
+  >
     <page-header @showHelp="handleShowHelp" />
 
-    <div style="max-width: 1000px;padding: 0 35px;" mx-auto>
+    <div style="max-width: 1000px; padding: 0 35px" mx-auto>
       <div flex items-center justify-between mb-2>
         <span
-          text-xl :style="{
-            color: configStore.userConfig.main_color
+          text-xl
+          :style="{
+            color: configStore.userConfig.main_color,
           }"
-        >我的曲谱</span>
+          >我的曲谱</span
+        >
 
         <div>
           <n-space>
@@ -122,26 +119,15 @@ onMounted(() => {
       </n-spin>
     </div>
 
-    <n-modal
-      v-model:show="createSheetStore.showCreateModal"
-      :mask-closable="false"
-    >
-      <create-sheet-modal
-        @cancel="toggleCreateModal(false)"
-      />
+    <n-modal v-model:show="createSheetStore.showCreateModal" :mask-closable="false">
+      <create-sheet-modal @cancel="toggleCreateModal(false)" />
     </n-modal>
 
-    <n-modal
-      v-model:show="createSheetStore.showUploadModal"
-      :mask-closable="true"
-    >
+    <n-modal v-model:show="createSheetStore.showUploadModal" :mask-closable="true">
       <upload-sheet-modal @cancel="hideUploadModal" />
     </n-modal>
 
-    <n-modal
-      v-model:show="showBgImgModal"
-      :mask-closable="true"
-    >
+    <n-modal v-model:show="showBgImgModal" :mask-closable="true">
       <bg-img-modal
         :save-loading="bgImgSaveLoading"
         @cancel="cancelBgImgSet"
@@ -150,39 +136,78 @@ onMounted(() => {
       />
     </n-modal>
 
-    <n-modal
-      v-model:show="showTagModal"
-    >
+    <n-modal v-model:show="showTagModal">
       <tag-modal :tag="usmd.filterTag" @select="handleSelectTag" />
     </n-modal>
 
-    <div style="height: 60px;" />
+    <div style="height: 60px" />
 
     <div
-      fixed left-5 bottom-4 z-30 bg-black text-xs
-      bg-opacity-60 py-1 px-4 text-white rounded-full cursor-pointer
+      fixed
+      left-5
+      bottom-4
+      z-30
+      bg-black
+      text-xs
+      bg-opacity-60
+      py-1
+      px-4
+      text-white
+      rounded-full
+      cursor-pointer
       @click="router.push('/about')"
     >
       关于作者
     </div>
 
     <div
-      fixed left-30 bottom-4 z-30 bg-black text-xs
-      bg-opacity-60 py-1 px-4 text-white rounded-full cursor-pointer
+      fixed
+      left-30
+      bottom-4
+      z-30
+      bg-black
+      text-xs
+      bg-opacity-60
+      py-1
+      px-4
+      text-white
+      rounded-full
+      cursor-pointer
     >
       v 1.0.1
     </div>
 
     <div
-      fixed left-50 bottom-4 z-30 bg-black text-xs
-      bg-opacity-60 py-1 px-4 text-white rounded-full cursor-pointer
+      fixed
+      left-50
+      bottom-4
+      z-30
+      bg-black
+      text-xs
+      bg-opacity-60
+      py-1
+      px-4
+      text-white
+      rounded-full
+      cursor-pointer
     >
       苏ICP备2021030495号-2
     </div>
 
     <div
-      w-10 h-10 fixed right-5 bottom-3 z-30 bg-black rounded-full bg-opacity-60
-      flex items-center justify-center cursor-pointer
+      w-10
+      h-10
+      fixed
+      right-5
+      bottom-3
+      z-30
+      bg-black
+      rounded-full
+      bg-opacity-60
+      flex
+      items-center
+      justify-center
+      cursor-pointer
       @click="showBgImgModal = true"
     >
       <span i-mdi:image-area text-base text-white />
@@ -194,6 +219,4 @@ onMounted(() => {
   </div>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

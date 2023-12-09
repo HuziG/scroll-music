@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@iconify-json/twemoji": "^1.1.4",
-    "@vueuse/head": "^0.7.6",
+    "@unhead/vue": "^1.8.9",
     "@vueuse/sound": "^1.1.7",
     "@wangeditor/editor": "^5.0.1",
     "@wangeditor/editor-for-vue": "^5.1.12",

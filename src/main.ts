@@ -21,6 +21,7 @@ import './styles/bg.scss';
 import 'uno.css';
 
 import 'vfonts/Lato.css';
+import { createHead } from '@unhead/vue';
 
 const app = createApp(App);
 
@@ -34,6 +35,9 @@ installPinia({ app });
 installNprogress({ router });
 installPermission({ router });
 // installPwa({ router });
+
+const head = createHead();
+app.use(head);
 
 app.use(router);
 app.mount('#app');

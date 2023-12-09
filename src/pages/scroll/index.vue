@@ -11,6 +11,7 @@ import useMediaSize from '~/mixins/useMediaSize';
 import DemoFooter from '~/components/DemoFooter.vue';
 import { useSheetDetailStore } from '~/stores/sheetDetail';
 import { addSheetNote, editSheet, editSheetNote, getSheetsNote } from '~/api/sheetMusic';
+import { useHead } from '@unhead/vue';
 
 const message = useMessage();
 const beforeSheetImgWidth = ref(null);
@@ -58,6 +59,9 @@ const initSessionSheet = () => {
     stepSlider.value = sheetDetailStore.sheetData.step;
     speedSlider.value = sheetDetailStore.sheetData.speed;
     sheetImgWidth.value = sheetDetailStore.sheetData.width;
+    useHead({
+      title: `滚动的曲谱|${sheetDetailStore.sheetData.name}`,
+    });
   }
 };
 

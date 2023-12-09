@@ -1,5 +1,5 @@
-import { acceptHMRUpdate, defineStore } from 'pinia'
-import { deepClone } from '~/utils/utils'
+import { acceptHMRUpdate, defineStore } from 'pinia';
+import { deepClone } from '~/utils/utils';
 
 export const useCreateSheetStore = defineStore({
   id: 'createSheetMusic',
@@ -16,7 +16,7 @@ export const useCreateSheetStore = defineStore({
 
   actions: {
     setSheetData(value: any) {
-      this.sheetData = deepClone({ ...this.sheetData, ...value })
+      this.sheetData = deepClone({ ...this.sheetData, ...value });
     },
 
     clearStore() {
@@ -24,10 +24,9 @@ export const useCreateSheetStore = defineStore({
         _id: '',
         imgs: [],
         name: '',
-      }
+      };
     },
   },
-})
+});
 
-if (import.meta.hot)
-  import.meta.hot.accept(acceptHMRUpdate(useCreateSheetStore, import.meta.hot))
+if (import.meta.hot) import.meta.hot.accept(acceptHMRUpdate(useCreateSheetStore, import.meta.hot));
